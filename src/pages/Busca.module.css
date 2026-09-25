@@ -1,0 +1,53 @@
+.pagina {
+  padding-block: var(--space-6) var(--space-9);
+}
+
+.topo {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 46rem;
+  margin-bottom: var(--space-6);
+}
+
+.titulo {
+  overflow-wrap: anywhere;
+}
+
+.total {
+  display: block;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+/* Aviso de "sem resultado": fundo amarelo claro com texto escuro */
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 46rem;
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border-left: 6px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background-color: var(--color-yellow-100);
+  color: var(--color-blue-950);
+  font-size: var(--text-lg);
+}
+
+.avisoIcone {
+  flex-shrink: 0;
+  margin-top: 0.15em;
+}
+
+.grupos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.outraBusca {
+  margin-top: var(--space-8);
+}

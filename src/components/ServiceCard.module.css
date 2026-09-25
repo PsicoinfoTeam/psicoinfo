@@ -1,0 +1,131 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-4);
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  transition: border-color var(--duration-fast) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--color-primary);
+}
+
+/* O foco do link aparece no card inteiro */
+.card:has(.link:focus-visible) {
+  outline: 3px solid var(--color-focus-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--color-focus-outer);
+}
+
+.topo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.icone {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+  color: var(--color-primary);
+}
+
+.titulos {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.nome {
+  font-size: var(--text-xl);
+}
+
+.link {
+  color: var(--color-heading);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Área clicável do tamanho do card */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+}
+
+.extenso {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.local {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+}
+
+.local svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+/* Fica acima do link que cobre o card, para ligar direto */
+.telefone {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  margin-top: auto;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-alt);
+  color: var(--color-primary);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+}
+
+.telefone:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.whatsapp {
+  background-color: var(--color-whatsapp-bg);
+  color: var(--color-whatsapp);
+}
+
+.whatsapp:hover {
+  background-color: var(--color-whatsapp);
+  color: var(--color-white);
+}
+
+/* Aviso "Telefone em atualização": no pé do card, como o botão de ligar */
+.semTelefone {
+  display: flex;
+  margin-top: auto;
+}

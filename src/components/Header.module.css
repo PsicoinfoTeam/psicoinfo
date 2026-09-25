@@ -1,0 +1,149 @@
+.header {
+  position: relative;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  max-width: var(--container-max);
+  min-height: var(--header-height);
+  margin-inline: auto;
+  padding: var(--space-2) var(--gutter);
+}
+
+.marca {
+  display: block;
+  flex-shrink: 0;
+  padding-block: 2px; /* 44px de logo + 4px = alvo de 48px */
+  border-radius: var(--radius-sm);
+}
+
+.logo {
+  width: auto;
+  height: 2.75rem; /* 44px */
+}
+
+/* ---------- Botão do menu (celular) ---------- */
+.botaoMenu {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  transition: background-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
+}
+
+.botaoMenu:hover,
+.botaoMenu[aria-expanded='true'] {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* ---------- Lista de links ---------- */
+/* No celular a lista abre por baixo da barra, ocupando a largura toda. */
+.nav {
+  display: contents;
+}
+
+.lista {
+  padding: 0;
+  list-style: none;
+  display: none;
+  /* ocupa a largura toda, inclusive as margens laterais da barra */
+  flex: 0 0 calc(100% + var(--gutter) * 2);
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-inline: calc(var(--gutter) * -1);
+  padding: var(--space-2) var(--gutter) var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.aberta {
+  display: flex;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.5rem; /* 56px: mais folga que o mínimo no celular */
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease);
+}
+
+.link svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.link:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-heading);
+}
+
+.link[aria-current='page'] {
+  background-color: var(--color-surface-alt);
+  box-shadow: inset 5px 0 0 var(--color-accent);
+}
+
+/* ---------- Tablet e desktop: links sempre visíveis ---------- */
+@media (min-width: 768px) {
+  .barra {
+    flex-wrap: nowrap;
+  }
+
+  .logo {
+    height: 3.25rem; /* 52px */
+  }
+
+  .botaoMenu {
+    display: none;
+  }
+
+  .lista {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+  }
+
+  .link {
+    min-height: var(--tap-target);
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-base);
+  }
+
+  .link[aria-current='page'] {
+    background-color: var(--color-primary);
+    box-shadow: none;
+    color: var(--color-on-primary);
+  }
+
+  .link[aria-current='page'] svg {
+    color: currentColor;
+  }
+}

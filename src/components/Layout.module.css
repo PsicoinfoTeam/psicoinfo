@@ -1,0 +1,34 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+}
+
+/* O <main> recebe foco pelo link "Pular para o conteúdo"; não precisa de anel. */
+.main:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.pularLink {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-menu);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: var(--weight-bold);
+  transform: translateY(-200%);
+}
+
+.pularLink:focus-visible {
+  transform: none;
+}

@@ -1,0 +1,318 @@
+/* ==========================================================================
+   PsicoInfo – estilos globais
+   Reset, variáveis de design (tokens) e estilos base.
+   Mobile first: tudo é escrito para 360px e expandido com min-width.
+   Os componentes usam CSS Modules e SÓ os tokens abaixo.
+   ========================================================================== */
+
+/* Fontes carregadas em index.html (Google Fonts):
+   Atkinson Hyperlegible (corpo) e Saira Condensed (títulos, parecida com a logo). */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Cores da marca, medidas na logo (assets/logo-psicoinfo.jpg) */
+  --color-blue-950: #0a1f4d;
+  --color-blue-800: #00308a;
+  --color-blue-600: #003da6; /* azul da logo */
+  --color-blue-400: #3f6fd1;
+  --color-blue-100: #dce7f9;
+  --color-blue-50: #eef3fc;
+
+  --color-yellow-500: #ffc53d; /* amarelo da logo */
+  --color-yellow-300: #ffdb85;
+  --color-yellow-100: #fff3d6;
+
+  --color-cream-100: #f5f1e8; /* fundo da logo */
+  --color-cream-200: #ebe4d3;
+  --color-white: #ffffff;
+
+  --color-gray-900: #1c2333;
+  --color-gray-600: #4a5468;
+  --color-gray-300: #c9ccd3;
+
+  --color-red-700: #b42318;
+  --color-red-50: #fdecea;
+  --color-green-800: #0b5e2f;
+  --color-green-700: #0f7a3d;
+  --color-green-50: #e7f5ec;
+
+  /* Cores por função (use estas nos componentes) */
+  --color-bg: var(--color-cream-100);
+  --color-surface: var(--color-white);
+  --color-surface-alt: var(--color-blue-50);
+  --color-border: var(--color-cream-200);
+  --color-text: var(--color-gray-900);
+  --color-text-muted: var(--color-gray-600);
+  --color-heading: var(--color-blue-950);
+  --color-link: var(--color-blue-600);
+  --color-link-hover: var(--color-blue-800);
+
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-800);
+  --color-on-primary: var(--color-white);
+
+  /* Amarelo: só como fundo com texto azul-escuro, ou como detalhe.
+     Nunca texto amarelo sobre branco/creme (contraste insuficiente). */
+  --color-accent: var(--color-yellow-500);
+  --color-accent-hover: var(--color-yellow-300);
+  --color-on-accent: var(--color-blue-950);
+
+  --color-emergency: var(--color-red-700);
+  --color-emergency-bg: var(--color-red-50);
+  --color-whatsapp: var(--color-green-700);
+  --color-whatsapp-bg: var(--color-green-50);
+
+  /* Transparências sobre fundos azuis */
+  --color-glow: rgb(255 197 61 / 0.22); /* brilho amarelo atrás do Ψ */
+  --color-on-dark-subtle: rgb(255 255 255 / 0.08);
+  --color-on-dark-soft: rgb(255 255 255 / 0.1);
+  --color-on-dark-border: rgb(255 255 255 / 0.7);
+
+  --color-focus-inner: var(--color-blue-950);
+  --color-focus-outer: var(--color-yellow-500);
+
+  /* Tipografia */
+  --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI',
+    Roboto, sans-serif;
+  --font-display: 'Saira Condensed', 'Arial Narrow', system-ui, sans-serif;
+
+  /* Escala em rem: respeita o tamanho de fonte que a pessoa escolheu no celular.
+     Base de 18px (1.125rem com o padrão de 16px do navegador). */
+  --text-sm: 1rem; /* 16px – o menor texto permitido */
+  --text-base: 1.125rem; /* 18px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: 1.875rem; /* 30px */
+  --text-3xl: 2.25rem; /* 36px */
+  --text-4xl: 2.75rem; /* 44px */
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-body: 1.6;
+
+  --weight-regular: 400;
+  --weight-bold: 700;
+  --weight-display: 700;
+
+  /* Espaçamentos (múltiplos de 4px) */
+  --space-1: 0.25rem; /* 4 */
+  --space-2: 0.5rem; /* 8 */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-5: 1.5rem; /* 24 */
+  --space-6: 2rem; /* 32 */
+  --space-7: 2.5rem; /* 40 */
+  --space-8: 3rem; /* 48 */
+  --space-9: 4rem; /* 64 */
+  --space-10: 5rem; /* 80 */
+
+  /* Layout */
+  --gutter: var(--space-4); /* margem lateral no celular */
+  --container-max: 75rem; /* 1200px */
+  --content-max: 42rem; /* largura de leitura confortável */
+  --tap-target: 3rem; /* 48px: alvo de toque mínimo */
+  --header-height: 4rem;
+  --bottom-bar-height: 5rem; /* barra fixa da página do serviço */
+
+  /* Raios */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+
+  /* Sombras (tingidas de azul para combinar com a marca) */
+  --shadow-sm: 0 1px 2px rgb(10 31 77 / 0.08);
+  --shadow-md: 0 2px 4px rgb(10 31 77 / 0.06), 0 6px 16px rgb(10 31 77 / 0.08);
+  --shadow-lg: 0 4px 8px rgb(10 31 77 / 0.08), 0 16px 32px rgb(10 31 77 / 0.12);
+  --shadow-up: 0 -4px 16px rgb(10 31 77 / 0.12); /* barra fixa no rodapé da tela */
+
+  /* Movimento */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Camadas */
+  --z-header: 100;
+  --z-bottom-bar: 90;
+  --z-menu: 200;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --gutter: var(--space-5);
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --gutter: var(--space-6);
+    --header-height: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Palavras longas quebram quando não cabem (fonte grande no celular,
+   telas de 320px). Sem isso, "Assistência" em 36px empurra a página. */
+body {
+  overflow-wrap: anywhere;
+}
+
+#root {
+  isolation: isolate;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-heading);
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+  hyphens: auto;
+}
+
+h1 {
+  font-size: var(--text-3xl);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+@media (min-width: 900px) {
+  h1 {
+    font-size: var(--text-4xl);
+  }
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+strong {
+  font-weight: var(--weight-bold);
+}
+
+/* Foco bem visível em qualquer fundo: anel azul-escuro + halo amarelo */
+:focus-visible {
+  outline: 3px solid var(--color-focus-inner);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--color-focus-outer);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::selection {
+  background-color: var(--color-yellow-300);
+  color: var(--color-blue-950);
+}
+
+/* Texto só para leitores de tela */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

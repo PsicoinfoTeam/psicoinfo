@@ -1,0 +1,30 @@
+.cabecalho {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.titulo {
+  font-size: var(--text-2xl);
+}
+
+.titulo::after {
+  content: '';
+  display: block;
+  width: 3.5rem;
+  height: 5px;
+  margin-top: var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+}
+
+.descricao {
+  max-width: var(--content-max);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 900px) {
+  .titulo {
+    font-size: var(--text-3xl);
+  }
+}

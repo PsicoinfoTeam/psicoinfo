@@ -1,0 +1,32 @@
+.pagina {
+  padding-block: var(--space-7) var(--space-9);
+}
+
+.conteudo {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  max-width: 40rem;
+}
+
+.icone {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background-color: var(--color-yellow-100);
+  color: var(--color-blue-950);
+}
+
+.mensagem {
+  font-size: var(--text-lg);
+}
+
+.inicio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  font-weight: var(--weight-bold);
+}

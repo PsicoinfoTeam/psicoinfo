@@ -1,0 +1,125 @@
+.pagina {
+  padding-block: var(--space-4) var(--space-9);
+}
+
+/* Ícone ao lado do nome; se faltar espaço (fonte grande), o nome desce */
+.cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.icone {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 5px var(--color-yellow-300);
+  color: var(--color-white);
+}
+
+.textos {
+  display: grid;
+  flex: 1 1 12rem;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.titulo {
+  font-size: var(--text-3xl);
+}
+
+.descricao {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+
+.total {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.grupo + .grupo {
+  margin-top: var(--space-7);
+}
+
+.tituloGrupo {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-2xl);
+}
+
+.dica {
+  max-width: var(--content-max);
+  margin-top: calc(var(--space-2) * -1);
+  margin-bottom: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+/* Lista de bairros: 1 coluna; no desktop, 2 colunas de linhas compactas */
+.bairros {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .bairros {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+}
+
+.outros {
+  margin-top: var(--space-9);
+  padding-top: var(--space-6);
+  border-top: 2px solid var(--color-border);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.chip:hover {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+@media (min-width: 900px) {
+  .icone {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .titulo {
+    font-size: var(--text-4xl);
+  }
+}

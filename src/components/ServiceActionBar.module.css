@@ -1,0 +1,87 @@
+.barra {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--z-bottom-bar);
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--gutter);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-up);
+}
+
+/* Reserva espaço no fim da página para a barra não cobrir o rodapé */
+:global(body):has(.barra) {
+  padding-bottom: var(--bottom-bar-height);
+}
+
+/* Ao navegar pelo teclado, o item focado nunca fica escondido atrás da barra
+   (WCAG 2.4.11) */
+:global(html):has(.barra) {
+  scroll-padding-bottom: calc(var(--bottom-bar-height) + var(--space-4));
+}
+
+/* Ícone em cima do texto: "Como chegar" cabe numa linha em 360px */
+.acao {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  min-height: 3.75rem;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  /* Com fonte grande, quebra entre palavras ("Como / chegar"), nunca no meio */
+  overflow-wrap: normal;
+}
+
+.ligar {
+  background-color: var(--color-whatsapp);
+  color: var(--color-white);
+}
+
+.whatsapp {
+  background-color: var(--color-whatsapp);
+  color: var(--color-white);
+}
+
+.ligar:hover,
+.whatsapp:hover {
+  background-color: var(--color-green-800);
+  color: var(--color-white);
+}
+
+.mapa {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.mapa:hover {
+  background-color: var(--color-primary-hover);
+  color: var(--color-on-primary);
+}
+
+/* No desktop os botões já estão visíveis na página */
+@media (min-width: 900px) {
+  .barra {
+    display: none;
+  }
+
+  :global(body):has(.barra) {
+    padding-bottom: 0;
+  }
+
+  :global(html):has(.barra) {
+    scroll-padding-bottom: 0;
+  }
+}

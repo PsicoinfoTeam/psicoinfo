@@ -1,0 +1,128 @@
+.pagina {
+  padding-block: var(--space-4) var(--space-9);
+}
+
+.cabecalho {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  margin-bottom: var(--space-7);
+}
+
+.logo {
+  width: auto;
+  height: 8rem;
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--content-max);
+}
+
+.lead {
+  font-size: var(--text-lg);
+}
+
+.grade,
+.coluna {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.passos {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+  counter-reset: passo;
+}
+
+.passos li {
+  position: relative;
+  min-height: 2.5rem;
+  padding-left: 3.25rem;
+  counter-increment: passo;
+}
+
+.passos li::before {
+  content: counter(passo);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-display);
+}
+
+.aviso {
+  font-weight: var(--weight-bold);
+}
+
+.destaque {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.subtitulo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.subtitulo svg {
+  color: var(--color-primary);
+}
+
+.lista,
+.links {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.links {
+  gap: var(--space-1);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  font-weight: var(--weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.link svg {
+  flex-shrink: 0;
+}
+
+@media (min-width: 600px) {
+  .cabecalho {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .grade {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .coluna {
+    gap: var(--space-5);
+  }
+}

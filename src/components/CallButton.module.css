@@ -1,0 +1,87 @@
+.botao {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 4.5rem;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  color: var(--color-heading);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease);
+}
+
+.botao:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-heading);
+}
+
+.icone {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.texto {
+  display: grid;
+  min-width: 0;
+}
+
+.acao {
+  color: var(--color-primary);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+.numero {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-tight);
+  letter-spacing: 0.01em;
+}
+
+.detalhe {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+/* Tipos de telefone (fixo e celular usam o azul padrão) */
+.whatsapp {
+  border-color: var(--color-whatsapp);
+}
+
+.whatsapp:hover {
+  background-color: var(--color-whatsapp-bg);
+}
+
+.whatsapp .icone {
+  background-color: var(--color-whatsapp);
+}
+
+.whatsapp .acao {
+  color: var(--color-whatsapp);
+}
+
+.emergencia {
+  border-color: var(--color-emergency);
+}
+
+.emergencia:hover {
+  background-color: var(--color-emergency-bg);
+}
+
+.emergencia .icone {
+  background-color: var(--color-emergency);
+}
+
+.emergencia .acao {
+  color: var(--color-emergency);
+}

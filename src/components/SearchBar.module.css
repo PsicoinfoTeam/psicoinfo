@@ -1,0 +1,101 @@
+.form {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.rotulo {
+  color: var(--color-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.dica {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* No celular: campo e botão empilhados, os dois bem grandes */
+.linha {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.campoComIcone {
+  position: relative;
+}
+
+.iconeCampo {
+  position: absolute;
+  top: 50%;
+  left: var(--space-4);
+  color: var(--color-text-muted);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.campo {
+  width: 100%;
+  min-height: 3.5rem; /* 56px */
+  padding: var(--space-3) var(--space-4) var(--space-3) 3.25rem;
+  border: 2px solid var(--color-gray-600);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+}
+
+.campo::-webkit-search-cancel-button {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.campo:focus-visible {
+  border-color: var(--color-focus-inner);
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-6);
+  border: 2px solid var(--color-on-accent);
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  transition: background-color var(--duration-fast) var(--ease);
+}
+
+.botao:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/* Variante sobre o fundo azul do topo da página inicial */
+.destaque .rotulo {
+  color: var(--color-white);
+}
+
+.destaque .dica {
+  color: var(--color-white);
+}
+
+.destaque .campo {
+  border-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+}
+
+.destaque .botao {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 600px) {
+  .linha {
+    grid-template-columns: 1fr auto;
+  }
+}

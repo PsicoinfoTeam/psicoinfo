@@ -1,0 +1,20 @@
+.aviso {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px dashed var(--color-gray-300);
+  /* cantos menos arredondados que os botões, para não parecer clicável */
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+.aviso svg {
+  flex-shrink: 0;
+}
