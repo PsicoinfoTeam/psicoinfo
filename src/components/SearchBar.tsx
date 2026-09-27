@@ -93,11 +93,12 @@ function SearchBar({
               enterKeyHint="search"
             />
 
-            { valor && menuShow && <div className={styles.autocompleteContainer}>
-            {sugestoes.map((servico) => (
-              <div className={styles.autocomplete} key={servico.id} onClick={() => aoEnviarClickMenu(servico.nome)}>
-                {servico.nome}
-              </div>
+            { valor && menuShow && sugestoes.length > 0 &&
+              <div className={styles.autocompleteContainer}>
+              {sugestoes.map((servico) => (
+                <button type='button' className={styles.autocomplete} key={servico.id} onClick={() => aoEnviarClickMenu(servico.nome)}>
+                  {servico.nome}
+                </button>
             ))}
 
           </div> }
