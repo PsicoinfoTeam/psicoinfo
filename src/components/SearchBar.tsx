@@ -2,6 +2,7 @@ import { Search } from 'lucide-react';
 import { useId, useRef, useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchBar.module.css';
+import { listarServicos } from '../data/servicos';
 
 interface SearchBarProps {
   /** Texto já digitado (ex.: na página de resultados) */
@@ -12,16 +13,24 @@ interface SearchBarProps {
   mostrarDica?: boolean;
 }
 
+
+
 function SearchBar({
   valorInicial = '',
   variante = 'normal',
   mostrarDica = true,
 }: SearchBarProps) {
   const [valor, setValor] = useState(valorInicial);
+  const [menuShow, setShowMenu] = useState(false)
   const idCampo = useId();
   const idDica = useId();
   const refCampo = useRef<HTMLInputElement>(null);
   const navegar = useNavigate();
+  const servicos = listarServicos();
+
+  const sugestoes = servicos.filter((servico) =>
+    servico.nome.toLowerCase().startsWith(valor.toLowerCase())
+  );
 
   function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
@@ -30,7 +39,19 @@ function SearchBar({
       refCampo.current?.focus();
       return;
     }
+    setValor(valorInicial)
     navegar(`/busca?q=${encodeURIComponent(termo)}`);
+  }
+
+  function aoEnviarClickMenu(termo: string) {
+  const termoLimpo = termo.trim();
+
+  if (!termoLimpo) {
+    refCampo.current?.focus();
+    return;
+  }
+  setShowMenu(false)
+  navegar(`/busca?q=${encodeURIComponent(termoLimpo)}`);
   }
 
   return (
@@ -62,16 +83,33 @@ function SearchBar({
               type="search"
               className={styles.campo}
               value={valor}
-              onChange={(evento) => setValor(evento.target.value)}
+              onChange={(evento) => {
+                setValor(evento.target.value);
+                setShowMenu(true)}
+              }
+              placeholder="Ex.: psicólogo, CRAS, advogado..."
               aria-describedby={mostrarDica ? idDica : undefined}
               autoComplete="off"
               enterKeyHint="search"
             />
+
+            { valor && menuShow && <div className={styles.autocompleteContainer}>
+            {sugestoes.map((servico) => (
+              <div className={styles.autocomplete} key={servico.id} onClick={() => aoEnviarClickMenu(servico.nome)}>
+                {servico.nome}
+              </div>
+            ))}
+
+          </div> }
           </div>
           <button type="submit" className={styles.botao}>
             <Search aria-hidden="true" size={22} strokeWidth={2.5} />
             <span>Buscar</span>
           </button>
+
+
+
+          
         </div>
       </form>
     </search>

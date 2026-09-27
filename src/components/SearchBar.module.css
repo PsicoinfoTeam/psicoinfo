@@ -99,3 +99,36 @@
     grid-template-columns: 1fr auto;
   }
 }
+
+
+
+
+.autocompleteContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+
+  margin-top: 4px;
+
+  max-height: 216px; /* 54px × 4 itens */
+  overflow-y: auto;
+
+  background-color: white;
+  z-index: 10;
+}
+
+.autocomplete {
+  height: 54px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 16px;
+
+  color: #111;
+  cursor: pointer;
+  background-color: white;
+  border-bottom: 1px solid #d1d5db;
+}
