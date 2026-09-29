@@ -48,6 +48,13 @@ function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
   const ubs = principais.filter((s) => s.sigla === 'UBS');
   const outrosPrincipais = principais.filter((s) => s.sigla !== 'UBS');
   const ubsPorBairro = agruparPorBairro(ubs);
+
+  const metade = Math.ceil(ubsPorBairro.length / 2);
+  const colunasDeBairros = [
+    ubsPorBairro.slice(0, metade),
+    ubsPorBairro.slice(metade),
+  ];
+
   const outras = listarCategorias().filter((c) => c.id !== categoria.id);
 
   return (
@@ -95,24 +102,28 @@ function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
                   {ubs.length} postos de saúde. Toque no seu bairro para ver o
                   posto mais perto.
                 </p>
-                <ul className={styles.bairros}>
-                  {ubsPorBairro.map(({ bairro, servicos: doBairro }) => (
-                    <li key={bairro}>
-                      <CollapsibleGroup
-                        titulo={bairro}
-                        total={doBairro.length}
-                        nivelTitulo="h3"
-                        icone={<MapPin size={24} strokeWidth={2} />}
-                      >
-                        <ServiceList
-                          servicos={doBairro}
-                          nivelTitulo="h4"
-                          umaColuna
-                        />
-                      </CollapsibleGroup>
-                    </li>
+                <div className={styles.bairros}>
+                  {colunasDeBairros.map((coluna, i) => (
+                    <ul key={i} className={styles.colunaBairros}>
+                      {coluna.map(({ bairro, servicos: doBairro }) => (
+                        <li key={bairro}>
+                          <CollapsibleGroup
+                            titulo={bairro}
+                            total={doBairro.length}
+                            nivelTitulo="h3"
+                            icone={<MapPin size={24} strokeWidth={2} />}
+                          >
+                            <ServiceList
+                              servicos={doBairro}
+                              nivelTitulo="h4"
+                              umaColuna
+                            />
+                          </CollapsibleGroup>
+                        </li>
+                      ))}
+                    </ul>
                   ))}
-                </ul>
+                </div>
               </section>
             )}
             {tambem.length > 0 && (

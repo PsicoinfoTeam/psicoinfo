@@ -62,20 +62,31 @@
   color: var(--color-text-muted);
 }
 
-/* Lista de bairros: 1 coluna; no desktop, 2 colunas de linhas compactas */
+/* Lista de bairros: 1 coluna; no desktop, 2 colunas independentes */
 .bairros {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
   align-items: start;
+}
+
+.colunaBairros {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 @media (min-width: 900px) {
+  .bairros,
+  .colunaBairros {
+    gap: var(--space-3);
+  }
+
   .bairros {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
   }
 }
 
