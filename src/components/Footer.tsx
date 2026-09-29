@@ -44,7 +44,7 @@ function Footer() {
           <p>
             Dados:{' '}
             <Link to="/sobre" className={styles.linkTexto}>
-              Cartilha da ACARI e sites oficiais (set/2026)
+              Fontes oficiais e públicas
             </Link>
           </p>
           <p className={styles.aviso}>
