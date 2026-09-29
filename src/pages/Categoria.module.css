@@ -62,27 +62,31 @@
   color: var(--color-text-muted);
 }
 
-
 /* Lista de bairros: 1 coluna; no desktop, 2 colunas independentes */
 .bairros {
-  columns: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+}
+
+.colunaBairros {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.bairros > li {
-  break-inside: avoid;
-  margin-bottom: var(--space-2);
-}
-
 @media (min-width: 900px) {
-  .bairros {
-    columns: 2;
-    column-gap: var(--space-3);
+  .bairros,
+  .colunaBairros {
+    gap: var(--space-3);
   }
 
-  .bairros > li {
-    margin-bottom: var(--space-3);
+  .bairros {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
