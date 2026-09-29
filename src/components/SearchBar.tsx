@@ -1,8 +1,8 @@
 import { Search } from 'lucide-react';
-import { useId, useRef, useState, type FormEvent } from 'react';
+import { useId, useRef, useState, type FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchBar.module.css';
-import { listarServicos } from '../data/servicos';
+import { buscar } from '../data/busca';
 
 interface SearchBarProps {
   /** Texto já digitado (ex.: na página de resultados) */
@@ -22,15 +22,71 @@ function SearchBar({
 }: SearchBarProps) {
   const [valor, setValor] = useState(valorInicial);
   const [menuShow, setShowMenu] = useState(false)
+  const [indiceAtivo, setIndiceAtivo] = useState(-1);
   const idCampo = useId();
   const idDica = useId();
   const refCampo = useRef<HTMLInputElement>(null);
-  const navegar = useNavigate();
-  const servicos = listarServicos();
 
-  const sugestoes = servicos.filter((servico) =>
-    servico.nome.toLowerCase().startsWith(valor.toLowerCase())
-  );
+  const navegar = useNavigate();
+  
+
+
+
+  function aoPressionarTecla(evento: React.KeyboardEvent<HTMLInputElement>) {
+    if (!menuShow || sugestoes.length === 0) return;
+
+    if (evento.key === 'ArrowDown') {
+      evento.preventDefault();
+
+      setIndiceAtivo((indice) =>
+        indice < sugestoes.length - 1 ? indice + 1 : 0
+      );
+    }
+
+    if (evento.key === 'ArrowUp') {
+      evento.preventDefault();
+
+      setIndiceAtivo((indice) =>
+        indice > 0 ? indice - 1 : sugestoes.length - 1
+      );
+    }
+
+    if (evento.key === 'Enter' && indiceAtivo >= 0) {
+      evento.preventDefault();
+      aoEnviarClickMenu(sugestoes[indiceAtivo].nome);
+    }
+
+    if (evento.key === 'Escape') {
+      fecharLista();
+    }
+  }
+
+
+    function fecharLista() {
+    setShowMenu(false);
+    setIndiceAtivo(-1);
+  }
+
+
+
+  const respostaBusca = buscar(valor);
+
+  const sugestoes =
+    respostaBusca.tipo === 'resultados'
+      ? respostaBusca.servicos.slice(0, 6)
+      : [];
+
+  useEffect(() => {
+    if (indiceAtivo < 0) return;
+
+    const elemento = document.querySelector(
+      `[data-indice="${indiceAtivo}"]`
+    );
+
+    elemento?.scrollIntoView({
+      block: 'nearest',
+    });
+  }, [indiceAtivo]);
 
   function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
@@ -39,19 +95,22 @@ function SearchBar({
       refCampo.current?.focus();
       return;
     }
-    setValor(valorInicial)
-    navegar(`/busca?q=${encodeURIComponent(termo)}`);
+
+  fecharLista();
+  navegar(`/busca?q=${encodeURIComponent(termo)}`);
   }
 
   function aoEnviarClickMenu(termo: string) {
-  const termoLimpo = termo.trim();
+    const termoLimpo = termo.trim();
 
-  if (!termoLimpo) {
-    refCampo.current?.focus();
-    return;
-  }
-  setShowMenu(false)
-  navegar(`/busca?q=${encodeURIComponent(termoLimpo)}`);
+    if (!termoLimpo) {
+      refCampo.current?.focus();
+      return;
+    }
+
+    setValor(termoLimpo);
+    fecharLista();
+    navegar(`/busca?q=${encodeURIComponent(termoLimpo)}`);
   }
 
   return (
@@ -70,6 +129,7 @@ function SearchBar({
           </p>
         )}
         <div className={styles.linha}>
+          
           <div className={styles.campoComIcone}>
             <Search
               aria-hidden="true"
@@ -85,23 +145,51 @@ function SearchBar({
               value={valor}
               onChange={(evento) => {
                 setValor(evento.target.value);
-                setShowMenu(true)}
-              }
-              placeholder="Ex.: psicólogo, CRAS, advogado..."
+                setShowMenu(true);
+                setIndiceAtivo(-1);
+              }}
+              onKeyDown={aoPressionarTecla}
+              onBlur={fecharLista}
               aria-describedby={mostrarDica ? idDica : undefined}
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={Boolean(valor && menuShow && sugestoes.length > 0)}
+              aria-controls="sugestoes-busca"
+              aria-activedescendant={
+                indiceAtivo >= 0
+                  ? `sugestao-${sugestoes[indiceAtivo].id}`
+                  : undefined
+              }
               autoComplete="off"
               enterKeyHint="search"
             />
-
-            { valor && menuShow && sugestoes.length > 0 &&
-              <div className={styles.autocompleteContainer}>
-              {sugestoes.map((servico) => (
-                <button type='button' className={styles.autocomplete} key={servico.id} onClick={() => aoEnviarClickMenu(servico.nome)}>
-                  {servico.nome}
-                </button>
-            ))}
-
-          </div> }
+            {valor && menuShow && sugestoes.length > 0 && (
+              <div
+                id="sugestoes-busca"
+                role="listbox"
+                className={styles.autocompleteContainer}
+              >
+                {sugestoes.map((servico, indice) => (
+                  <button
+                    id={`sugestao-${servico.id}`}
+                    data-indice={indice}
+                    type="button"
+                    role="option"
+                    aria-selected={indice === indiceAtivo}
+                    className={`${styles.autocomplete} ${
+                      indice === indiceAtivo ? styles.autocompleteAtivo : ''
+                    }`}
+                    key={servico.id}
+                    onMouseDown={(evento) => {
+                      evento.preventDefault();
+                      aoEnviarClickMenu(servico.nome);
+                  }}
+                  >
+                    {servico.nome}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <button type="submit" className={styles.botao}>
             <Search aria-hidden="true" size={22} strokeWidth={2.5} />
