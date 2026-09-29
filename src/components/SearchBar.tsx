@@ -1,3 +1,8 @@
+/* A lista de sugestões usa role="listbox"/"option" (padrão combobox da
+   WAI-ARIA). O <datalist> nativo não serve porque o navegador refiltra
+   as opções e não preserva a lógica da busca personalizada. */
+/* oxlint-disable jsx-a11y/prefer-tag-over-role */
+
 import { Search } from 'lucide-react';
 import { useId, useRef, useState, type FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -170,23 +175,23 @@ function SearchBar({
                 className={styles.autocompleteContainer}
               >
                 {sugestoes.map((servico, indice) => (
-                  <button
-                    id={`sugestao-${servico.id}`}
-                    data-indice={indice}
-                    type="button"
-                    role="option"
-                    aria-selected={indice === indiceAtivo}
-                    className={`${styles.autocomplete} ${
-                      indice === indiceAtivo ? styles.autocompleteAtivo : ''
-                    }`}
-                    key={servico.id}
-                    onMouseDown={(evento) => {
-                      evento.preventDefault();
-                      aoEnviarClickMenu(servico.nome);
+                  <div
+                  id={`sugestao-${servico.id}`}
+                  data-indice={indice}
+                  role="option"
+                  tabIndex={-1}
+                  aria-selected={indice === indiceAtivo}
+                  className={`${styles.autocomplete} ${
+                    indice === indiceAtivo ? styles.autocompleteAtivo : ''
+                  }`}
+                  key={servico.id}
+                  onMouseDown={(evento) => {
+                    evento.preventDefault();
+                    aoEnviarClickMenu(servico.nome);
                   }}
-                  >
-                    {servico.nome}
-                  </button>
+                >
+                  {servico.nome}
+                </div>
                 ))}
               </div>
             )}
