@@ -18,24 +18,20 @@ interface SearchBarProps {
   mostrarDica?: boolean;
 }
 
-
-
 function SearchBar({
   valorInicial = '',
   variante = 'normal',
   mostrarDica = true,
 }: SearchBarProps) {
   const [valor, setValor] = useState(valorInicial);
-  const [menuShow, setShowMenu] = useState(false)
+  const [menuShow, setShowMenu] = useState(false);
   const [indiceAtivo, setIndiceAtivo] = useState(-1);
   const idCampo = useId();
   const idDica = useId();
+  const idLista = useId();
   const refCampo = useRef<HTMLInputElement>(null);
 
   const navegar = useNavigate();
-  
-
-
 
   function aoPressionarTecla(evento: React.KeyboardEvent<HTMLInputElement>) {
     if (!menuShow || sugestoes.length === 0) return;
@@ -44,7 +40,7 @@ function SearchBar({
       evento.preventDefault();
 
       setIndiceAtivo((indice) =>
-        indice < sugestoes.length - 1 ? indice + 1 : 0
+        indice < sugestoes.length - 1 ? indice + 1 : 0,
       );
     }
 
@@ -52,7 +48,7 @@ function SearchBar({
       evento.preventDefault();
 
       setIndiceAtivo((indice) =>
-        indice > 0 ? indice - 1 : sugestoes.length - 1
+        indice > 0 ? indice - 1 : sugestoes.length - 1,
       );
     }
 
@@ -62,17 +58,15 @@ function SearchBar({
     }
 
     if (evento.key === 'Escape') {
+      evento.preventDefault();
       fecharLista();
     }
   }
 
-
-    function fecharLista() {
+  function fecharLista() {
     setShowMenu(false);
     setIndiceAtivo(-1);
   }
-
-
 
   const respostaBusca = buscar(valor);
 
@@ -84,14 +78,10 @@ function SearchBar({
   useEffect(() => {
     if (indiceAtivo < 0) return;
 
-    const elemento = document.querySelector(
-      `[data-indice="${indiceAtivo}"]`
-    );
-
-    elemento?.scrollIntoView({
-      block: 'nearest',
-    });
-  }, [indiceAtivo]);
+    document
+      .getElementById(`${idLista}-${indiceAtivo}`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [indiceAtivo, idLista]);
 
   function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
@@ -101,8 +91,8 @@ function SearchBar({
       return;
     }
 
-  fecharLista();
-  navegar(`/busca?q=${encodeURIComponent(termo)}`);
+    fecharLista();
+    navegar(`/busca?q=${encodeURIComponent(termo)}`);
   }
 
   function aoEnviarClickMenu(termo: string) {
@@ -134,7 +124,6 @@ function SearchBar({
           </p>
         )}
         <div className={styles.linha}>
-          
           <div className={styles.campoComIcone}>
             <Search
               aria-hidden="true"
@@ -159,39 +148,38 @@ function SearchBar({
               role="combobox"
               aria-autocomplete="list"
               aria-expanded={Boolean(valor && menuShow && sugestoes.length > 0)}
-              aria-controls="sugestoes-busca"
+              aria-controls={idLista}
               aria-activedescendant={
-                indiceAtivo >= 0
-                  ? `sugestao-${sugestoes[indiceAtivo].id}`
-                  : undefined
+                indiceAtivo >= 0 ? `${idLista}-${indiceAtivo}` : undefined
               }
               autoComplete="off"
               enterKeyHint="search"
             />
             {valor && menuShow && sugestoes.length > 0 && (
               <div
-                id="sugestoes-busca"
+                id={idLista}
                 role="listbox"
+                aria-label="Sugestões"
                 className={styles.autocompleteContainer}
               >
                 {sugestoes.map((servico, indice) => (
                   <div
-                  id={`sugestao-${servico.id}`}
-                  data-indice={indice}
-                  role="option"
-                  tabIndex={-1}
-                  aria-selected={indice === indiceAtivo}
-                  className={`${styles.autocomplete} ${
-                    indice === indiceAtivo ? styles.autocompleteAtivo : ''
-                  }`}
-                  key={servico.id}
-                  onMouseDown={(evento) => {
-                    evento.preventDefault();
-                    aoEnviarClickMenu(servico.nome);
-                  }}
-                >
-                  {servico.nome}
-                </div>
+                    id={`${idLista}-${indice}`}
+                    data-indice={indice}
+                    role="option"
+                    tabIndex={-1}
+                    aria-selected={indice === indiceAtivo}
+                    className={`${styles.autocomplete} ${
+                      indice === indiceAtivo ? styles.autocompleteAtivo : ''
+                    }`}
+                    key={servico.id}
+                    onMouseDown={(evento) => {
+                      evento.preventDefault();
+                      aoEnviarClickMenu(servico.nome);
+                    }}
+                  >
+                    {servico.nome}
+                  </div>
                 ))}
               </div>
             )}
@@ -200,10 +188,6 @@ function SearchBar({
             <Search aria-hidden="true" size={22} strokeWidth={2.5} />
             <span>Buscar</span>
           </button>
-
-
-
-          
         </div>
       </form>
     </search>

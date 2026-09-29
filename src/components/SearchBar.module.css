@@ -95,8 +95,8 @@
 }
 
 .destaque .campo:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-focus-outer);
-  outline-offset: var(--focus-ring-offset);
+  outline: 3px solid var(--color-focus-outer);
+  outline-offset: 2px;
   border-color: var(--color-focus-inner);
 }
 
@@ -105,7 +105,6 @@
     grid-template-columns: 1fr auto;
   }
 }
-
 
 .campoComIcone:has(.autocompleteContainer) .campo {
   border-bottom-left-radius: 0;
@@ -123,12 +122,9 @@
 
   border-radius: 0 0 var(--radius-md) var(--radius-md);
 
-  max-height: 216px;
+  max-height: min(22rem, 60vh);
   overflow-y: auto;
-
 }
-
-
 
 .autocomplete {
   appearance: none;
