@@ -109,3 +109,11 @@
     grid-column: auto;
   }
 }
+
+.copyright {
+  grid-column: 1 / -1;
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-size: var(--text-sm);
+}
