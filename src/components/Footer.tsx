@@ -53,7 +53,7 @@ function Footer() {
         </div>
       </div>
       <div className={styles.copyright}>
-        <p>© 2026 PsicoInfo – projeto acadêmico da FACAPE.</p>
+        <p>© 2026 PsicoInfo – Projeto acadêmico da FACAPE.</p>
         <p>
           Desenvolvido por estudantes de Psicologia e Ciência da Computação da
           FACAPE.
