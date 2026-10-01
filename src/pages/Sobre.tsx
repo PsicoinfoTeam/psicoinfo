@@ -140,7 +140,7 @@ function Sobre() {
             </p>
           </InfoSection>
         </div>
-        <section className={styles.equipe}>
+        <div className={styles.equipe}>
           <InfoSection
             id="bloco-equipe"
             titulo="Equipe do projeto"
@@ -162,7 +162,7 @@ function Sobre() {
             <h3 className={styles.subtituloEquipe}>Docente responsável</h3>
             <p className={styles.docente}>Layta Ribeiro</p>
           </InfoSection>
-        </section>
+        </div>
       </Container>
     </div>
   );
