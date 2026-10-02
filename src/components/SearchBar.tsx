@@ -8,6 +8,7 @@ import { useId, useRef, useState, type FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchBar.module.css';
 import { buscar } from '../data/busca';
+import { useDados } from '../hooks/useDados';
 
 interface SearchBarProps {
   /** Texto já digitado (ex.: na página de resultados) */
@@ -68,11 +69,17 @@ function SearchBar({
     setIndiceAtivo(-1);
   }
 
-  const respostaBusca = buscar(valor);
+  // manterAnterior: as sugestões não piscam enquanto a próxima letra carrega
+  const termoDigitado = valor.trim();
+  const respostaBusca = useDados(
+    `busca:${termoDigitado}`,
+    () => buscar(termoDigitado),
+    { manterAnterior: true },
+  );
 
   const sugestoes =
-    respostaBusca.tipo === 'resultados'
-      ? respostaBusca.servicos.slice(0, 6)
+    respostaBusca.status === 'ok' && respostaBusca.dados.tipo === 'resultados'
+      ? respostaBusca.dados.servicos.slice(0, 6)
       : [];
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import CollapsibleGroup from '../components/CollapsibleGroup';
 import Container from '../components/Container';
 import DataIcon from '../components/DataIcon';
+import LoadingState from '../components/LoadingState';
 import ServiceList from '../components/ServiceList';
 import {
   agruparPorBairro,
@@ -11,15 +12,30 @@ import {
   listarCategorias,
   listarPorCategoria,
 } from '../data/servicos';
+import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
-import type { Categoria as TipoCategoria } from '../types';
+import type { Categoria as TipoCategoria, Servico } from '../types';
 import NaoEncontrada from './NaoEncontrada';
 import styles from './Categoria.module.css';
 
+async function carregarCategoria(id: string) {
+  const [categoria, servicos, todas] = await Promise.all([
+    buscarCategoria(id),
+    listarPorCategoria(id),
+    listarCategorias(),
+  ]);
+  return { categoria, servicos, outras: todas.filter((c) => c.id !== id) };
+}
+
 function Categoria() {
   const { id = '' } = useParams();
-  const categoria = buscarCategoria(id);
+  const resultado = useDados(`categoria:${id}`, () => carregarCategoria(id));
 
+  if (resultado.status !== 'ok') {
+    return <LoadingState erro={resultado.status === 'erro'} />;
+  }
+
+  const { categoria, servicos, outras } = resultado.dados;
   if (!categoria) {
     return (
       <NaoEncontrada
@@ -29,17 +45,28 @@ function Categoria() {
     );
   }
 
-  return <PaginaCategoria categoria={categoria} />;
+  return (
+    <PaginaCategoria
+      categoria={categoria}
+      servicos={servicos}
+      outras={outras}
+    />
+  );
 }
 
 interface PaginaCategoriaProps {
   categoria: TipoCategoria;
+  servicos: Servico[];
+  outras: TipoCategoria[];
 }
 
-function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
+function PaginaCategoria({
+  categoria,
+  servicos,
+  outras,
+}: PaginaCategoriaProps) {
   useTituloPagina(categoria.nome);
 
-  const servicos = listarPorCategoria(categoria.id);
   const principais = servicos.filter(
     (s) => s.categoriaPrincipal === categoria.id,
   );
@@ -54,8 +81,6 @@ function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
     ubsPorBairro.slice(0, metade),
     ubsPorBairro.slice(metade),
   ];
-
-  const outras = listarCategorias().filter((c) => c.id !== categoria.id);
 
   return (
     <div className={styles.pagina}>
