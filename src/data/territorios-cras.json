@@ -214,5 +214,27 @@
       ]
     }
   ],
-  "bairrosSemReferencia": []
+  "bairrosSemReferencia": [],
+  "sinonimos": {
+    "Terras do Sul": "Terra do Sul",
+    "Antônio Cassimiro": "Antônio Cassimiro I",
+    "Cosme e Damião": "Cosme e Damião / Invasão do Cosme e Damião",
+    "Cohab Massangano": "Cohab V (Cohab Massangano)",
+    "N1": "Projeto N1",
+    "Vila Velha N1": "Projeto N1",
+    "N4": "Projeto N4",
+    "N5": "Projeto N5",
+    "N6": "Projeto N6",
+    "Vila Nova N6": "Projeto N6",
+    "N7": "Projeto N7",
+    "N7 (Projeto Senador Nilo Coelho)": "Projeto N7",
+    "Projeto Senador Nilo Coelho N7": "Projeto N7",
+    "N8": "Projeto N8",
+    "N9": "Projeto N9",
+    "Projeto Senador Nilo Coelho N9": "Projeto N9",
+    "N10": "Projeto N10",
+    "N11": "Projeto N11",
+    "Projeto Senador Nilo Coelho N11": "Projeto N11",
+    "KM 25": "KM 25 / Maria Tereza"
+  }
 }

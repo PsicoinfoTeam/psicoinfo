@@ -15,4 +15,9 @@ export interface TerritoriosCras {
   territorios: TerritorioCras[];
   /** Bairros cujo CRAS de referência não existe mais: não têm CRAS definido */
   bairrosSemReferencia: string[];
+  /**
+   * Outras grafias do mesmo bairro: nome usado no site → nome do documento
+   * (ex.: "Terras do Sul" → "Terra do Sul", "N7" → "Projeto N7").
+   */
+  sinonimos: Record<string, string>;
 }
