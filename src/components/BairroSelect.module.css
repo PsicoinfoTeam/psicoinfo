@@ -87,6 +87,13 @@
   border-color: var(--color-primary);
 }
 
+.outroNome {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+}
+
 .opcaoAtiva {
   border-color: var(--color-primary);
   background-color: var(--color-surface-alt);
