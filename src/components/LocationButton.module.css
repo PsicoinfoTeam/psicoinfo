@@ -1,0 +1,58 @@
+.bloco {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Botão principal da tela: largura toda no celular, fácil de achar e tocar */
+.botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  color: var(--color-on-primary);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.botao:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.botao:disabled {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+.aviso {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.girando {
+  animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 600px) {
+  .botao {
+    width: auto;
+    justify-self: start;
+  }
+
+  .aviso {
+    text-align: left;
+  }
+}

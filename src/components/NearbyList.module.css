@@ -1,0 +1,44 @@
+.secao {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.titulo {
+  font-size: var(--text-2xl);
+  scroll-margin-top: var(--space-4);
+}
+
+.titulo:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.descricao {
+  max-width: var(--content-max);
+  color: var(--color-text-muted);
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .lista:not(.listaDestaque) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* O card de destaque não precisa ocupar a tela toda no desktop */
+  .listaDestaque {
+    max-width: 36rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lista:not(.listaDestaque) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

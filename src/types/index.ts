@@ -1,6 +1,8 @@
 export type {
   Abrangencia,
+  Coordenadas,
   FonteServico,
+  PrecisaoCoordenada,
   Servico,
   Telefone,
   TipoTelefone,
@@ -13,3 +15,4 @@ export type {
   NumeroUtilDados,
   Sobre,
 } from './dados';
+export type { TerritorioCras, TerritoriosCras } from './territorios';

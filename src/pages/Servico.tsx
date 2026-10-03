@@ -14,12 +14,15 @@ import CallButton from '../components/CallButton';
 import Container from '../components/Container';
 import DataIcon from '../components/DataIcon';
 import InfoSection from '../components/InfoSection';
+import LoadingState from '../components/LoadingState';
 import MapButton from '../components/MapButton';
+import NearbyLink from '../components/NearbyLink';
 import PendingPhone from '../components/PendingPhone';
 import ServiceActionBar from '../components/ServiceActionBar';
 import { normalizar } from '../data/busca';
 import { buscarCategoria, buscarServico } from '../data/servicos';
 import { nomePorExtenso } from '../data/siglas';
+import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import type { Categoria, Servico as TipoServico } from '../types';
 import NaoEncontrada from './NaoEncontrada';
@@ -28,10 +31,24 @@ import styles from './Servico.module.css';
 // Campos internos de revisão (pendencias, paginaCartilha, descricaoCartilha)
 // nunca são exibidos nesta página.
 
+async function carregarServico(id: string) {
+  const servico = await buscarServico(id);
+  if (!servico) return { servico, categorias: [] };
+  const categorias = (
+    await Promise.all(servico.categorias.map(buscarCategoria))
+  ).filter((c): c is Categoria => c !== undefined);
+  return { servico, categorias };
+}
+
 function Servico() {
   const { id = '' } = useParams();
-  const servico = buscarServico(id);
+  const resultado = useDados(`servico:${id}`, () => carregarServico(id));
 
+  if (resultado.status !== 'ok') {
+    return <LoadingState erro={resultado.status === 'erro'} />;
+  }
+
+  const { servico, categorias } = resultado.dados;
   if (!servico) {
     return (
       <NaoEncontrada
@@ -41,7 +58,7 @@ function Servico() {
     );
   }
 
-  return <PaginaServico servico={servico} />;
+  return <PaginaServico servico={servico} categorias={categorias} />;
 }
 
 /** Linha abaixo do nome: nome por extenso da sigla, ou a sigla se ela não aparece no nome. */
@@ -59,14 +76,12 @@ function subtituloDoNome(servico: TipoServico): string | null {
 
 interface PaginaServicoProps {
   servico: TipoServico;
+  categorias: Categoria[];
 }
 
-function PaginaServico({ servico }: PaginaServicoProps) {
+function PaginaServico({ servico, categorias }: PaginaServicoProps) {
   useTituloPagina(servico.nome);
 
-  const categorias = servico.categorias
-    .map(buscarCategoria)
-    .filter((c): c is Categoria => c !== undefined);
   const principal = categorias.find((c) => c.id === servico.categoriaPrincipal);
   const subtitulo = subtituloDoNome(servico);
 
@@ -123,6 +138,7 @@ function PaginaServico({ servico }: PaginaServicoProps) {
                 </p>
               )}
               {servico.mapaQuery && <MapButton mapaQuery={servico.mapaQuery} />}
+              {servico.sigla === 'CRAS' && <NearbyLink />}
             </InfoSection>
 
             <InfoSection id="bloco-telefones" titulo="Telefones" icone={Phone}>
