@@ -1,0 +1,341 @@
+{
+  "geradoEm": "2026-09-30T01:57:16.298Z",
+  "fonte": "OpenStreetMap / Nominatim",
+  "resultados": [
+    {
+      "id": "cras-jose-e-maria",
+      "nome": "CRAS José e Maria",
+      "endereco": "Rua Amazonas, 81 - José e Maria",
+      "coordenadas": {
+        "lat": -9.36573,
+        "lng": -40.495505,
+        "precisao": "aproximada"
+      },
+      "encontrado": "Rua Amazonas, Jose e Maria, José e Maria, Petrolina, Pernambuco, Região Nordeste, 56320-205, Brasil",
+      "tipoResultado": "road",
+      "consultaUsada": "Rua Amazonas, 81, José e Maria, Petrolina, PE, Brasil",
+      "tentativas": [
+        {
+          "consulta": "Rua Amazonas, 81, José e Maria, Petrolina, PE, Brasil",
+          "resultados": 1,
+          "descartados": []
+        }
+      ]
+    },
+    {
+      "id": "cras-dom-avelar",
+      "nome": "CRAS Dom Avelar",
+      "endereco": "Av. dos Sentimentos, 121 - Dom Avelar",
+      "coordenadas": {
+        "lat": -9.354004,
+        "lng": -40.485518,
+        "precisao": "aproximada"
+      },
+      "encontrado": "Avenida dos Sentimentos, Dom Avelar, Petrolina, Pernambuco, Região Nordeste, 56323-660, Brasil",
+      "tipoResultado": "road",
+      "consultaUsada": "Av. dos Sentimentos, 121, Dom Avelar, Petrolina, PE, Brasil",
+      "tentativas": [
+        {
+          "consulta": "Av. dos Sentimentos, 121, Dom Avelar, Petrolina, PE, Brasil",
+          "resultados": 2,
+          "descartados": []
+        }
+      ]
+    },
+    {
+      "id": "cras-joao-de-deus",
+      "nome": "CRAS João de Deus",
+      "endereco": "Av. Terezinha Campos, S/N - João de Deus",
+      "coordenadas": {
+        "lat": -9.355015,
+        "lng": -40.533943,
+        "precisao": "aproximada"
+      },
+      "encontrado": "Avenida Terezinha Campos, João de Deus, Petrolina, Pernambuco, Região Nordeste, 56316-140, Brasil",
+      "tipoResultado": "road",
+      "consultaUsada": "Av. Terezinha Campos, João de Deus, Petrolina, PE, Brasil",
+      "tentativas": [
+        {
+          "consulta": "Av. Terezinha Campos, João de Deus, Petrolina, PE, Brasil",
+          "resultados": 5,
+          "descartados": []
+        }
+      ]
+    },
+    {
+      "id": "cras-rio-corrente",
+      "nome": "CRAS Rio Corrente",
+      "endereco": "Rua do Tamarindo, S/N - Rio Corrente",
+      "coordenadas": {
+        "lat": -9.394374,
+        "lng": -40.548605,
+        "precisao": "aproximada"
+      },
+      "encontrado": "Rua do Tamarindo, Rio Corrente, Petrolina, Pernambuco, Região Nordeste, 56312-105, Brasil",
+      "tipoResultado": "road",
+      "consultaUsada": "Rua do Tamarindo, Rio Corrente, Petrolina, PE, Brasil",
+      "tentativas": [
+        {
+          "consulta": "Rua do Tamarindo, Rio Corrente, Petrolina, PE, Brasil",
+          "resultados": 5,
+          "descartados": [
+            {
+              "encontrado": "Rua do Tamarindo, Rio Claro, Petrolina, Pernambuco, Região Nordeste, 56312-690, Brasil",
+              "lat": -9.393972,
+              "lng": -40.545304,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cras-vila-eduardo",
+      "nome": "CRAS Vila Eduardo",
+      "endereco": "Rua Sizenando Nunes Amorim, 30 - Vila Eduardo",
+      "coordenadas": null,
+      "motivo": "O Nominatim não achou o endereço (só o bairro/cidade ou nada)",
+      "tentativas": [
+        {
+          "consulta": "Rua Sizenando Nunes Amorim, 30, Vila Eduardo, Petrolina, PE, Brasil",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Rua Sizenando Nunes Amorim, Vila Eduardo, Petrolina PE",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Rua Sizenando Nunes Amorim, Petrolina PE",
+          "resultados": 1,
+          "descartados": [
+            {
+              "encontrado": "Rua Sizenando Nunes Amorim, Loteamento Eduardo, Petrolina, Pernambuco, Região Nordeste, 56328-710, Brasil",
+              "lat": -9.3912,
+              "lng": -40.487528,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cras-agrovila-massangano",
+      "nome": "CRAS Agrovila Massangano",
+      "endereco": "Rua São João, S/N - Agrovila Massangano",
+      "coordenadas": null,
+      "motivo": "O Nominatim não achou o endereço (só o bairro/cidade ou nada)",
+      "tentativas": [
+        {
+          "consulta": "Rua São João, Agrovila Massangano, Petrolina, PE, Brasil",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Rua São João, Agrovila Massangano, Petrolina PE",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Rua São João, Petrolina PE",
+          "resultados": 3,
+          "descartados": [
+            {
+              "encontrado": "Rua São João, Residencial Parque São Gonçalo, Jardim Petropólis, Petrolina, Pernambuco, Região Nordeste, 56312-825, Brasil",
+              "lat": -9.389302,
+              "lng": -40.558527,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua São João, Vila Eulália, Petrolina, Pernambuco, Região Nordeste, 56331-280, Brasil",
+              "lat": -9.373022,
+              "lng": -40.499059,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua São João, Vila Eulália, Petrolina, Pernambuco, Região Nordeste, 56331-240, Brasil",
+              "lat": -9.37346,
+              "lng": -40.50143,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cras-izacolandia",
+      "nome": "CRAS Izacolândia",
+      "endereco": "Av. José Silvestre, 24 - Izacolândia",
+      "coordenadas": null,
+      "motivo": "O Nominatim não achou o endereço (só o bairro/cidade ou nada)",
+      "tentativas": [
+        {
+          "consulta": "Av. José Silvestre, 24, Izacolândia, Petrolina, PE, Brasil",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Av. José Silvestre, Izacolândia, Petrolina PE",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Av. José Silvestre, Petrolina PE",
+          "resultados": 1,
+          "descartados": [
+            {
+              "encontrado": "Avenida José Silvestre, Petrolina, Pernambuco, Região Nordeste, Brasil",
+              "lat": -9.002892,
+              "lng": -40.268269,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cras-n7",
+      "nome": "CRAS N7",
+      "endereco": "Rua B, 130-D - Projeto Senador Nilo Coelho, N7",
+      "coordenadas": null,
+      "motivo": "O Nominatim não achou o endereço (só o bairro/cidade ou nada)",
+      "tentativas": [
+        {
+          "consulta": "Rua B, 130-D, N7, Petrolina, PE, Brasil",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Rua B, N7, Petrolina PE",
+          "resultados": 5,
+          "descartados": [
+            {
+              "encontrado": "Rua B, Residencial Vivendas, Residencial Vivendas I, Petrolina, Pernambuco, Região Nordeste, 56325-750, Brasil",
+              "lat": -9.319361,
+              "lng": -40.467278,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Petrolina, Pernambuco, Região Nordeste, 56325-750, Brasil",
+              "lat": -9.288446,
+              "lng": -40.463418,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Distrito Industrial, Petrolina, Pernambuco, Região Nordeste, 56306-710, Brasil",
+              "lat": -9.392721,
+              "lng": -40.524876,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rodovia PE-633, Água Branca, Petrolina, Pernambuco, Região Nordeste, 56303-991, Brasil",
+              "lat": -9.323175,
+              "lng": -40.50476,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Lagoa Água Branca, Petrolina, Pernambuco, Região Nordeste, 56300-990, Brasil",
+              "lat": -9.286349,
+              "lng": -40.505848,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        },
+        {
+          "consulta": "Rua B, Petrolina PE",
+          "resultados": 5,
+          "descartados": [
+            {
+              "encontrado": "Rua B, Petrolina, Pernambuco, Região Nordeste, 56334-899, Brasil",
+              "lat": -9.274525,
+              "lng": -40.532832,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Lagoa Água Branca, Petrolina, Pernambuco, Região Nordeste, 56300-990, Brasil",
+              "lat": -9.286349,
+              "lng": -40.505848,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Residencial Vivendas, Residencial Vivendas I, Petrolina, Pernambuco, Região Nordeste, 56325-750, Brasil",
+              "lat": -9.319361,
+              "lng": -40.467278,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Condomínio Mais Viver Grande Rio, Petrolina, Pernambuco, Região Nordeste, 56321-360, Brasil",
+              "lat": -9.364161,
+              "lng": -40.513574,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            },
+            {
+              "encontrado": "Rua B, Curral Queimado, Petrolina, Pernambuco, Região Nordeste, 56313-900, Brasil",
+              "lat": -9.339855,
+              "lng": -40.568832,
+              "motivo": "rua com o mesmo nome, mas em outro bairro"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cras-rajada",
+      "nome": "CRAS Rajada",
+      "endereco": "Av. Nilo Coelho, 370 - Centro de Rajada",
+      "coordenadas": {
+        "lat": -8.811364,
+        "lng": -40.831388,
+        "precisao": "aproximada"
+      },
+      "encontrado": "Avenida Nilo Coelho, Rajada, Petrolina, Pernambuco, Região Nordeste, 56345-000, Brasil",
+      "tipoResultado": "road",
+      "consultaUsada": "Av. Nilo Coelho, 370, Rajada, Petrolina, PE, Brasil",
+      "tentativas": [
+        {
+          "consulta": "Av. Nilo Coelho, 370, Rajada, Petrolina, PE, Brasil",
+          "resultados": 1,
+          "descartados": []
+        }
+      ]
+    },
+    {
+      "id": "cras-uruas",
+      "nome": "CRAS Uruás",
+      "endereco": "Km 45-85 - Povoado de Uruás",
+      "coordenadas": null,
+      "motivo": "O Nominatim não achou o endereço (só o bairro/cidade ou nada)",
+      "tentativas": [
+        {
+          "consulta": "Km 45-85, Uruás, Petrolina, PE, Brasil",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Km 45-85, Uruás, Petrolina PE",
+          "resultados": 0,
+          "descartados": []
+        },
+        {
+          "consulta": "Km 45-85, Petrolina PE",
+          "resultados": 2,
+          "descartados": [
+            {
+              "encontrado": "KM-2, KM 2, Petrolina, Pernambuco, Região Nordeste, 56306-150, Brasil",
+              "lat": -9.383071,
+              "lng": -40.508227,
+              "motivo": "só achou a região (suburb)"
+            },
+            {
+              "encontrado": "KM 2, Petrolina, Pernambuco, Região Nordeste, Brasil",
+              "lat": -9.381585,
+              "lng": -40.507145,
+              "motivo": "só achou a região (suburb)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

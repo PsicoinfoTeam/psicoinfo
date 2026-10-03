@@ -45,6 +45,7 @@ src/
 | `/busca?q=termo` | Resultados em cards (ícone, nome, bairro, telefone principal). |
 | `/categoria/:id` | Lista dos serviços da categoria (usar `categorias`, não só `categoriaPrincipal`). |
 | `/servico/:id` | Página do serviço (ver abaixo). |
+| `/perto-de-mim?tipo=cras` | CRAS de referência do bairro e CRAS mais próximos (ver "Localização"). Entradas: card na Home, link nas páginas de CRAS e na busca por "cras". |
 | `/sobre` | Sobre o PsicoInfo e a fonte dos dados (campo `sobre`: ACARI / Projeto Bem Me Quer). |
 | `*` | Página não encontrada, com a busca. |
 
@@ -74,6 +75,16 @@ Link do mapa: `https://www.google.com/maps/search/?api=1&query=` + `encodeURICom
 - **Sem resultado** (ex.: o bairro "Dom Avelar"): mostrar *"Não encontramos “Dom Avelar” nos serviços cadastrados. Estes serviços atendem toda Petrolina:"* seguido dos serviços com `abrangencia` `"municipal"` ou `"regional"`, agrupados por categoria (grupos que abrem ao tocar). Nunca deixar a tela vazia. A frase é neutra porque o JSON não tem lista de bairros, então não dá para saber se o termo é um bairro.
 - Sugestões rápidas abaixo da barra (chips): "CRAS", "Posto de saúde", "Advogado gratuito", "Violência contra a mulher", "Saúde mental".
 - **Usar só os dados reais do JSON.** Não inventar serviços, bairros, telefones, números de casa ou horários: tudo precisa estar na cartilha ou no levantamento web.
+
+## Localização ("Perto de mim")
+
+- **Só no navegador:** a distância é calculada no front-end (`src/lib/geo.ts`, Haversine) com as `coordenadas` do JSON. Sem backend e sem API de mapas.
+- **Pedir só no clique:** a localização só é pedida quando a pessoa toca em "Usar minha localização" (`useLocalizacao`). Nunca ao abrir a página.
+- **Nunca salvar nem enviar:** a posição fica só na memória do componente. Nada de localStorage, sessionStorage, cookies, URL ou requisição de rede. Resultados calculados a partir dela não entram no cache (`useDados` com `guardar: false`).
+- **Sempre oferecer o bairro:** "Ou escolha seu bairro" fica sempre visível. Se a pessoa recusar ou o GPS falhar, a tela continua útil. O CRAS de referência vem de `src/data/territorios-cras.json` (bairro → CRAS, com sinônimos).
+- **Distância sempre "em linha reta"**, aproximada ("a cerca de 2,3 km em linha reta"), nunca como tempo ou rota.
+- **Fora de Petrolina:** um retângulo que cobre o município (`LIMITES_PETROLINA`) no lugar de um raio, porque o CRAS Rajada fica a ~74 km do centro. Limitação conhecida: Juazeiro (BA) cai dentro do retângulo.
+- Serviço sem `coordenadas` (ex.: CRAS Izacolândia) aparece no fim, sem distância. Nunca inventar coordenadas: só as conferidas (`precisao: "verificada"`/`"aproximada"`).
 
 ## Design
 
@@ -111,4 +122,4 @@ Link do mapa: `https://www.google.com/maps/search/?api=1&query=` + `encodeURICom
 ## Fora do escopo agora (deixar a estrutura preparada)
 
 - Área administrativa para editar serviços: a camada `src/data/servicos.ts` existe exatamente para isso.
-- Geolocalização / "perto de mim", mapa embutido e backend.
+- "Perto de mim" para outros tipos além do CRAS (ex.: UBS: `listarProximos` já recebe o tipo), mapa embutido e backend.

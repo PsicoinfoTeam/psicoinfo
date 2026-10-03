@@ -1,7 +1,14 @@
+/* A lista de sugestões usa role="listbox"/"option" (padrão combobox da
+   WAI-ARIA). O <datalist> nativo não serve porque o navegador refiltra
+   as opções e não preserva a lógica da busca personalizada. */
+/* oxlint-disable jsx-a11y/prefer-tag-over-role */
+
 import { Search } from 'lucide-react';
-import { useId, useRef, useState, type FormEvent } from 'react';
+import { useId, useRef, useState, type FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchBar.module.css';
+import { buscar } from '../data/busca';
+import { useDados } from '../hooks/useDados';
 
 interface SearchBarProps {
   /** Texto já digitado (ex.: na página de resultados) */
@@ -18,10 +25,70 @@ function SearchBar({
   mostrarDica = true,
 }: SearchBarProps) {
   const [valor, setValor] = useState(valorInicial);
+  const [menuShow, setShowMenu] = useState(false);
+  const [indiceAtivo, setIndiceAtivo] = useState(-1);
   const idCampo = useId();
   const idDica = useId();
+  const idLista = useId();
   const refCampo = useRef<HTMLInputElement>(null);
+
   const navegar = useNavigate();
+
+  function aoPressionarTecla(evento: React.KeyboardEvent<HTMLInputElement>) {
+    if (!menuShow || sugestoes.length === 0) return;
+
+    if (evento.key === 'ArrowDown') {
+      evento.preventDefault();
+
+      setIndiceAtivo((indice) =>
+        indice < sugestoes.length - 1 ? indice + 1 : 0,
+      );
+    }
+
+    if (evento.key === 'ArrowUp') {
+      evento.preventDefault();
+
+      setIndiceAtivo((indice) =>
+        indice > 0 ? indice - 1 : sugestoes.length - 1,
+      );
+    }
+
+    if (evento.key === 'Enter' && indiceAtivo >= 0) {
+      evento.preventDefault();
+      aoEnviarClickMenu(sugestoes[indiceAtivo].nome);
+    }
+
+    if (evento.key === 'Escape') {
+      evento.preventDefault();
+      fecharLista();
+    }
+  }
+
+  function fecharLista() {
+    setShowMenu(false);
+    setIndiceAtivo(-1);
+  }
+
+  // manterAnterior: as sugestões não piscam enquanto a próxima letra carrega
+  const termoDigitado = valor.trim();
+  const respostaBusca = useDados(
+    `busca:${termoDigitado}`,
+    () => buscar(termoDigitado),
+    { manterAnterior: true },
+  );
+
+  const sugestoes =
+    respostaBusca.status === 'ok' && respostaBusca.dados.tipo === 'resultados'
+      ? respostaBusca.dados.servicos.slice(0, 6)
+      : [];
+
+  useEffect(() => {
+    if (indiceAtivo < 0) return;
+
+    document
+      .getElementById(`${idLista}-${indiceAtivo}`)
+      ?.scrollIntoView({ block: 'nearest' });
+  }, [indiceAtivo, idLista]);
 
   function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
@@ -30,7 +97,22 @@ function SearchBar({
       refCampo.current?.focus();
       return;
     }
+
+    fecharLista();
     navegar(`/busca?q=${encodeURIComponent(termo)}`);
+  }
+
+  function aoEnviarClickMenu(termo: string) {
+    const termoLimpo = termo.trim();
+
+    if (!termoLimpo) {
+      refCampo.current?.focus();
+      return;
+    }
+
+    setValor(termoLimpo);
+    fecharLista();
+    navegar(`/busca?q=${encodeURIComponent(termoLimpo)}`);
   }
 
   return (
@@ -62,11 +144,52 @@ function SearchBar({
               type="search"
               className={styles.campo}
               value={valor}
-              onChange={(evento) => setValor(evento.target.value)}
+              onChange={(evento) => {
+                setValor(evento.target.value);
+                setShowMenu(true);
+                setIndiceAtivo(-1);
+              }}
+              onKeyDown={aoPressionarTecla}
+              onBlur={fecharLista}
               aria-describedby={mostrarDica ? idDica : undefined}
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={Boolean(valor && menuShow && sugestoes.length > 0)}
+              aria-controls={idLista}
+              aria-activedescendant={
+                indiceAtivo >= 0 ? `${idLista}-${indiceAtivo}` : undefined
+              }
               autoComplete="off"
               enterKeyHint="search"
             />
+            {valor && menuShow && sugestoes.length > 0 && (
+              <div
+                id={idLista}
+                role="listbox"
+                aria-label="Sugestões"
+                className={styles.autocompleteContainer}
+              >
+                {sugestoes.map((servico, indice) => (
+                  <div
+                    id={`${idLista}-${indice}`}
+                    data-indice={indice}
+                    role="option"
+                    tabIndex={-1}
+                    aria-selected={indice === indiceAtivo}
+                    className={`${styles.autocomplete} ${
+                      indice === indiceAtivo ? styles.autocompleteAtivo : ''
+                    }`}
+                    key={servico.id}
+                    onMouseDown={(evento) => {
+                      evento.preventDefault();
+                      aoEnviarClickMenu(servico.nome);
+                    }}
+                  >
+                    {servico.nome}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <button type="submit" className={styles.botao}>
             <Search aria-hidden="true" size={22} strokeWidth={2.5} />

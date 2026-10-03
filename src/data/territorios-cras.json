@@ -1,0 +1,240 @@
+{
+  "fonte": "Documento \"Área de abrangência dos CRAS\", publicado no portal Rede GN: https://www.redegn.com.br/ckfinder/userfiles/files/%C3%81REA%20DE%20ABRANG%C3%8ANCIA%20DOS%20CRAS.pdf. Território do CRAS Vila Eduardo (antigo CRAS Fernando Idalino) confirmado por telefone com o CRAS em 02/10/2026, que citou também o bairro Porto de Palhas.",
+  "dataDocumento": "2016-01-15",
+  "territorios": [
+    {
+      "crasId": "cras-dom-avelar",
+      "bairros": [
+        "Dom Avelar",
+        "São Joaquim",
+        "Vila Rotary",
+        "Padre Cícero",
+        "Loteamento Recife",
+        "Vila Marcela",
+        "Vila Débora",
+        "Povoado do Capim",
+        "Serra da Santa",
+        "Ocupação Luís Inácio Lula da Silva",
+        "Assentamento do Pontal (Região do Capim)",
+        "Loteamento Monsenhor Bernardino"
+      ]
+    },
+    {
+      "crasId": "cras-joao-de-deus",
+      "bairros": [
+        "João de Deus",
+        "Cosme e Damião / Invasão do Cosme e Damião",
+        "Quati I e II",
+        "Cacheado",
+        "Pedro Raimundo",
+        "Jardim Amazonas",
+        "Jardim São Paulo",
+        "Pedra Linda",
+        "Alto do Cocar",
+        "Santo André",
+        "Santa Marina",
+        "Vale do Grande Rio",
+        "Ponta da Serra",
+        "Assentamento Vila Débora",
+        "Nova Vida I e II",
+        "Ocupação Vila Dilma",
+        "Assentamento Nossa Senhora de Fátima",
+        "Vila Chocolate (ocupação)",
+        "Assentamento Mandacaru (Ponta da Serra)",
+        "Assentamento Euclides Nascimento (Ponta da Serra)",
+        "Assentamento Nova Esperança (Ponta da Serra)",
+        "Assentamento Terra da Liberdade",
+        "Sítio Pé de Serra - Curral Queimado",
+        "Parque São Paulo",
+        "IPSEP II"
+      ]
+    },
+    {
+      "crasId": "cras-jose-e-maria",
+      "bairros": [
+        "São Jorge",
+        "Santa Luzia",
+        "José e Maria",
+        "Lagoa Seca",
+        "Antônio Cassimiro I",
+        "Antônio Cassimiro II",
+        "Vila Eulália",
+        "KM 2",
+        "Dom Malan",
+        "Areia Branca",
+        "Vila Aparecida",
+        "Terra do Sul",
+        "IPSEP I",
+        "Vila Esperança",
+        "Mandacaru"
+      ]
+    },
+    {
+      "crasId": "cras-rio-corrente",
+      "bairros": [
+        "São Gonçalo",
+        "Alto da Boa Vista",
+        "Rio Claro",
+        "Rio Corrente",
+        "Cohab IV",
+        "Cohab V (Cohab Massangano)",
+        "Cohab VI (Cohab Massangano)",
+        "Distrito Industrial",
+        "Jardim Imperial",
+        "Jardim Petrópolis",
+        "Ouro Preto",
+        "Jardim Maravilha",
+        "Jardim Guararapes",
+        "Jardim Guanabara",
+        "Parque Massangano",
+        "Nova Petrolina",
+        "Gercino Coelho",
+        "Palhinhas",
+        "Parque Bandeirantes",
+        "Atrás da Banca",
+        "Assentamento São Paulo (depois do Loteamento Nova Petrolina)"
+      ]
+    },
+    {
+      "crasId": "cras-vila-eduardo",
+      "bairros": [
+        "Fernando Idalino",
+        "Henrique Leite",
+        "Vila Vitória",
+        "Parque Jatobá",
+        "Loteamento Geovana",
+        "Rio Jordão",
+        "Carneiro",
+        "Serrote do Urubu",
+        "Pedra do Bode",
+        "Pedrinhas",
+        "Picos I e II",
+        "Sítio Rio Verde",
+        "Vila Eduardo",
+        "São José",
+        "Cidade Universitária",
+        "Maria Auxiliadora",
+        "Centro",
+        "Vila Mocó (Jardim Paulo Afonso)",
+        "Poço da Cruz",
+        "Jardim Colonial",
+        "Ponta da Ilha",
+        "Porto de Palhas"
+      ]
+    },
+    {
+      "crasId": "cras-agrovila-massangano",
+      "bairros": [
+        "Agrovila Massangano",
+        "Ilha do Massangano",
+        "Tapera",
+        "Caatinguinha",
+        "Roçado",
+        "Sítio São João",
+        "Assentamento José Almeida (em frente ao Sítio São João)",
+        "Projeto C1",
+        "Projeto C2",
+        "Projeto N1",
+        "Projeto N2",
+        "Projeto N3",
+        "Projeto N4",
+        "Projeto N5"
+      ]
+    },
+    {
+      "crasId": "cras-izacolandia",
+      "bairros": [
+        "Bebedouro",
+        "Izacolândia",
+        "Nova Descoberta",
+        "Cristália",
+        "Simpatia",
+        "Assentamento Alto da Areia",
+        "Assentamento São Francisco",
+        "Assentamento Gavião",
+        "Assentamento Poço do Angico",
+        "Assentamento Rio Pontal",
+        "Assentamento Manga Nova",
+        "Assentamento São José do Vale",
+        "Assentamento José Ramos",
+        "Assentamento Mansueto",
+        "Sítio Coelho",
+        "Sítio Paulista"
+      ]
+    },
+    {
+      "crasId": "cras-n7",
+      "bairros": [
+        "Projeto N6",
+        "Projeto N7",
+        "Projeto N8",
+        "Projeto N9",
+        "Projeto C3",
+        "Projeto N10",
+        "Projeto N11",
+        "Projeto N12",
+        "KM 25 / Maria Tereza"
+      ]
+    },
+    {
+      "crasId": "cras-rajada",
+      "bairros": [
+        "Rajada",
+        "Boa Vista",
+        "Cabaceira",
+        "Pau Ferro",
+        "Santa Fé",
+        "Tigre",
+        "Barreiro",
+        "Garcinha",
+        "Favela",
+        "Pedra Preta",
+        "Caeira",
+        "Tabatinga",
+        "Emparedado",
+        "Xique-Xique"
+      ]
+    },
+    {
+      "crasId": "cras-uruas",
+      "bairros": [
+        "Uruás",
+        "Icozeiro",
+        "Lajedo",
+        "Cruz de Salina",
+        "Atalho",
+        "Caititu",
+        "Assentamento Curimatá (Pau Ferro)",
+        "Assentamento Esperança (Pau Ferro)",
+        "Assentamento Lindolfo Silva (Uruás)",
+        "Assentamento Nossa Senhora de Fátima (Uruás)",
+        "Assentamento Maracy Amador (Uruás)",
+        "Volta da Carolina",
+        "Morro Massapê"
+      ]
+    }
+  ],
+  "bairrosSemReferencia": [],
+  "sinonimos": {
+    "Terras do Sul": "Terra do Sul",
+    "Antônio Cassimiro": "Antônio Cassimiro I",
+    "Cosme e Damião": "Cosme e Damião / Invasão do Cosme e Damião",
+    "Cohab Massangano": "Cohab V (Cohab Massangano)",
+    "N1": "Projeto N1",
+    "Vila Velha N1": "Projeto N1",
+    "N4": "Projeto N4",
+    "N5": "Projeto N5",
+    "N6": "Projeto N6",
+    "Vila Nova N6": "Projeto N6",
+    "N7": "Projeto N7",
+    "N7 (Projeto Senador Nilo Coelho)": "Projeto N7",
+    "Projeto Senador Nilo Coelho N7": "Projeto N7",
+    "N8": "Projeto N8",
+    "N9": "Projeto N9",
+    "Projeto Senador Nilo Coelho N9": "Projeto N9",
+    "N10": "Projeto N10",
+    "N11": "Projeto N11",
+    "Projeto Senador Nilo Coelho N11": "Projeto N11",
+    "KM 25": "KM 25 / Maria Tereza"
+  }
+}

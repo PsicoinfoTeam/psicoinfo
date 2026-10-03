@@ -1,0 +1,24 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+}
+
+.link:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-primary-hover);
+}
+
+.link svg {
+  flex-shrink: 0;
+}

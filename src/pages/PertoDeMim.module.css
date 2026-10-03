@@ -1,0 +1,104 @@
+.pagina {
+  padding-block: var(--space-4) var(--space-9);
+}
+
+.cabecalho {
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--content-max);
+  margin-bottom: var(--space-5);
+}
+
+.titulo {
+  font-size: var(--text-3xl);
+}
+
+.intro {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+}
+
+/* Bloco "como encontrar": localização e bairro, no topo, sem precisar rolar */
+.escolha {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 46rem;
+  margin-bottom: var(--space-7);
+  padding: var(--space-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.mensagens:empty {
+  display: none;
+}
+
+.mensagem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-left: 5px solid var(--color-accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background-color: var(--color-yellow-100);
+  color: var(--color-blue-950);
+}
+
+.mensagem svg {
+  flex-shrink: 0;
+  margin-top: 0.15em;
+}
+
+.mensagemTexto {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+}
+
+.tentarDeNovo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-blue-950);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-blue-950);
+  font-weight: var(--weight-bold);
+}
+
+.tentarDeNovo:hover {
+  background-color: var(--color-surface-alt);
+}
+
+/* Linha entre as duas formas de encontrar (o rótulo do bairro já diz "Ou") */
+.divisor {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.resultados {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.resultados:empty {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .escolha {
+    padding: var(--space-6);
+  }
+}
+
+@media (min-width: 900px) {
+  .titulo {
+    font-size: var(--text-4xl);
+  }
+}

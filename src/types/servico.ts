@@ -7,6 +7,15 @@ export type TipoTelefone = 'fixo' | 'celular' | 'whatsapp' | 'emergencia';
 /** De onde veio o registro: cartilha da ACARI, levantamento web (set/2026) ou os dois */
 export type FonteServico = 'cartilha' | 'web' | 'cartilha+web';
 
+/** "verificada": conferida por uma pessoa no mapa; "aproximada": só geocodificação */
+export type PrecisaoCoordenada = 'verificada' | 'aproximada';
+
+export interface Coordenadas {
+  lat: number;
+  lng: number;
+  precisao: PrecisaoCoordenada;
+}
+
 export interface Telefone {
   /** Formatado para exibir: "(87) 3983-6476" */
   numero: string;
@@ -32,6 +41,8 @@ export interface Servico {
   referencia: string | null;
   /** Para o link do Google Maps; null quando não há endereço físico */
   mapaQuery: string | null;
+  /** Localização no mapa (por enquanto, só nos CRAS). null = não encontrada */
+  coordenadas?: Coordenadas | null;
   abrangencia: Abrangencia;
   /** Vazio = telefone ainda não confirmado ("Telefone em atualização – em breve") */
   telefones: Telefone[];

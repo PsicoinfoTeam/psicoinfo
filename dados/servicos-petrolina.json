@@ -218,6 +218,7 @@
       "endereco": "Rua Amazonas, 81 - José e Maria",
       "referencia": null,
       "mapaQuery": "Rua Amazonas, 81, José e Maria, Petrolina - PE",
+      "coordenadas": { "lat": -9.366183, "lng": -40.495973, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6481", "discar": "8739836481", "tipo": "fixo", "rotulo": null }
@@ -251,6 +252,7 @@
       "endereco": "Av. dos Sentimentos, 121 - Dom Avelar",
       "referencia": null,
       "mapaQuery": "CRAS Dom Avelar, Av. dos Sentimentos, 121, Dom Avelar, Petrolina - PE",
+      "coordenadas": { "lat": -9.355681, "lng": -40.488752, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6482", "discar": "8739836482", "tipo": "fixo", "rotulo": null }
@@ -284,6 +286,7 @@
       "endereco": "Av. Terezinha Campos, S/N - João de Deus",
       "referencia": null,
       "mapaQuery": "CRAS João de Deus, Av. Terezinha Campos, João de Deus, Petrolina - PE",
+      "coordenadas": { "lat": -9.35736, "lng": -40.533311, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6483", "discar": "8739836483", "tipo": "fixo", "rotulo": null }
@@ -317,6 +320,7 @@
       "endereco": "Rua do Tamarindo, S/N - Rio Corrente",
       "referencia": null,
       "mapaQuery": "CRAS Rio Corrente, Rua do Tamarindo, Rio Corrente, Petrolina - PE",
+      "coordenadas": { "lat": -9.394414, "lng": -40.548898, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6480", "discar": "8739836480", "tipo": "fixo", "rotulo": null }
@@ -350,6 +354,7 @@
       "endereco": "Rua Sizenando Nunes Amorim, 30 - Vila Eduardo",
       "referencia": null,
       "mapaQuery": "CRAS Vila Eduardo, Rua Sizenando Nunes Amorim, 30, Vila Eduardo, Petrolina - PE",
+      "coordenadas": { "lat": -9.391155, "lng": -40.487779, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6484", "discar": "8739836484", "tipo": "fixo", "rotulo": null }
@@ -365,7 +370,7 @@
         "Acompanhamento da família"
       ],
       "comoAcessar": "Agende por telefone. Leve CPF, RG ou certidão de nascimento, comprovante de residência e Cartão do SUS. O atendimento é gratuito.",
-      "tags": ["cras", "assistência social", "bolsa família", "bpc", "benefício", "idoso", "deficiência", "cadúnico", "família", "trabalho infantil", "vila eduardo"],
+      "tags": ["cras", "assistência social", "bolsa família", "bpc", "benefício", "idoso", "deficiência", "cadúnico", "família", "trabalho infantil", "vila eduardo", "loteamento eduardo", "fernando idalino"],
       "descricaoCartilha": null,
       "paginaCartilha": null,
       "pendencias": [],
@@ -383,6 +388,7 @@
       "endereco": "Rua São João, S/N - Agrovila Massangano",
       "referencia": "Na estrada da Tapera",
       "mapaQuery": "CRAS Agrovila Massangano, Rua São João, Agrovila Massangano, Petrolina - PE",
+      "coordenadas": { "lat": -9.441018, "lng": -40.570274, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6472", "discar": "8739836472", "tipo": "fixo", "rotulo": null }
@@ -416,6 +422,7 @@
       "endereco": "Av. José Silvestre, 24 - Izacolândia",
       "referencia": null,
       "mapaQuery": "CRAS Izacolândia, Av. José Silvestre, 24, Izacolândia, Petrolina - PE",
+      "coordenadas": null,
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6471", "discar": "8739836471", "tipo": "fixo", "rotulo": null }
@@ -434,7 +441,7 @@
       "tags": ["cras", "assistência social", "bolsa família", "bpc", "benefício", "idoso", "deficiência", "cadúnico", "família", "trabalho infantil", "izacolândia", "zona rural"],
       "descricaoCartilha": null,
       "paginaCartilha": null,
-      "pendencias": [],
+      "pendencias": ["CRAS não localizado no mapa: na conferência de 01/10/2026 só foi encontrada a UBS de Izacolândia. A Prefeitura lista o CRAS (Av. José Silvestre, 24; página de 10/07/2026). Confirmar por telefone se ele funciona e onde"],
       "fonte": "web",
       "atualizadoEm": "2026-09"
     },
@@ -449,6 +456,7 @@
       "endereco": "Rua B, 130-D - Projeto Senador Nilo Coelho, N7",
       "referencia": null,
       "mapaQuery": "CRAS N7, Rua B, 130-D, Projeto Senador Nilo Coelho, N7, Petrolina - PE",
+      "coordenadas": { "lat": -9.291614, "lng": -40.507519, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6470", "discar": "8739836470", "tipo": "fixo", "rotulo": null }
@@ -482,6 +490,7 @@
       "endereco": "Av. Nilo Coelho, 370 - Centro de Rajada",
       "referencia": null,
       "mapaQuery": "CRAS Rajada, Av. Nilo Coelho, 370, Centro de Rajada, Petrolina - PE",
+      "coordenadas": { "lat": -8.81071, "lng": -40.832225, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6469", "discar": "8739836469", "tipo": "fixo", "rotulo": null }
@@ -515,6 +524,7 @@
       "endereco": "Km 45-85 - Povoado de Uruás",
       "referencia": null,
       "mapaQuery": "CRAS Uruás, Km 45-85, Povoado de Uruás, Petrolina - PE",
+      "coordenadas": { "lat": -8.938542, "lng": -40.576125, "precisao": "verificada" },
       "abrangencia": "bairro",
       "telefones": [
         { "numero": "(87) 3983-6468", "discar": "8739836468", "tipo": "fixo", "rotulo": null }

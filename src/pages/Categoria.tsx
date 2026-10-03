@@ -4,6 +4,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import CollapsibleGroup from '../components/CollapsibleGroup';
 import Container from '../components/Container';
 import DataIcon from '../components/DataIcon';
+import LoadingState from '../components/LoadingState';
 import ServiceList from '../components/ServiceList';
 import {
   agruparPorBairro,
@@ -11,15 +12,30 @@ import {
   listarCategorias,
   listarPorCategoria,
 } from '../data/servicos';
+import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
-import type { Categoria as TipoCategoria } from '../types';
+import type { Categoria as TipoCategoria, Servico } from '../types';
 import NaoEncontrada from './NaoEncontrada';
 import styles from './Categoria.module.css';
 
+async function carregarCategoria(id: string) {
+  const [categoria, servicos, todas] = await Promise.all([
+    buscarCategoria(id),
+    listarPorCategoria(id),
+    listarCategorias(),
+  ]);
+  return { categoria, servicos, outras: todas.filter((c) => c.id !== id) };
+}
+
 function Categoria() {
   const { id = '' } = useParams();
-  const categoria = buscarCategoria(id);
+  const resultado = useDados(`categoria:${id}`, () => carregarCategoria(id));
 
+  if (resultado.status !== 'ok') {
+    return <LoadingState erro={resultado.status === 'erro'} />;
+  }
+
+  const { categoria, servicos, outras } = resultado.dados;
   if (!categoria) {
     return (
       <NaoEncontrada
@@ -29,17 +45,28 @@ function Categoria() {
     );
   }
 
-  return <PaginaCategoria categoria={categoria} />;
+  return (
+    <PaginaCategoria
+      categoria={categoria}
+      servicos={servicos}
+      outras={outras}
+    />
+  );
 }
 
 interface PaginaCategoriaProps {
   categoria: TipoCategoria;
+  servicos: Servico[];
+  outras: TipoCategoria[];
 }
 
-function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
+function PaginaCategoria({
+  categoria,
+  servicos,
+  outras,
+}: PaginaCategoriaProps) {
   useTituloPagina(categoria.nome);
 
-  const servicos = listarPorCategoria(categoria.id);
   const principais = servicos.filter(
     (s) => s.categoriaPrincipal === categoria.id,
   );
@@ -48,7 +75,12 @@ function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
   const ubs = principais.filter((s) => s.sigla === 'UBS');
   const outrosPrincipais = principais.filter((s) => s.sigla !== 'UBS');
   const ubsPorBairro = agruparPorBairro(ubs);
-  const outras = listarCategorias().filter((c) => c.id !== categoria.id);
+
+  const metade = Math.ceil(ubsPorBairro.length / 2);
+  const colunasDeBairros = [
+    ubsPorBairro.slice(0, metade),
+    ubsPorBairro.slice(metade),
+  ];
 
   return (
     <div className={styles.pagina}>
@@ -95,24 +127,28 @@ function PaginaCategoria({ categoria }: PaginaCategoriaProps) {
                   {ubs.length} postos de saúde. Toque no seu bairro para ver o
                   posto mais perto.
                 </p>
-                <ul className={styles.bairros}>
-                  {ubsPorBairro.map(({ bairro, servicos: doBairro }) => (
-                    <li key={bairro}>
-                      <CollapsibleGroup
-                        titulo={bairro}
-                        total={doBairro.length}
-                        nivelTitulo="h3"
-                        icone={<MapPin size={24} strokeWidth={2} />}
-                      >
-                        <ServiceList
-                          servicos={doBairro}
-                          nivelTitulo="h4"
-                          umaColuna
-                        />
-                      </CollapsibleGroup>
-                    </li>
+                <div className={styles.bairros}>
+                  {colunasDeBairros.map((coluna, i) => (
+                    <ul key={i} className={styles.colunaBairros}>
+                      {coluna.map(({ bairro, servicos: doBairro }) => (
+                        <li key={bairro}>
+                          <CollapsibleGroup
+                            titulo={bairro}
+                            total={doBairro.length}
+                            nivelTitulo="h3"
+                            icone={<MapPin size={24} strokeWidth={2} />}
+                          >
+                            <ServiceList
+                              servicos={doBairro}
+                              nivelTitulo="h4"
+                              umaColuna
+                            />
+                          </CollapsibleGroup>
+                        </li>
+                      ))}
+                    </ul>
                   ))}
-                </ul>
+                </div>
               </section>
             )}
             {tambem.length > 0 && (

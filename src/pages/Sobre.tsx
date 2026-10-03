@@ -1,24 +1,14 @@
 import {
   BookOpen,
-  ExternalLink,
-  Globe,
   HandHeart,
-  Mail,
-  MapPin,
-  Phone,
   Search,
   TriangleAlert,
 } from 'lucide-react';
 import logo from '../assets/logo-psicoinfo.png';
 import Breadcrumb from '../components/Breadcrumb';
-import CallButton from '../components/CallButton';
 import Container from '../components/Container';
 import InfoSection from '../components/InfoSection';
-import MapButton from '../components/MapButton';
-import { soDigitos } from '../data/links';
-import { obterSobre } from '../data/servicos';
 import { useTituloPagina } from '../hooks/useTituloPagina';
-import type { Telefone } from '../types';
 import styles from './Sobre.module.css';
 
 /** Passos de uso: são mesmo uma sequência, por isso a lista numerada. */
@@ -30,28 +20,6 @@ const PASSOS = [
 
 function Sobre() {
   useTituloPagina('Sobre o PsicoInfo');
-  const sobre = obterSobre();
-
-  const telefones: Telefone[] = [
-    {
-      numero: sobre.telefone,
-      discar: soDigitos(sobre.telefone),
-      tipo: 'fixo',
-      rotulo: null,
-    },
-    {
-      numero: sobre.whatsapp,
-      discar: soDigitos(sobre.whatsapp),
-      tipo: 'whatsapp',
-      rotulo: null,
-    },
-  ];
-
-  const redes = [
-    { rotulo: 'Site da ACARI', url: sobre.site, icone: Globe },
-    { rotulo: 'Instagram', url: sobre.instagram, icone: ExternalLink },
-    { rotulo: 'YouTube', url: sobre.youtube, icone: ExternalLink },
-  ];
 
   return (
     <div className={styles.pagina}>
@@ -88,22 +56,14 @@ function Sobre() {
 
             <InfoSection
               id="bloco-fonte"
-              titulo="De onde vêm as informações"
+              titulo="Fonte dos dados"
               icone={BookOpen}
             >
               <p>
-                Os serviços foram tirados da cartilha{' '}
-                <strong>
-                  “Serviços da Rede de Proteção – Petrolina e Juazeiro”
-                </strong>
-                , feita pela {sobre.realizacao}, no {sobre.projeto}.
+                As informações disponibilizadas neste site foram coletadas em
+                fontes oficiais e públicas disponíveis na internet, buscando
+                garantir a confiabilidade e a atualização dos dados.
               </p>
-              <p>
-                Em setembro de 2026, os dados foram conferidos e completados com
-                informações dos sites oficiais da Prefeitura de Petrolina e de
-                outros órgãos públicos.
-              </p>
-              <p>Aqui aparecem só os serviços de Petrolina.</p>
             </InfoSection>
 
             <InfoSection
@@ -122,58 +82,49 @@ function Sobre() {
             </InfoSection>
           </div>
           <InfoSection
-            id="bloco-acari"
-            titulo="Quem fez a cartilha"
+            id="bloco-origem"
+            titulo="Por que nasceu o PsicoInfo?"
             icone={HandHeart}
           >
-            <p className={styles.destaque}>{sobre.realizacao}</p>
-            <p>{sobre.descricao}</p>
-
-            <h3 className={styles.subtitulo}>
-              <MapPin aria-hidden="true" size={20} /> Endereço
-            </h3>
-            <p>{sobre.endereco}</p>
-            <MapButton mapaQuery={sobre.endereco} />
-
-            <h3 className={styles.subtitulo}>
-              <Phone aria-hidden="true" size={20} /> Telefones
-            </h3>
-            <ul className={styles.lista}>
-              {telefones.map((telefone) => (
-                <li key={telefone.discar}>
-                  <CallButton telefone={telefone} />
-                </li>
-              ))}
-            </ul>
-
-            <h3 className={styles.subtitulo}>
-              <Mail aria-hidden="true" size={20} /> Na internet
-            </h3>
-            <ul className={styles.links}>
-              <li>
-                <a href={`mailto:${sobre.email}`} className={styles.link}>
-                  <Mail aria-hidden="true" size={22} />
-                  <span>{sobre.email}</span>
-                </a>
-              </li>
-              {redes.map(({ rotulo, url, icone: Icone }) => (
-                <li key={url}>
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    <Icone aria-hidden="true" size={22} />
-                    <span>{rotulo}</span>
-                    <span className="visually-hidden">
-                      {' '}
-                      (abre em outra aba)
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <p>
+              O PsicoInfo nasceu a partir de uma proposta pensada e
+              compartilhada pela docente Layta, responsável pela disciplina de
+              Intervenções Psicossociais do 6º período do curso de Psicologia da
+              FACAPE.
+            </p>
+            <p>
+              A proposta surgiu com o objetivo de aproximar estudantes e futuros
+              profissionais da comunidade e ampliar o acesso à informação sobre
+              saúde mental. Mas, para nós, falar sobre saúde mental significa ir
+              além de simplesmente falar sobre doenças, diagnósticos ou
+              características individuais. É preciso olhar para as pessoas, para
+              suas histórias e também para os lugares onde suas vidas acontecem.
+            </p>
+            <p>
+              Foi a partir desse olhar que surgiu a parceria entre os cursos de{' '}
+              <strong>Psicologia</strong> e{' '}
+              <strong>Ciência da Computação</strong> da FACAPE. Unimos
+              conhecimentos de diferentes áreas para transformar essa proposta em
+              uma ferramenta acessível, prática e voltada para a comunidade.
+            </p>
+            <p>
+              Assim nasceu o PsicoInfo, um site desenvolvido em parceria pelos
+              dois cursos, com o propósito de facilitar o acesso da população de
+              Petrolina a informações sobre serviços públicos, saúde, assistência
+              social e outros recursos disponíveis no município. Mais do que
+              reunir informações, o PsicoInfo busca aproximar a comunidade dos
+              serviços que podem fazer parte do cuidado e da garantia de
+              direitos.
+            </p>
+            <p>
+              O PsicoInfo é um projeto acadêmico desenvolvido por estudantes da
+              FACAPE e não possui vínculo institucional com a Prefeitura de
+              Petrolina ou com os serviços públicos apresentados na plataforma.
+              As informações disponibilizadas têm caráter exclusivamente
+              informativo e são reunidas a partir de fontes públicas, com o
+              objetivo de facilitar o acesso da população aos serviços
+              disponíveis no município.
+            </p>
           </InfoSection>
         </div>
       </Container>

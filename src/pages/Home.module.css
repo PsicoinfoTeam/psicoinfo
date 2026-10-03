@@ -50,6 +50,81 @@
   margin-top: var(--space-3);
 }
 
+/* ---------- Card "Perto de mim" ---------- */
+.secaoPerto {
+  padding-top: var(--space-6);
+}
+
+.cartaoPerto {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3) var(--space-4);
+  align-items: center;
+  padding: var(--space-5) var(--space-4);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.iconePerto {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--color-yellow-100);
+  color: var(--color-blue-950);
+}
+
+.textoPerto {
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.tituloPerto {
+  font-size: var(--text-xl);
+}
+
+/* No celular, o botão ocupa a largura toda, embaixo do texto */
+.botaoPerto {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  text-decoration: none;
+}
+
+.botaoPerto:hover {
+  background-color: var(--color-primary-hover);
+  color: var(--color-on-primary);
+}
+
+@media (min-width: 768px) {
+  .cartaoPerto {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .botaoPerto {
+    grid-column: auto;
+  }
+
+  .tituloPerto {
+    font-size: var(--text-2xl);
+  }
+}
+
 /* ---------- Seções ---------- */
 .secao {
   padding-block: var(--space-8);
