@@ -7,6 +7,12 @@ import styles from './BairroSelect.module.css';
 /** Quantos bairros mostrar enquanto a pessoa digita */
 const MAX_RESULTADOS = 8;
 
+interface Resultado {
+  bairro: BairroComReferencia;
+  /** Outra grafia que bateu com o que foi digitado, para mostrar abaixo */
+  outroNome: string | null;
+}
+
 interface BairroSelectProps {
   bairros: BairroComReferencia[];
   /** Bairro escolhido no momento (ou null) */
@@ -26,13 +32,26 @@ function BairroSelect({ bairros, selecionado, onEscolher }: BairroSelectProps) {
   const resultados = useMemo(() => {
     const termo = normalizar(filtro);
     if (!termo) return [];
-    // Primeiro os que começam com o termo, depois os que o contêm
-    const comecam: BairroComReferencia[] = [];
-    const contem: BairroComReferencia[] = [];
+    // Primeiro os que começam com o termo, depois os que o contêm.
+    // Também procura nas outras grafias ("Terras do Sul" → Terra do Sul).
+    const comecam: Resultado[] = [];
+    const contem: Resultado[] = [];
     for (const b of bairros) {
       const nome = normalizar(b.bairro);
-      if (nome.startsWith(termo)) comecam.push(b);
-      else if (nome.includes(termo)) contem.push(b);
+      const outros = b.outrosNomes.map((o) => ({ o, n: normalizar(o) }));
+      const outroComeca = outros.find(({ n }) => n.startsWith(termo));
+      const outroContem = outros.find(({ n }) => n.includes(termo));
+      // Só mostra a outra grafia quando o nome oficial não explica o resultado
+      const nomeContem = nome.includes(termo);
+      if (nome.startsWith(termo)) comecam.push({ bairro: b, outroNome: null });
+      else if (outroComeca)
+        comecam.push({
+          bairro: b,
+          outroNome: nomeContem ? null : outroComeca.o,
+        });
+      else if (nomeContem) contem.push({ bairro: b, outroNome: null });
+      else if (outroContem)
+        contem.push({ bairro: b, outroNome: outroContem.o });
     }
     return [...comecam, ...contem];
   }, [filtro, bairros]);
@@ -42,7 +61,7 @@ function BairroSelect({ bairros, selecionado, onEscolher }: BairroSelectProps) {
     onEscolher(bairro);
   }
 
-  const botao = (b: BairroComReferencia) => {
+  const botao = (b: BairroComReferencia, outroNome: string | null = null) => {
     const ativo = b.bairro === selecionado;
     return (
       <li key={b.bairro}>
@@ -57,7 +76,14 @@ function BairroSelect({ bairros, selecionado, onEscolher }: BairroSelectProps) {
           ) : (
             <MapPin aria-hidden="true" size={20} />
           )}
-          <span>{b.bairro}</span>
+          <span>
+            {b.bairro}
+            {outroNome && (
+              <span className={styles.outroNome}>
+                Também chamado de “{outroNome}”
+              </span>
+            )}
+          </span>
         </button>
       </li>
     );
@@ -100,7 +126,9 @@ function BairroSelect({ bairros, selecionado, onEscolher }: BairroSelectProps) {
           </p>
           {resultados.length > 0 && (
             <ul className={styles.lista}>
-              {resultados.slice(0, MAX_RESULTADOS).map(botao)}
+              {resultados
+                .slice(0, MAX_RESULTADOS)
+                .map((r) => botao(r.bairro, r.outroNome))}
             </ul>
           )}
         </div>
@@ -111,7 +139,7 @@ function BairroSelect({ bairros, selecionado, onEscolher }: BairroSelectProps) {
           Ver todos os bairros ({bairros.length})
         </summary>
         <ul className={`${styles.lista} ${styles.listaCompleta}`}>
-          {bairros.map(botao)}
+          {bairros.map((b) => botao(b))}
         </ul>
       </details>
     </div>

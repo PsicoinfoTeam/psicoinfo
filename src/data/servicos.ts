@@ -220,15 +220,29 @@ export async function crasDeReferencia(
 export interface BairroComReferencia {
   bairro: string;
   crasId: string;
+  /** Outras grafias que levam a este bairro (ex.: "Terras do Sul") */
+  outrosNomes: string[];
 }
 
 /** Todos os bairros que têm CRAS de referência, em ordem alfabética. */
 export async function listarBairrosComReferencia(): Promise<
   BairroComReferencia[]
 > {
+  // Cada sinônimo aponta para o nome exato de um bairro da lista
+  const outrosNomesPorBairro = new Map<string, string[]>();
+  for (const [de, para] of Object.entries(territorios.sinonimos)) {
+    outrosNomesPorBairro.set(para, [
+      ...(outrosNomesPorBairro.get(para) ?? []),
+      de,
+    ]);
+  }
   return territorios.territorios
     .flatMap(({ crasId, bairros }) =>
-      bairros.map((bairro) => ({ bairro, crasId })),
+      bairros.map((bairro) => ({
+        bairro,
+        crasId,
+        outrosNomes: outrosNomesPorBairro.get(bairro) ?? [],
+      })),
     )
     .sort((a, b) =>
       a.bairro.localeCompare(b.bairro, 'pt-BR', { numeric: true }),
