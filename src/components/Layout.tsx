@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Header from './Header';
 import AccessibilityMenu from './AccessibilityMenu';
 import styles from './Layout.module.css';
+import VLibras from '@djpfs/react-vlibras';
 
 const ID_CONTEUDO = 'conteudo';
 
@@ -29,6 +30,7 @@ function Layout() {
         <Outlet />
       </main>
       <AccessibilityMenu />
+      <VLibras />
       <Footer />
       <ScrollRestoration />
     </div>

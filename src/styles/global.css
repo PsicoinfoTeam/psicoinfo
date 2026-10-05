@@ -318,24 +318,3 @@ strong {
   }
 }
 
-/* Preferências de acessibilidade */
-
-html[data-font-size='110'] {
-  font-size: 110%;
-}
-
-html[data-font-size='120'] {
-  font-size: 120%;
-}
-
-html[data-font-size='130'] {
-  font-size: 130%;
-}
-
-html[data-font-size='140'] {
-  font-size: 140%;
-}
-
-html[data-font-size='150'] {
-  font-size: 150%;
-}

@@ -77,12 +77,16 @@
 .opcao {
   display: grid;
   gap: var(--space-2);
+  min-width: 0;
+  padding: 0;
+  border: 0;
 }
 
 .rotulo {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  padding: 0;
   color: var(--color-heading);
   font-weight: var(--weight-bold);
 }

@@ -1,18 +1,33 @@
 import { Accessibility, Contrast, Info, Type, X } from 'lucide-react';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import styles from './AccessibilityMenu.module.css';
 
 const TAMANHO_MINIMO = 100;
 const TAMANHO_MAXIMO = 150;
 const PASSO_TAMANHO = 10;
 
+function lerLocalStorage(chave: string) {
+  try {
+    return localStorage.getItem(chave);
+  } catch {
+    return null;
+  }
+}
+
+function salvarLocalStorage(chave: string, valor: string) {
+  try {
+    localStorage.setItem(chave, valor);
+  } catch {
+    // Mantém a funcionalidade mesmo sem armazenamento local.
+  }
+}
+
 function AccessibilityMenu() {
   const [aberto, setAberto] = useState(false);
+  const [mensagemAcessibilidade, setMensagemAcessibilidade] = useState('');
 
   const [tamanhoFonte, setTamanhoFonte] = useState(() => {
-    const tamanhoSalvo = Number(
-      localStorage.getItem('psicoinfo-tamanho-fonte'),
-    );
+    const tamanhoSalvo = Number(lerLocalStorage('psicoinfo-tamanho-fonte'));
 
     if (tamanhoSalvo >= TAMANHO_MINIMO && tamanhoSalvo <= TAMANHO_MAXIMO) {
       return tamanhoSalvo;
@@ -22,22 +37,19 @@ function AccessibilityMenu() {
   });
 
   const [altoContraste, setAltoContraste] = useState(
-    () => localStorage.getItem('psicoinfo-alto-contraste') === 'true',
+    () => lerLocalStorage('psicoinfo-alto-contraste') === 'true',
   );
 
   const idMenu = useId();
-  const refMenu = useRef<HTMLDivElement>(null);
+  const refMenu = useRef<HTMLElement>(null);
   const refBotao = useRef<HTMLButtonElement>(null);
 
   // Sincroniza as preferências de acessibilidade com o documento.
-  useEffect(() => {
-    if (tamanhoFonte === 100) {
-      delete document.documentElement.dataset.fontSize;
-    } else {
-      document.documentElement.dataset.fontSize = String(tamanhoFonte);
-    }
+  useLayoutEffect(() => {
+    const html = document.documentElement;
 
-    document.documentElement.classList.toggle('alto-contraste', altoContraste);
+    html.style.fontSize = tamanhoFonte === 100 ? '' : `${tamanhoFonte}%`;
+    html.classList.toggle('alto-contraste', altoContraste);
   }, [tamanhoFonte, altoContraste]);
 
   // Com o menu aberto: Esc fecha e devolve o foco ao botão; tocar fora fecha.
@@ -73,18 +85,26 @@ function AccessibilityMenu() {
     );
 
     setTamanhoFonte(tamanho);
-    localStorage.setItem('psicoinfo-tamanho-fonte', String(tamanho));
+    setMensagemAcessibilidade(`Tamanho do texto: ${tamanho}%`);
+    salvarLocalStorage('psicoinfo-tamanho-fonte', String(tamanho));
   }
 
   function alternarContraste() {
     const novoValor = !altoContraste;
 
     setAltoContraste(novoValor);
-    localStorage.setItem('psicoinfo-alto-contraste', String(novoValor));
+    setMensagemAcessibilidade(
+      novoValor ? 'Alto contraste ativado' : 'Alto contraste desativado',
+    );
+    salvarLocalStorage('psicoinfo-alto-contraste', String(novoValor));
   }
 
   return (
-    <div ref={refMenu} className={styles.container}>
+    <aside
+      ref={refMenu}
+      className={styles.container}
+      aria-label="Acessibilidade"
+    >
       <button
         ref={refBotao}
         type="button"
@@ -115,11 +135,11 @@ function AccessibilityMenu() {
             </button>
           </div>
 
-          <div className={styles.opcao}>
-            <div className={styles.rotulo}>
+          <fieldset className={styles.opcao}>
+            <legend className={styles.rotulo}>
               <Type aria-hidden="true" size={22} />
               <span>Tamanho do texto</span>
-            </div>
+            </legend>
 
             <div className={styles.controlesFonte}>
               <button
@@ -152,7 +172,7 @@ function AccessibilityMenu() {
                 Padrão
               </button>
             </div>
-          </div>
+          </fieldset>
 
           <button
             type="button"
@@ -160,7 +180,7 @@ function AccessibilityMenu() {
             aria-pressed={altoContraste}
             onClick={alternarContraste}
           >
-            <Contrast aria-hidden="true" size={13} />
+            <Contrast aria-hidden="true" size={22} />
             <span>Alto contraste</span>
           </button>
 
@@ -170,7 +190,10 @@ function AccessibilityMenu() {
           </p>
         </div>
       )}
-    </div>
+      <span className="visually-hidden" aria-live="polite">
+        {mensagemAcessibilidade}
+      </span>
+    </aside>
   );
 }
 
