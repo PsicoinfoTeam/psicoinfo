@@ -1,0 +1,28 @@
+.carregando {
+  min-height: 60vh;
+}
+
+.erro {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  margin-block: var(--space-7);
+  font-size: var(--text-lg);
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: var(--weight-bold);
+}
+
+.botao:hover {
+  background-color: var(--color-primary-hover);
+}

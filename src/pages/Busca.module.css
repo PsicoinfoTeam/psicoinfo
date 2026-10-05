@@ -13,6 +13,10 @@
   overflow-wrap: anywhere;
 }
 
+.pertoDeMim {
+  margin-bottom: var(--space-4);
+}
+
 .total {
   display: block;
   margin-bottom: var(--space-4);

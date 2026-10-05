@@ -6,7 +6,7 @@
 // Usa só a camada de acesso (servicos.ts), nunca o JSON direto.
 
 import type { Categoria, Servico } from '../types';
-import { buscarCategoria, listarCategorias, listarServicos } from './servicos';
+import { listarCategorias, listarServicos } from './servicos';
 
 /** Pontos de cada campo. Maior = mais importante. */
 const PESOS = {
@@ -69,21 +69,29 @@ function indexar(...textos: (string | null)[]): CampoIndexado {
   return { frase, palavras: separarPalavras(frase.replace(/ \| /g, ' ')) };
 }
 
-let indice: ServicoIndexado[] | null = null;
+let indice: Promise<ServicoIndexado[]> | null = null;
 
-function obterIndice(): ServicoIndexado[] {
-  indice ??= listarServicos().map((servico) => ({
-    servico,
-    campos: {
-      nome: indexar(servico.nome, servico.sigla),
-      bairro: indexar(servico.bairro),
-      tags: indexar(...servico.tags),
-      categorias: indexar(
-        ...servico.categorias.map((id) => buscarCategoria(id)?.nome ?? null),
-      ),
-      textos: indexar(servico.paraQueServe, ...servico.oQueEncontra),
-    },
-  }));
+/** Monta o índice uma vez (na primeira busca) e reaproveita depois. */
+function obterIndice(): Promise<ServicoIndexado[]> {
+  indice ??= (async () => {
+    const [servicos, categorias] = await Promise.all([
+      listarServicos(),
+      listarCategorias(),
+    ]);
+    const nomeDaCategoria = new Map(categorias.map((c) => [c.id, c.nome]));
+    return servicos.map((servico) => ({
+      servico,
+      campos: {
+        nome: indexar(servico.nome, servico.sigla),
+        bairro: indexar(servico.bairro),
+        tags: indexar(...servico.tags),
+        categorias: indexar(
+          ...servico.categorias.map((id) => nomeDaCategoria.get(id) ?? null),
+        ),
+        textos: indexar(servico.paraQueServe, ...servico.oQueEncontra),
+      },
+    }));
+  })();
   return indice;
 }
 
@@ -151,11 +159,15 @@ export type RespostaBusca =
   | { tipo: 'sem-resultado'; termo: string; alternativas: GrupoPorCategoria[] };
 
 /** Serviços que atendem toda Petrolina (municipais ou regionais), por categoria. */
-export function servicosDaCidadeToda(): GrupoPorCategoria[] {
-  const daCidade = listarServicos().filter(
+export async function servicosDaCidadeToda(): Promise<GrupoPorCategoria[]> {
+  const [servicos, categorias] = await Promise.all([
+    listarServicos(),
+    listarCategorias(),
+  ]);
+  const daCidade = servicos.filter(
     (s) => s.abrangencia === 'municipal' || s.abrangencia === 'regional',
   );
-  return listarCategorias()
+  return categorias
     .map((categoria) => ({
       categoria,
       servicos: daCidade.filter((s) => s.categoriaPrincipal === categoria.id),
@@ -163,13 +175,13 @@ export function servicosDaCidadeToda(): GrupoPorCategoria[] {
     .filter((grupo) => grupo.servicos.length > 0);
 }
 
-export function buscar(termoDigitado: string): RespostaBusca {
+export async function buscar(termoDigitado: string): Promise<RespostaBusca> {
   const termo = termoDigitado.trim();
   const palavras = palavrasDaBusca(termo);
   if (palavras.length === 0) return { tipo: 'vazia' };
 
   const frase = normalizar(termo);
-  const encontrados = obterIndice()
+  const encontrados = (await obterIndice())
     .map((item) => ({
       servico: item.servico,
       pontos: pontuar(item, palavras, frase),
@@ -185,7 +197,7 @@ export function buscar(termoDigitado: string): RespostaBusca {
     return {
       tipo: 'sem-resultado',
       termo,
-      alternativas: servicosDaCidadeToda(),
+      alternativas: await servicosDaCidadeToda(),
     };
   }
   return {
