@@ -210,8 +210,7 @@ button {
 /* Palavras longas quebram quando não cabem (fonte grande no celular,
    telas de 320px). Sem isso, "Assistência" em 36px empurra a página. */
 body {
-  overflow-wrap: break-word;
-  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 #root {
@@ -321,10 +320,6 @@ strong {
 
 /* Preferências de acessibilidade */
 
-html[data-font-size='90'] {
-  font-size: 90%;
-}
-
 html[data-font-size='110'] {
   font-size: 110%;
 }
@@ -333,26 +328,14 @@ html[data-font-size='120'] {
   font-size: 120%;
 }
 
-html.alto-contraste {
-  --color-bg: var(--color-white);
-  --color-surface: var(--color-white);
-  --color-surface-alt: var(--color-yellow-100);
-  --color-border: var(--color-blue-950);
+html[data-font-size='130'] {
+  font-size: 130%;
+}
 
-  --color-text: var(--color-blue-950);
-  --color-text-muted: var(--color-blue-950);
-  --color-heading: var(--color-blue-950);
+html[data-font-size='140'] {
+  font-size: 140%;
+}
 
-  --color-link: var(--color-blue-950);
-  --color-link-hover: var(--color-blue-800);
-
-  --color-primary: var(--color-blue-950);
-  --color-primary-hover: var(--color-blue-800);
-  --color-on-primary: var(--color-white);
-
-  --color-accent: var(--color-yellow-500);
-  --color-on-accent: var(--color-blue-950);
-
-  --color-focus-inner: var(--color-blue-950);
-  --color-focus-outer: var(--color-yellow-500);
+html[data-font-size='150'] {
+  font-size: 150%;
 }

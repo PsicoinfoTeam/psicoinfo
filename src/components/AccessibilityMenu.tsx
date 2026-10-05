@@ -2,8 +2,8 @@ import { Accessibility, Contrast, Info, Type, X } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import styles from './AccessibilityMenu.module.css';
 
-const TAMANHO_MINIMO = 90;
-const TAMANHO_MAXIMO = 120;
+const TAMANHO_MINIMO = 100;
+const TAMANHO_MAXIMO = 150;
 const PASSO_TAMANHO = 10;
 
 function AccessibilityMenu() {
