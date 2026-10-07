@@ -16,3 +16,10 @@ export type {
   Sobre,
 } from './dados';
 export type { TerritorioCras, TerritoriosCras } from './territorios';
+export type {
+  Curso,
+  EnquadramentoFoto,
+  FotoIntegrante,
+  GrupoEquipe,
+  Integrante,
+} from './equipe';

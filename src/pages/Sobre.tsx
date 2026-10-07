@@ -3,11 +3,14 @@ import {
   HandHeart,
   Search,
   TriangleAlert,
+  Users,
 } from 'lucide-react';
 import logo from '../assets/logo-psicoinfo.png';
 import Breadcrumb from '../components/Breadcrumb';
 import Container from '../components/Container';
 import InfoSection from '../components/InfoSection';
+import TeamMember from '../components/TeamMember';
+import { listarEquipePorCurso } from '../data/equipe';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Sobre.module.css';
 
@@ -20,6 +23,7 @@ const PASSOS = [
 
 function Sobre() {
   useTituloPagina('Sobre o PsicoInfo');
+  const equipe = listarEquipePorCurso();
 
   return (
     <div className={styles.pagina}>
@@ -79,6 +83,29 @@ function Sobre() {
                 Em emergência, ligue <a href="tel:192">192 (SAMU)</a> ou{' '}
                 <a href="tel:190">190 (Polícia)</a>.
               </p>
+            </InfoSection>
+
+            <InfoSection
+              id="bloco-equipe"
+              titulo="Equipe do projeto"
+              icone={Users}
+            >
+              {equipe.map((grupo) => (
+                <div key={grupo.curso} className={styles.grupoEquipe}>
+                  <h3 className={styles.tituloGrupo}>{grupo.nomeCurso}</h3>
+                  <ul className={styles.integrantes}>
+                    {grupo.integrantes.map((integrante) => (
+                      <li key={integrante.nome}>
+                        <TeamMember
+                          nome={integrante.nome}
+                          subtitulo={grupo.subtitulo}
+                          foto={integrante.foto}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </InfoSection>
           </div>
           <InfoSection
