@@ -1,0 +1,31 @@
+.botaoVoltar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  padding: 0 var(--space-4);
+  min-height: var(--tap-target);
+  margin-bottom: var(--space-4);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast) var(--ease);
+}
+
+.botaoVoltar:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-link);
+  border-color: var(--color-blue-100);
+  box-shadow: var(--shadow-md);
+}
+
+.botaoVoltar svg {
+  width: 18px;
+  height: 18px;
+}
+

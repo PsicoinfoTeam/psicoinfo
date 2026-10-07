@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
 import FaqItem from '../components/FaqItem';
 import styles from './Faq.module.css';
 
@@ -33,9 +33,7 @@ export default function Faq() {
   return (
     <main className={styles.container}>
       <div className={styles.cabecalho}>
-        <Link to="/" className={styles.breadcrumb}>
-          Início
-        </Link>
+        <Breadcrumb />
         <h1 className={styles.titulo}>Perguntas frequentes</h1>
         <p className={styles.subtitulo}>
           Reunimos as dúvidas mais comuns sobre os serviços públicos de Petrolina.<br/>

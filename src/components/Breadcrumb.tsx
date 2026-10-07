@@ -1,6 +1,6 @@
-import { ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import styles from './Breadcrumb.module.css';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import styles from './BotaoVoltar.module.css';
 
 export interface ItemTrilha {
   rotulo: string;
@@ -8,26 +8,26 @@ export interface ItemTrilha {
 }
 
 interface BreadcrumbProps {
-  /** Páginas acima da atual; "Início" já vem incluído. */
   itens?: ItemTrilha[];
 }
 
-/** Trilha "Início › ..." para a pessoa saber onde está e voltar. */
-function Breadcrumb({ itens = [] }: BreadcrumbProps) {
-  const todos = [{ rotulo: 'Início', caminho: '/' }, ...itens];
+/** 
+ * Substituiu a trilha antiga por um botão de voltar, 
+ * mantendo a interface para não quebrar outras páginas.
+ */
+function Breadcrumb(_props: BreadcrumbProps) {
+  const navigate = useNavigate();
 
   return (
-    <nav aria-label="Você está em" className={styles.trilha}>
-      <ol className={styles.lista}>
-        {todos.map((item, indice) => (
-          <li key={item.caminho} className={styles.item}>
-            {indice > 0 && <ChevronRight aria-hidden="true" size={18} />}
-            <Link to={item.caminho} className={styles.link}>
-              {item.rotulo}
-            </Link>
-          </li>
-        ))}
-      </ol>
+    <nav aria-label="Navegação secundária">
+      <button 
+        onClick={() => navigate(-1)} 
+        className={styles.botaoVoltar}
+        aria-label="Voltar para a página anterior"
+      >
+        <ArrowLeft size={18} aria-hidden="true" />
+        <span>Voltar</span>
+      </button>
     </nav>
   );
 }
