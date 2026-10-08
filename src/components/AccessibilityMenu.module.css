@@ -21,7 +21,7 @@
 }
 
 .botaoAcessibilidade:hover,
-.botaoAcessibilidade[aria-expanded="true"] {
+.botaoAcessibilidade[aria-expanded='true'] {
   background-color: var(--color-primary-hover);
 }
 
@@ -149,7 +149,7 @@
   background-color: var(--color-surface-alt);
 }
 
-.opcaoBotao[aria-pressed="true"] {
+.opcaoBotao[aria-pressed='true'] {
   border-color: var(--color-primary);
   background-color: var(--color-surface-alt);
 }
