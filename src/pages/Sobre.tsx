@@ -21,6 +21,17 @@ const PASSOS = [
   'Ligue antes de ir ou toque em "Ver no mapa" para saber como chegar.',
 ];
 
+const INTEGRANTES = [
+  'Enzo Lima',
+  'Igor Macêdo',
+  'João Victor Vasconcelos',
+  'Josilene Alves',
+  'Lara Gonzalez',
+  'Maria Clara Granja',
+  'Maria Luísa Bompastor',
+  'Waitusy de Araújo',
+];
+
 function Sobre() {
   useTituloPagina('Sobre o PsicoInfo');
   const equipe = listarEquipePorCurso();
@@ -68,6 +79,7 @@ function Sobre() {
                 fontes oficiais e públicas disponíveis na internet, buscando
                 garantir a confiabilidade e a atualização dos dados.
               </p>
+              <p className={styles.aviso}>Atualizado em: outubro de 2026.</p>
             </InfoSection>
 
             <InfoSection
@@ -131,17 +143,17 @@ function Sobre() {
               Foi a partir desse olhar que surgiu a parceria entre os cursos de{' '}
               <strong>Psicologia</strong> e{' '}
               <strong>Ciência da Computação</strong> da FACAPE. Unimos
-              conhecimentos de diferentes áreas para transformar essa proposta em
-              uma ferramenta acessível, prática e voltada para a comunidade.
+              conhecimentos de diferentes áreas para transformar essa proposta
+              em uma ferramenta acessível, prática e voltada para a comunidade.
             </p>
             <p>
               Assim nasceu o PsicoInfo, um site desenvolvido em parceria pelos
               dois cursos, com o propósito de facilitar o acesso da população de
-              Petrolina a informações sobre serviços públicos, saúde, assistência
-              social e outros recursos disponíveis no município. Mais do que
-              reunir informações, o PsicoInfo busca aproximar a comunidade dos
-              serviços que podem fazer parte do cuidado e da garantia de
-              direitos.
+              Petrolina a informações sobre serviços públicos, saúde,
+              assistência social e outros recursos disponíveis no município.
+              Mais do que reunir informações, o PsicoInfo busca aproximar a
+              comunidade dos serviços que podem fazer parte do cuidado e da
+              garantia de direitos.
             </p>
             <p>
               O PsicoInfo é um projeto acadêmico desenvolvido por estudantes da
@@ -152,6 +164,29 @@ function Sobre() {
               objetivo de facilitar o acesso da população aos serviços
               disponíveis no município.
             </p>
+          </InfoSection>
+        </div>
+        <div className={styles.equipe}>
+          <InfoSection
+            id="bloco-equipe"
+            titulo="Equipe do projeto"
+            icone={Users}
+          >
+            <p>
+              O PsicoInfo é desenvolvido por estudantes da FACAPE, com
+              orientação docente.
+            </p>
+
+            <h3 className={styles.subtituloEquipe}>Estudantes</h3>
+
+            <ul className={styles.integrantes}>
+              {INTEGRANTES.map((nome) => (
+                <li key={nome}>{nome}</li>
+              ))}
+            </ul>
+
+            <h3 className={styles.subtituloEquipe}>Docente responsável</h3>
+            <p className={styles.docente}>Layta Ribeiro</p>
           </InfoSection>
         </div>
       </Container>
