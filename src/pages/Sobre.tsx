@@ -9,6 +9,8 @@ import logo from '../assets/logo-psicoinfo.png';
 import Breadcrumb from '../components/Breadcrumb';
 import Container from '../components/Container';
 import InfoSection from '../components/InfoSection';
+import TeamMember from '../components/TeamMember';
+import { listarEquipePorCurso } from '../data/equipe';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Sobre.module.css';
 
@@ -19,19 +21,9 @@ const PASSOS = [
   'Ligue antes de ir ou toque em "Ver no mapa" para saber como chegar.',
 ];
 
-const INTEGRANTES = [
-  'Enzo Lima',
-  'Igor Macêdo',
-  'João Victor Vasconcelos',
-  'Josilene Alves',
-  'Lara Gonzalez',
-  'Maria Clara Granja',
-  'Maria Luísa Bompastor',
-  'Waitusy de Araújo',
-];
-
 function Sobre() {
   useTituloPagina('Sobre o PsicoInfo');
+  const equipe = listarEquipePorCurso();
 
   return (
     <div className={styles.pagina}>
@@ -93,6 +85,40 @@ function Sobre() {
                 <a href="tel:190">190 (Polícia)</a>.
               </p>
             </InfoSection>
+
+            <InfoSection
+              id="bloco-equipe"
+              titulo="Equipe do projeto"
+              icone={Users}
+            >
+              <p>
+                O PsicoInfo é desenvolvido por estudantes da FACAPE, com
+                orientação docente.
+              </p>
+              {equipe.map((grupo) => (
+                <div key={grupo.curso} className={styles.grupoEquipe}>
+                  <h3 className={styles.tituloGrupo}>{grupo.nomeCurso}</h3>
+                  <ul className={styles.integrantes}>
+                    {grupo.integrantes.map((integrante) => (
+                      <li key={integrante.nome}>
+                        <TeamMember
+                          nome={integrante.nome}
+                          subtitulo={grupo.subtitulo}
+                          foto={integrante.foto}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              <div className={styles.grupoEquipe}>
+                <h3 className={styles.tituloGrupo}>Docente responsável</h3>
+                <TeamMember
+                  nome="Layta Ribeiro"
+                  subtitulo="Orientação do projeto"
+                />
+              </div>
+            </InfoSection>
           </div>
           <InfoSection
             id="bloco-origem"
@@ -138,29 +164,6 @@ function Sobre() {
               objetivo de facilitar o acesso da população aos serviços
               disponíveis no município.
             </p>
-          </InfoSection>
-        </div>
-        <div className={styles.equipe}>
-          <InfoSection
-            id="bloco-equipe"
-            titulo="Equipe do projeto"
-            icone={Users}
-          >
-            <p>
-              O PsicoInfo é desenvolvido por estudantes da FACAPE, com
-              orientação docente.
-            </p>
-
-            <h3 className={styles.subtituloEquipe}>Estudantes</h3>
-
-            <ul className={styles.integrantes}>
-              {INTEGRANTES.map((nome) => (
-                <li key={nome}>{nome}</li>
-              ))}
-            </ul>
-
-            <h3 className={styles.subtituloEquipe}>Docente responsável</h3>
-            <p className={styles.docente}>Layta Ribeiro</p>
           </InfoSection>
         </div>
       </Container>
