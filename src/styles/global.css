@@ -209,12 +209,10 @@ button {
 
 /* Palavras longas quebram quando não cabem (fonte grande no celular,
    telas de 320px). Sem isso, "Assistência" em 36px empurra a página. */
-body {
-  overflow-wrap: anywhere;
-}
 
 #root {
   isolation: isolate;
+  overflow-wrap: anywhere;
 }
 
 /* --------------------------------------------------------------------------
