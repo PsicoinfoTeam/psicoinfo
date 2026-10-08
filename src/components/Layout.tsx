@@ -1,12 +1,11 @@
-import type { MouseEvent } from 'react';
-import { Outlet, ScrollRestoration } from 'react-router-dom';
-import Footer from './Footer';
-import Header from './Header';
-import AccessibilityMenu from './AccessibilityMenu';
-import styles from './Layout.module.css';
-import VLibras from '@djpfs/react-vlibras';
+import type { MouseEvent } from "react";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import Footer from "./Footer";
+import Header from "./Header";
+import AccessibilityMenu from "./AccessibilityMenu";
+import styles from "./Layout.module.css";
 
-const ID_CONTEUDO = 'conteudo';
+const ID_CONTEUDO = "conteudo";
 
 // Estrutura comum a todas as páginas.
 function Layout() {
@@ -30,7 +29,6 @@ function Layout() {
         <Outlet />
       </main>
       <AccessibilityMenu />
-      <VLibras />
       <Footer />
       <ScrollRestoration />
     </div>

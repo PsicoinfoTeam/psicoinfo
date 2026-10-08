@@ -1,9 +1,8 @@
 .container {
   position: fixed;
-  top: calc(50% - 4rem);
+  top: calc(50% - 4rem - var(--tap-target) / 2);
   right: 0;
   z-index: var(--z-menu);
-  transform: translateY(-50%);
 }
 
 .botaoAcessibilidade {
@@ -22,20 +21,20 @@
 }
 
 .botaoAcessibilidade:hover,
-.botaoAcessibilidade[aria-expanded='true'] {
+.botaoAcessibilidade[aria-expanded="true"] {
   background-color: var(--color-primary-hover);
 }
 
 .menu {
-  position: absolute;
+  position: fixed;
   top: 50%;
-  right: calc(100% + var(--space-2));
+  right: var(--space-4);
+  left: var(--space-4);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
-  width: min(
-    20rem,
-    calc(100vw - var(--tap-target) - var(--space-2) - var(--space-4))
-  );
+  max-height: calc(100dvh - var(--space-6));
+  overflow-y: auto;
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -43,6 +42,7 @@
   box-shadow: var(--shadow-lg);
   color: var(--color-text);
   font-size: var(--text-sm);
+  overflow-wrap: break-word;
   transform: translateY(-50%);
 }
 
@@ -55,6 +55,10 @@
   border-bottom: 1px solid var(--color-border);
   color: var(--color-heading);
   font-size: var(--text-base);
+}
+
+.cabecalho strong {
+  min-width: 0;
 }
 
 .botaoFechar {
@@ -97,12 +101,13 @@
 }
 
 .controlesFonte {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2);
 }
 
 .controlesFonte button {
+  flex: 1 0 auto;
   min-height: var(--tap-target);
   padding-inline: var(--space-3);
   border: 1px solid var(--color-border);
@@ -144,7 +149,7 @@
   background-color: var(--color-surface-alt);
 }
 
-.opcaoBotao[aria-pressed='true'] {
+.opcaoBotao[aria-pressed="true"] {
   border-color: var(--color-primary);
   background-color: var(--color-surface-alt);
 }
@@ -164,4 +169,12 @@
   flex-shrink: 0;
   margin-top: 0.15em;
   color: var(--color-text-muted);
+}
+
+@media (min-width: 600px) {
+  .menu {
+    right: calc(var(--tap-target) + var(--space-2));
+    left: auto;
+    width: 20rem;
+  }
 }
