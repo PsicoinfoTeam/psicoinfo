@@ -74,8 +74,9 @@
   --color-focus-outer: var(--color-yellow-500);
 
   /* Tipografia */
-  --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI',
-    Roboto, sans-serif;
+  --font-body:
+    'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
   --font-display: 'Saira Condensed', 'Arial Narrow', system-ui, sans-serif;
 
   /* Escala em rem: respeita o tamanho de fonte que a pessoa escolheu no celular.
@@ -208,12 +209,10 @@ button {
 
 /* Palavras longas quebram quando não cabem (fonte grande no celular,
    telas de 320px). Sem isso, "Assistência" em 36px empurra a página. */
-body {
-  overflow-wrap: anywhere;
-}
 
 #root {
   isolation: isolate;
+  overflow-wrap: anywhere;
 }
 
 /* --------------------------------------------------------------------------
@@ -315,4 +314,30 @@ strong {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Preferências de acessibilidade */
+
+html.alto-contraste {
+  --color-bg: var(--color-white);
+  --color-surface: var(--color-white);
+  --color-surface-alt: var(--color-yellow-100);
+  --color-border: var(--color-blue-950);
+
+  --color-text: var(--color-blue-950);
+  --color-text-muted: var(--color-blue-950);
+  --color-heading: var(--color-blue-950);
+
+  --color-link: var(--color-blue-950);
+  --color-link-hover: var(--color-blue-800);
+
+  --color-primary: var(--color-blue-950);
+  --color-primary-hover: var(--color-blue-800);
+  --color-on-primary: var(--color-white);
+
+  --color-accent: var(--color-yellow-500);
+  --color-on-accent: var(--color-blue-950);
+
+  --color-focus-inner: var(--color-blue-950);
+  --color-focus-outer: var(--color-yellow-500);
 }
