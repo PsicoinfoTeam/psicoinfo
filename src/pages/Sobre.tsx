@@ -5,7 +5,7 @@ import {
   TriangleAlert,
 } from 'lucide-react';
 import logo from '../assets/logo-psicoinfo.png';
-import Breadcrumb from '../components/Breadcrumb';
+import BackButton from '../components/BackButton';
 import Container from '../components/Container';
 import InfoSection from '../components/InfoSection';
 import { useTituloPagina } from '../hooks/useTituloPagina';
@@ -24,7 +24,7 @@ function Sobre() {
   return (
     <div className={styles.pagina}>
       <Container>
-        <Breadcrumb />
+        <BackButton />
 
         <header className={styles.cabecalho}>
           <img

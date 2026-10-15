@@ -14,7 +14,10 @@
   cursor: pointer;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
-  transition: all var(--duration-fast) var(--ease);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
 }
 
 .botaoVoltar:hover {
@@ -23,9 +26,3 @@
   border-color: var(--color-blue-100);
   box-shadow: var(--shadow-md);
 }
-
-.botaoVoltar svg {
-  width: 18px;
-  height: 18px;
-}
-
