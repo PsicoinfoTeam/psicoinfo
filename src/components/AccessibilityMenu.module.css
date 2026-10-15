@@ -1,40 +1,55 @@
-.container {
-  position: fixed;
-  top: calc(50% - 4rem - var(--tap-target) / 2);
-  right: 0;
-  z-index: var(--z-menu);
+.faixa {
+  background-color: var(--color-bg);
+}
+
+/* Mesma largura e margens do conteúdo; o botão fica à direita */
+.conteudo {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-1) var(--gutter);
 }
 
 .botaoAcessibilidade {
-  display: grid;
-  place-items: center;
-  width: var(--tap-target);
-  height: var(--tap-target);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
   transition:
     background-color var(--duration-fast) var(--ease),
     color var(--duration-fast) var(--ease);
 }
 
-.botaoAcessibilidade:hover,
-.botaoAcessibilidade[aria-expanded='true'] {
-  background-color: var(--color-primary-hover);
+.botaoAcessibilidade svg {
+  flex-shrink: 0;
 }
 
+.botaoAcessibilidade:hover,
+.botaoAcessibilidade[aria-expanded='true'] {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Abre logo abaixo do botão, por cima do conteúdo */
 .menu {
-  position: fixed;
-  top: 50%;
-  right: var(--space-4);
-  left: var(--space-4);
+  position: absolute;
+  top: calc(100% - var(--space-1));
+  right: var(--gutter);
+  z-index: var(--z-menu);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
-  max-height: calc(100dvh - var(--space-6));
-  overflow-y: auto;
+  width: min(20rem, calc(100% - var(--gutter) * 2));
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -43,7 +58,6 @@
   color: var(--color-text);
   font-size: var(--text-sm);
   overflow-wrap: break-word;
-  transform: translateY(-50%);
 }
 
 .cabecalho {
@@ -169,12 +183,4 @@
   flex-shrink: 0;
   margin-top: 0.15em;
   color: var(--color-text-muted);
-}
-
-@media (min-width: 600px) {
-  .menu {
-    right: calc(var(--tap-target) + var(--space-2));
-    left: auto;
-    width: 20rem;
-  }
 }

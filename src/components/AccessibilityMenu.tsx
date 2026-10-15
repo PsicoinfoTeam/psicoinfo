@@ -1,4 +1,4 @@
-import { Accessibility, Contrast, Info, Type, X } from 'lucide-react';
+import { ALargeSmall, Contrast, Info, Type, X } from 'lucide-react';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import styles from './AccessibilityMenu.module.css';
 
@@ -22,6 +22,12 @@ function salvarLocalStorage(chave: string, valor: string) {
   }
 }
 
+/**
+ * Faixa logo abaixo do cabeçalho com o botão "Aumentar a letra", que abre as
+ * opções de tamanho do texto e alto contraste. Fica sempre à vista (não dentro
+ * do Menu) e não flutua por cima do conteúdo: quem não está acostumado com
+ * internet precisa ver a opção sem procurar.
+ */
 function AccessibilityMenu() {
   const [aberto, setAberto] = useState(false);
   const [mensagemAcessibilidade, setMensagemAcessibilidade] = useState('');
@@ -41,7 +47,7 @@ function AccessibilityMenu() {
   );
 
   const idMenu = useId();
-  const refMenu = useRef<HTMLElement>(null);
+  const refMenu = useRef<HTMLDivElement>(null);
   const refBotao = useRef<HTMLButtonElement>(null);
 
   // Sincroniza as preferências de acessibilidade com o documento.
@@ -100,96 +106,94 @@ function AccessibilityMenu() {
   }
 
   return (
-    <aside
-      ref={refMenu}
-      className={styles.container}
-      aria-label="Acessibilidade"
-    >
-      <button
-        ref={refBotao}
-        type="button"
-        className={styles.botaoAcessibilidade}
-        aria-label="Abrir menu de acessibilidade"
-        aria-expanded={aberto}
-        aria-controls={idMenu}
-        onClick={() => setAberto((valor) => !valor)}
-      >
-        <Accessibility aria-hidden="true" size={24} />
-      </button>
+    <aside className={styles.faixa} aria-label="Letra e contraste">
+      <div ref={refMenu} className={styles.conteudo}>
+        <button
+          ref={refBotao}
+          type="button"
+          className={styles.botaoAcessibilidade}
+          aria-expanded={aberto}
+          aria-controls={idMenu}
+          onClick={() => setAberto((valor) => !valor)}
+        >
+          <ALargeSmall aria-hidden="true" size={24} />
+          <span>Aumentar a letra</span>
+        </button>
 
-      {aberto && (
-        <div id={idMenu} className={styles.menu}>
-          <div className={styles.cabecalho}>
-            <strong>Acessibilidade</strong>
+        {aberto && (
+          <div id={idMenu} className={styles.menu}>
+            <div className={styles.cabecalho}>
+              <strong>Letra e contraste</strong>
+
+              <button
+                type="button"
+                className={styles.botaoFechar}
+                aria-label="Fechar opções de letra e contraste"
+                onClick={() => {
+                  setAberto(false);
+                  refBotao.current?.focus();
+                }}
+              >
+                <X aria-hidden="true" size={22} />
+              </button>
+            </div>
+
+            <fieldset className={styles.opcao}>
+              <legend className={styles.rotulo}>
+                <Type aria-hidden="true" size={22} />
+                <span>Tamanho do texto</span>
+              </legend>
+
+              <div className={styles.controlesFonte}>
+                <button
+                  type="button"
+                  aria-label="Diminuir tamanho do texto"
+                  disabled={tamanhoFonte === TAMANHO_MINIMO}
+                  onClick={() =>
+                    alterarTamanhoFonte(tamanhoFonte - PASSO_TAMANHO)
+                  }
+                >
+                  A−
+                </button>
+
+                <button
+                  type="button"
+                  aria-label="Aumentar tamanho do texto"
+                  disabled={tamanhoFonte === TAMANHO_MAXIMO}
+                  onClick={() =>
+                    alterarTamanhoFonte(tamanhoFonte + PASSO_TAMANHO)
+                  }
+                >
+                  A+
+                </button>
+
+                <button
+                  type="button"
+                  disabled={tamanhoFonte === 100}
+                  onClick={() => alterarTamanhoFonte(100)}
+                >
+                  Padrão
+                </button>
+              </div>
+            </fieldset>
 
             <button
               type="button"
-              className={styles.botaoFechar}
-              aria-label="Fechar menu de acessibilidade"
-              onClick={() => {
-                setAberto(false);
-                refBotao.current?.focus();
-              }}
+              className={styles.opcaoBotao}
+              aria-pressed={altoContraste}
+              onClick={alternarContraste}
             >
-              <X aria-hidden="true" size={22} />
+              <Contrast aria-hidden="true" size={22} />
+              <span>Alto contraste</span>
             </button>
+
+            <p className={styles.observacao}>
+              <Info aria-hidden="true" size={16} />
+              Suas preferências de acessibilidade ficam salvas neste navegador.
+            </p>
           </div>
-
-          <fieldset className={styles.opcao}>
-            <legend className={styles.rotulo}>
-              <Type aria-hidden="true" size={22} />
-              <span>Tamanho do texto</span>
-            </legend>
-
-            <div className={styles.controlesFonte}>
-              <button
-                type="button"
-                aria-label="Diminuir tamanho do texto"
-                disabled={tamanhoFonte === TAMANHO_MINIMO}
-                onClick={() =>
-                  alterarTamanhoFonte(tamanhoFonte - PASSO_TAMANHO)
-                }
-              >
-                A−
-              </button>
-
-              <button
-                type="button"
-                aria-label="Aumentar tamanho do texto"
-                disabled={tamanhoFonte === TAMANHO_MAXIMO}
-                onClick={() =>
-                  alterarTamanhoFonte(tamanhoFonte + PASSO_TAMANHO)
-                }
-              >
-                A+
-              </button>
-
-              <button
-                type="button"
-                disabled={tamanhoFonte === 100}
-                onClick={() => alterarTamanhoFonte(100)}
-              >
-                Padrão
-              </button>
-            </div>
-          </fieldset>
-
-          <button
-            type="button"
-            className={styles.opcaoBotao}
-            aria-pressed={altoContraste}
-            onClick={alternarContraste}
-          >
-            <Contrast aria-hidden="true" size={22} />
-            <span>Alto contraste</span>
-          </button>
-
-          <p className={styles.observacao}>
-            <Info aria-hidden="true" size={16} />
-            Suas preferências de acessibilidade ficam salvas neste navegador.
-          </p>
-        </div>
-      )}
+        )}
+      </div>
       <span className="visually-hidden" aria-live="polite">
         {mensagemAcessibilidade}
       </span>

@@ -1,8 +1,8 @@
 import type { MouseEvent } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
+import AccessibilityMenu from './AccessibilityMenu';
 import Footer from './Footer';
 import Header from './Header';
-import AccessibilityMenu from './AccessibilityMenu';
 import styles from './Layout.module.css';
 
 const ID_CONTEUDO = 'conteudo';
@@ -25,10 +25,10 @@ function Layout() {
         Pular para o conteúdo
       </a>
       <Header />
+      <AccessibilityMenu />
       <main id={ID_CONTEUDO} tabIndex={-1} className={styles.main}>
         <Outlet />
       </main>
-      <AccessibilityMenu />
       <Footer />
       <ScrollRestoration />
     </div>
