@@ -1,0 +1,57 @@
+.faqItem {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-base) var(--ease);
+}
+
+.faqItem:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* O h2 só organiza a página: a pergunta usa a fonte do texto, mais fácil de ler */
+.tituloPergunta {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.faqBotao {
+  width: 100%;
+  min-height: var(--tap-target);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-heading);
+}
+
+.pergunta {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+}
+
+.icone {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-heading);
+  transition: transform var(--duration-base) var(--ease);
+  flex-shrink: 0;
+  margin-left: var(--space-4);
+}
+
+.aberto .icone {
+  transform: rotate(180deg);
+}
+
+.resposta {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--color-text);
+  line-height: var(--leading-body);
+}
