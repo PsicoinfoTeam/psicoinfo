@@ -1,0 +1,58 @@
+.integrante {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Círculo com borda amarela, como os detalhes da logo */
+.foto {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+  border: 3px solid var(--color-accent);
+  border-radius: 50%;
+  background-color: var(--color-surface-alt);
+}
+
+.imagem {
+  position: absolute;
+  max-width: none; /* a foto pode ser maior que o círculo (zoom) */
+  height: auto;
+}
+
+.iniciais {
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-display);
+  line-height: 1;
+}
+
+.texto {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.nome {
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+}
+
+.subtitulo {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+@media (min-width: 600px) {
+  .foto {
+    width: 5rem;
+    height: 5rem;
+  }
+}

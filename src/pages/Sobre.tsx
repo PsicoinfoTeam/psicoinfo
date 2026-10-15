@@ -3,11 +3,14 @@ import {
   HandHeart,
   Search,
   TriangleAlert,
+  Users,
 } from 'lucide-react';
 import logo from '../assets/logo-psicoinfo.png';
 import BackButton from '../components/BackButton';
 import Container from '../components/Container';
 import InfoSection from '../components/InfoSection';
+import TeamMember from '../components/TeamMember';
+import { listarEquipePorCurso } from '../data/equipe';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Sobre.module.css';
 
@@ -20,6 +23,7 @@ const PASSOS = [
 
 function Sobre() {
   useTituloPagina('Sobre o PsicoInfo');
+  const equipe = listarEquipePorCurso();
 
   return (
     <div className={styles.pagina}>
@@ -64,6 +68,7 @@ function Sobre() {
                 fontes oficiais e públicas disponíveis na internet, buscando
                 garantir a confiabilidade e a atualização dos dados.
               </p>
+              <p className={styles.aviso}>Atualizado em: outubro de 2026.</p>
             </InfoSection>
 
             <InfoSection
@@ -79,6 +84,40 @@ function Sobre() {
                 Em emergência, ligue <a href="tel:192">192 (SAMU)</a> ou{' '}
                 <a href="tel:190">190 (Polícia)</a>.
               </p>
+            </InfoSection>
+
+            <InfoSection
+              id="bloco-equipe"
+              titulo="Equipe do projeto"
+              icone={Users}
+            >
+              <p>
+                O PsicoInfo é desenvolvido por estudantes da FACAPE, com
+                orientação docente.
+              </p>
+              {equipe.map((grupo) => (
+                <div key={grupo.curso} className={styles.grupoEquipe}>
+                  <h3 className={styles.tituloGrupo}>{grupo.nomeCurso}</h3>
+                  <ul className={styles.integrantes}>
+                    {grupo.integrantes.map((integrante) => (
+                      <li key={integrante.nome}>
+                        <TeamMember
+                          nome={integrante.nome}
+                          subtitulo={grupo.subtitulo}
+                          foto={integrante.foto}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              <div className={styles.grupoEquipe}>
+                <h3 className={styles.tituloGrupo}>Docente responsável</h3>
+                <TeamMember
+                  nome="Layta Ribeiro"
+                  subtitulo="Orientação do projeto"
+                />
+              </div>
             </InfoSection>
           </div>
           <InfoSection
@@ -104,17 +143,17 @@ function Sobre() {
               Foi a partir desse olhar que surgiu a parceria entre os cursos de{' '}
               <strong>Psicologia</strong> e{' '}
               <strong>Ciência da Computação</strong> da FACAPE. Unimos
-              conhecimentos de diferentes áreas para transformar essa proposta em
-              uma ferramenta acessível, prática e voltada para a comunidade.
+              conhecimentos de diferentes áreas para transformar essa proposta
+              em uma ferramenta acessível, prática e voltada para a comunidade.
             </p>
             <p>
               Assim nasceu o PsicoInfo, um site desenvolvido em parceria pelos
               dois cursos, com o propósito de facilitar o acesso da população de
-              Petrolina a informações sobre serviços públicos, saúde, assistência
-              social e outros recursos disponíveis no município. Mais do que
-              reunir informações, o PsicoInfo busca aproximar a comunidade dos
-              serviços que podem fazer parte do cuidado e da garantia de
-              direitos.
+              Petrolina a informações sobre serviços públicos, saúde,
+              assistência social e outros recursos disponíveis no município.
+              Mais do que reunir informações, o PsicoInfo busca aproximar a
+              comunidade dos serviços que podem fazer parte do cuidado e da
+              garantia de direitos.
             </p>
             <p>
               O PsicoInfo é um projeto acadêmico desenvolvido por estudantes da
