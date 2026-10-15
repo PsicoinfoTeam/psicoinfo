@@ -1,4 +1,4 @@
-import Breadcrumb from '../components/Breadcrumb';
+import BackButton from '../components/BackButton';
 import Container from '../components/Container';
 import FaqItem from '../components/FaqItem';
 import { useTituloPagina } from '../hooks/useTituloPagina';
@@ -45,7 +45,7 @@ function Faq() {
     <div className={styles.pagina}>
       <Container>
         <div className={styles.cabecalho}>
-          <Breadcrumb />
+          <BackButton />
           <h1 className={styles.titulo}>Perguntas frequentes</h1>
           <p className={styles.subtitulo}>
             Reunimos as dúvidas mais comuns sobre os serviços públicos de

@@ -2,7 +2,7 @@ import { Info, RotateCw, TriangleAlert } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import BairroSelect from '../components/BairroSelect';
-import Breadcrumb from '../components/Breadcrumb';
+import BackButton from '../components/BackButton';
 import Container from '../components/Container';
 import LoadingState from '../components/LoadingState';
 import LocationButton from '../components/LocationButton';
@@ -91,7 +91,7 @@ function PertoDeMim() {
   return (
     <div className={styles.pagina}>
       <Container>
-        <Breadcrumb />
+        <BackButton />
         <header className={styles.cabecalho}>
           <h1 className={styles.titulo}>CRAS perto de você</h1>
           <p className={styles.intro}>

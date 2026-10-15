@@ -1,6 +1,6 @@
 import { MapPin } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumb';
+import BackButton from '../components/BackButton';
 import CollapsibleGroup from '../components/CollapsibleGroup';
 import Container from '../components/Container';
 import DataIcon from '../components/DataIcon';
@@ -85,7 +85,7 @@ function PaginaCategoria({
   return (
     <div className={styles.pagina}>
       <Container>
-        <Breadcrumb />
+        <BackButton />
 
         <header className={styles.cabecalho}>
           <span className={styles.icone} aria-hidden="true">
