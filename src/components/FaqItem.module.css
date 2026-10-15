@@ -10,8 +10,17 @@
   box-shadow: var(--shadow-md);
 }
 
+/* O h2 só organiza a página: a pergunta usa a fonte do texto, mais fácil de ler */
+.tituloPergunta {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .faqBotao {
   width: 100%;
+  min-height: var(--tap-target);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,8 +38,8 @@
 }
 
 .icone {
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--color-heading);
   transition: transform var(--duration-base) var(--ease);
   flex-shrink: 0;
@@ -39,18 +48,6 @@
 
 .aberto .icone {
   transform: rotate(180deg);
-}
-
-.faqConteudo {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all var(--duration-base) var(--ease);
-}
-
-.aberto .faqConteudo {
-  max-height: 800px;
-  opacity: 1;
 }
 
 .resposta {

@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       { path: '/servico/:id', element: <Servico /> },
       { path: '/perto-de-mim', element: <PertoDeMim /> },
       { path: '/sobre', element: <Sobre /> },
+      { path: '/duvidas', element: <Faq /> },
       { path: '/faq', element: <Faq /> },
       { path: '*', element: <NaoEncontrada /> },
     ],

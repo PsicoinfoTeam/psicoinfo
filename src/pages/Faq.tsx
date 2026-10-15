@@ -1,57 +1,72 @@
-import { Link } from 'react-router-dom';
+import Breadcrumb from '../components/Breadcrumb';
+import Container from '../components/Container';
 import FaqItem from '../components/FaqItem';
+import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Faq.module.css';
 
-export default function Faq() {
-  const perguntas = [
-    {
-      pergunta: 'O que é o CRAS?',
-      resposta: 'O Centro de Referência de Assistência Social (CRAS) é a porta de entrada da Assistência Social. É um local público, localizado prioritariamente em áreas de maior vulnerabilidade social, onde são oferecidos os serviços de Assistência Social em Petrolina. Através do CRAS, famílias em situação de vulnerabilidade recebem apoio, orientação e acesso a programas sociais.'
-    },
-    {
-      pergunta: 'Qual a diferença entre CRAS e CREAS?',
-      resposta: 'O CRAS atua na prevenção, fortalecendo os vínculos familiares e comunitários antes que os direitos sejam violados. Já o CREAS (Centro de Referência Especializado de Assistência Social) atende pessoas e famílias cujos direitos já foram violados (casos de violência, abuso, abandono, etc.), oferecendo apoio e acompanhamento especializado.'
-    },
-    {
-      pergunta: 'Preciso pagar para ser atendido?',
-      resposta: 'Não! Todos os serviços oferecidos pelos CRAS, CREAS, UBS (Unidades Básicas de Saúde) e demais equipamentos vinculados ao SUS (Sistema Único de Saúde) e SUAS (Sistema Único de Assistência Social) são serviços públicos e totalmente gratuitos para a população.'
-    },
-    {
-      pergunta: 'Preciso de encaminhamento para ser atendido?',
-      resposta: 'Para ser atendido no CRAS ou na UBS do seu bairro, você não precisa de encaminhamento, pois eles são a "porta de entrada" dos serviços. Basta ir até a unidade com seus documentos (RG, CPF, Comprovante de Residência e Cartão SUS/NIS). No entanto, para serviços especializados (como CREAS, CAPS e Policlínicas), o encaminhamento feito pela unidade básica geralmente é necessário.'
-    },
-    {
-      pergunta: 'O que é uma UBS (posto de saúde)?',
-      resposta: 'A Unidade Básica de Saúde (UBS), também conhecida como posto de saúde, é o local onde você recebe os primeiros atendimentos no SUS. Nela, você pode realizar consultas de rotina (clínico geral, enfermagem, odontologia), vacinação, curativos, pré-natal e acompanhamento de doenças crônicas como hipertensão e diabetes.'
-    },
-    {
-      pergunta: 'Onde consigo medicamentos gratuitos?',
-      resposta: 'Em Petrolina, os medicamentos da Relação Municipal de Medicamentos Essenciais (REMUME) podem ser retirados gratuitamente nas farmácias das próprias Unidades Básicas de Saúde (UBS) ou na Farmácia da Família. Para isso, é necessário apresentar a receita médica atualizada (do SUS ou particular), documento de identidade com foto e o Cartão SUS.'
-    }
-  ];
+/** Respostas conferidas com o campo "Como ser atendido" (comoAcessar) dos dados. */
+const PERGUNTAS = [
+  {
+    pergunta: 'O que é o CRAS?',
+    resposta:
+      'CRAS é o Centro de Referência de Assistência Social. É a porta de entrada da assistência social: ajuda famílias a conseguir benefícios, como Bolsa Família e BPC, e oferece atendimento com assistente social e psicólogo. Petrolina tem 10 CRAS. Para saber qual atende o seu bairro, use "Encontre o CRAS mais perto de você", na página inicial.',
+  },
+  {
+    pergunta: 'Qual a diferença entre CRAS e CREAS?',
+    resposta:
+      'O CRAS ajuda a família a conseguir benefícios e fortalece a convivência na família e na comunidade. O CREAS (Centro de Referência Especializado de Assistência Social) atende pessoas que tiveram seus direitos violados, como vítimas de violência, abuso, assédio ou discriminação.',
+  },
+  {
+    pergunta: 'Preciso pagar para ser atendido?',
+    resposta:
+      'Não. CRAS, CREAS, postos de saúde (UBS) e os outros serviços do SUS (Sistema Único de Saúde) e do SUAS (Sistema Único de Assistência Social) são públicos e gratuitos.',
+  },
+  {
+    pergunta: 'Preciso de encaminhamento para ser atendido?',
+    resposta:
+      'Depende do serviço. No posto de saúde (UBS), pode ir direto. No CRAS, agende por telefone. No CREAS, pode ir direto. No CAPS, precisa agendar. Na Policlínica, precisa de encaminhamento do posto de saúde. Na página de cada serviço, veja "Como ser atendido".',
+  },
+  {
+    pergunta: 'O que é uma UBS (posto de saúde)?',
+    resposta:
+      'UBS é a Unidade Básica de Saúde, o posto de saúde do bairro. É o primeiro lugar para procurar atendimento pelo SUS. Lá tem consulta com médico e enfermeiro, dentista, vacinas, entrega de remédios e testes de HIV e sífilis.',
+  },
+  {
+    pergunta: 'Onde consigo remédio de graça?',
+    resposta:
+      'Os postos de saúde (UBS) fazem entrega de remédios. Para saber quais remédios têm e o que levar, pergunte no posto de saúde do seu bairro.',
+  },
+];
+
+function Faq() {
+  useTituloPagina('Perguntas frequentes');
 
   return (
-    <main className={styles.container}>
-      <div className={styles.cabecalho}>
-        <Link to="/" className={styles.breadcrumb}>
-          Início
-        </Link>
-        <h1 className={styles.titulo}>Perguntas frequentes</h1>
-        <p className={styles.subtitulo}>
-          Reunimos as dúvidas mais comuns sobre os serviços públicos de Petrolina.<br/>
-          Toque na pergunta para ver a resposta.
-        </p>
-      </div>
+    <div className={styles.pagina}>
+      <Container>
+        <div className={styles.cabecalho}>
+          <Breadcrumb />
+          <h1 className={styles.titulo}>Perguntas frequentes</h1>
+          <p className={styles.subtitulo}>
+            Reunimos as dúvidas mais comuns sobre os serviços públicos de
+            Petrolina.
+            <br />
+            Toque na pergunta para ver a resposta.
+          </p>
+        </div>
 
-      <div className={styles.listaFaq}>
-        {perguntas.map((item, index) => (
-          <FaqItem
-            key={index}
-            pergunta={item.pergunta}
-            resposta={item.resposta}
-          />
-        ))}
-      </div>
-    </main>
+        <div className={styles.listaFaq}>
+          {PERGUNTAS.map((item) => (
+            <FaqItem
+              key={item.pergunta}
+              pergunta={item.pergunta}
+              resposta={item.resposta}
+            />
+          ))}
+        </div>
+      </Container>
+    </div>
   );
 }
+
+export default Faq;

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useId, useState } from 'react';
 import styles from './FaqItem.module.css';
 
 interface FaqItemProps {
@@ -7,22 +7,32 @@ interface FaqItemProps {
   resposta: string;
 }
 
-export default function FaqItem({ pergunta, resposta }: FaqItemProps) {
+/** Pergunta que abre e fecha a resposta (acordeão). */
+function FaqItem({ pergunta, resposta }: FaqItemProps) {
   const [aberto, setAberto] = useState(false);
+  const idResposta = useId();
 
   return (
     <div className={`${styles.faqItem} ${aberto ? styles.aberto : ''}`}>
-      <button
-        className={styles.faqBotao}
-        onClick={() => setAberto(!aberto)}
-        aria-expanded={aberto}
-      >
-        <span className={styles.pergunta}>{pergunta}</span>
-        <ChevronDown className={styles.icone} />
-      </button>
-      <div className={styles.faqConteudo}>
-        <div className={styles.resposta}>{resposta}</div>
+      {/* h2: o leitor de tela consegue pular de pergunta em pergunta */}
+      <h2 className={styles.tituloPergunta}>
+        <button
+          type="button"
+          className={styles.faqBotao}
+          aria-expanded={aberto}
+          aria-controls={idResposta}
+          onClick={() => setAberto((valor) => !valor)}
+        >
+          <span className={styles.pergunta}>{pergunta}</span>
+          <ChevronDown aria-hidden="true" className={styles.icone} />
+        </button>
+      </h2>
+      {/* hidden: fechada, a resposta não é lida pelo leitor de tela */}
+      <div id={idResposta} className={styles.resposta} hidden={!aberto}>
+        {resposta}
       </div>
     </div>
   );
 }
+
+export default FaqItem;

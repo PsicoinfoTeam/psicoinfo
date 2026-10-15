@@ -1,29 +1,10 @@
-.container {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: var(--space-6) var(--gutter);
+.pagina {
+  padding-block: var(--space-5) var(--space-7);
 }
 
 .cabecalho {
-  text-align: left;
   margin-bottom: var(--space-7);
   max-width: var(--content-max);
-}
-
-.breadcrumb {
-  display: inline-block;
-  font-size: var(--text-sm);
-  color: var(--color-link);
-  font-weight: var(--weight-bold);
-  text-decoration: none;
-  margin-bottom: var(--space-4);
-  border-bottom: 2px solid var(--color-link);
-  padding-bottom: 2px;
-}
-
-.breadcrumb:hover {
-  color: var(--color-link-hover);
-  border-bottom-color: var(--color-link-hover);
 }
 
 .titulo {
