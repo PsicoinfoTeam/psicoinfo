@@ -24,7 +24,7 @@ const PERGUNTAS = [
   {
     pergunta: 'Preciso de encaminhamento para ser atendido?',
     resposta:
-      'Depende do serviço. No posto de saúde (UBS), pode ir direto. No CRAS, agende por telefone. No CREAS, pode ir direto. No CAPS, precisa agendar. Na Policlínica, precisa de encaminhamento do posto de saúde. Na página de cada serviço, veja "Como ser atendido".',
+      'Depende do serviço. No posto de saúde (UBS), pode ir direto. No CRAS, agende por telefone. No CREAS, pode ir direto. No CAPS II e no CAPSi (infantil), precisa agendar. O CAPS AD funciona 24 horas. Na Policlínica, precisa de encaminhamento do posto de saúde. Na página de cada serviço, veja "Como ser atendido".',
   },
   {
     pergunta: 'O que é uma UBS (posto de saúde)?',
