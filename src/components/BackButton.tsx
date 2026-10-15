@@ -1,46 +1,32 @@
 import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './BackButton.module.css';
 
-export interface ItemTrilha {
+export interface DestinoVoltar {
+  /** Nome da página, como aparece depois de "Voltar para". */
   rotulo: string;
   caminho: string;
 }
 
+const INICIO: DestinoVoltar = { rotulo: 'o Início', caminho: '/' };
+
 interface BackButtonProps {
-  /** Páginas acima da atual. A última é o destino quando não há para onde voltar. */
-  itens?: ItemTrilha[];
+  /** Página "de cima" da atual. Sem ela, volta para o Início. */
+  destino?: DestinoVoltar;
 }
 
 /**
- * Botão "Voltar". Volta para a página anterior do site; se a pessoa abriu
- * este link direto (WhatsApp, Google), vai para a página "de cima" (ou o
- * Início) em vez de sair do site.
+ * "Voltar para ...": diz onde a pessoa vai chegar e leva sempre para a
+ * página "de cima". Não usa o histórico do navegador, então funciona igual
+ * para quem abriu o link direto (WhatsApp, Google) e nunca tira a pessoa do
+ * site.
  */
-function BackButton({ itens = [] }: BackButtonProps) {
-  const navigate = useNavigate();
-  const destino = itens.at(-1)?.caminho ?? '/';
-
-  function voltar() {
-    // O React Router guarda em history.state a posição (idx) da página no
-    // histórico do site. 0 = primeira página aberta nesta aba: voltar com
-    // navigate(-1) tiraria a pessoa do site.
-    const posicao = (window.history.state as { idx?: number } | null)?.idx;
-
-    if (posicao && posicao > 0) {
-      navigate(-1);
-    } else {
-      // replace: a página "de cima" substitui a atual no histórico. Assim, o
-      // próximo "Voltar" sobe mais um nível, em vez de voltar para cá.
-      navigate(destino, { replace: true });
-    }
-  }
-
+function BackButton({ destino = INICIO }: BackButtonProps) {
   return (
-    <button type="button" className={styles.botaoVoltar} onClick={voltar}>
+    <Link to={destino.caminho} className={styles.botaoVoltar}>
       <ArrowLeft aria-hidden="true" size={20} />
-      <span>Voltar</span>
-    </button>
+      <span>Voltar para {destino.rotulo}</span>
+    </Link>
   );
 }
 

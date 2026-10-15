@@ -90,15 +90,11 @@ function PaginaServico({ servico, categorias }: PaginaServicoProps) {
       <Container>
         {/* 1. Ícone, nome e categorias */}
         <BackButton
-          itens={
-            principal
-              ? [
-                  {
-                    rotulo: principal.nome,
-                    caminho: `/categoria/${principal.id}`,
-                  },
-                ]
-              : []
+          destino={
+            principal && {
+              rotulo: principal.nome,
+              caminho: `/categoria/${principal.id}`,
+            }
           }
         />
 

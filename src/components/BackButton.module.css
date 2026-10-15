@@ -1,23 +1,30 @@
 .botaoVoltar {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
   gap: var(--space-2);
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
+  /* Não é pílula: nomes longos ("Saúde Mental e Apoio Emocional") quebram
+     em duas linhas no celular */
+  border-radius: var(--radius-lg);
   color: var(--color-text-muted);
   font-size: var(--text-sm);
   font-weight: var(--weight-bold);
-  padding: 0 var(--space-4);
+  padding: var(--space-2) var(--space-4);
   min-height: var(--tap-target);
   margin-bottom: var(--space-4);
-  cursor: pointer;
   text-decoration: none;
   box-shadow: var(--shadow-sm);
+  line-height: 1.3;
   transition:
     background-color var(--duration-fast) var(--ease),
     color var(--duration-fast) var(--ease),
     box-shadow var(--duration-fast) var(--ease);
+}
+
+.botaoVoltar svg {
+  flex-shrink: 0;
 }
 
 .botaoVoltar:hover {
