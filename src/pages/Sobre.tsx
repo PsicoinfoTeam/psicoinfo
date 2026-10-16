@@ -111,13 +111,6 @@ function Sobre() {
                   </ul>
                 </div>
               ))}
-              <div className={styles.grupoEquipe}>
-                <h3 className={styles.tituloGrupo}>Docente responsável</h3>
-                <TeamMember
-                  nome="Layta Ribeiro"
-                  subtitulo="Orientação do projeto"
-                />
-              </div>
             </InfoSection>
           </div>
           <InfoSection
@@ -127,9 +120,9 @@ function Sobre() {
           >
             <p>
               O PsicoInfo nasceu a partir de uma proposta pensada e
-              compartilhada pela docente Layta, responsável pela disciplina de
-              Intervenções Psicossociais do 6º período do curso de Psicologia da
-              FACAPE.
+              compartilhada pela docente Layta Ribeiro, responsável pela
+              disciplina de Intervenções Psicossociais do 6º período do curso de
+              Psicologia da FACAPE.
             </p>
             <p>
               A proposta surgiu com o objetivo de aproximar estudantes e futuros
