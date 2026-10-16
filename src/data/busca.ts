@@ -19,11 +19,16 @@ const PESOS = {
 
 type Campo = keyof typeof PESOS;
 
-/** Palavras que não ajudam a achar nada ("posto DE saúde", "jose E maria"). */
+/**
+ * Palavras que não ajudam a achar nada ("posto DE saúde", "jose E maria").
+ * "Grátis", "de graça" etc. também: todos os serviços do guia são públicos ou
+ * gratuitos, e sem isso "remédio grátis" não acharia o posto de saúde.
+ */
 const PALAVRAS_IGNORADAS = new Set(
   (
     'a o as os e de da do das dos em no na nos nas um uma para pra por com ' +
-    'que ao contra quero preciso procuro onde fica'
+    'que ao contra quero preciso procuro onde fica ' +
+    'gratis gratuito gratuita gratuitos gratuitas graca sem pagar'
   ).split(' '),
 );
 
