@@ -9,7 +9,7 @@ import {
   Users,
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumb';
+import BackButton from '../components/BackButton';
 import CallButton from '../components/CallButton';
 import Container from '../components/Container';
 import DataIcon from '../components/DataIcon';
@@ -89,16 +89,12 @@ function PaginaServico({ servico, categorias }: PaginaServicoProps) {
     <div className={styles.pagina}>
       <Container>
         {/* 1. Ícone, nome e categorias */}
-        <Breadcrumb
-          itens={
-            principal
-              ? [
-                  {
-                    rotulo: principal.nome,
-                    caminho: `/categoria/${principal.id}`,
-                  },
-                ]
-              : []
+        <BackButton
+          destino={
+            principal && {
+              rotulo: principal.nome,
+              caminho: `/categoria/${principal.id}`,
+            }
           }
         />
 

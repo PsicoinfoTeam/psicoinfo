@@ -127,7 +127,8 @@ function SearchBar({
         </label>
         {mostrarDica && (
           <p id={idDica} className={styles.dica}>
-            Escreva do seu jeito. Ex.: remédio, advogado, bairro.
+            Escreva do seu jeito. Ex.: remédio, advogado de graça ou o nome do
+            seu bairro.
           </p>
         )}
         <div className={styles.linha}>

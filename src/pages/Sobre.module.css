@@ -109,10 +109,41 @@
   flex-shrink: 0;
 }
 
+/* ── Equipe do projeto ── */
+.grupoEquipe {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Linha separando os cursos */
+.grupoEquipe + .grupoEquipe {
+  margin-top: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 2px solid var(--color-border);
+}
+
+.tituloGrupo {
+  font-size: var(--text-lg);
+  color: var(--color-primary);
+}
+
+.integrantes {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
 @media (min-width: 600px) {
   .cabecalho {
     grid-template-columns: auto 1fr;
     align-items: center;
+  }
+
+  /* Bloco ocupa a largura toda: cabem duas pessoas por linha */
+  .integrantes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-5);
   }
 }
 
@@ -124,5 +155,10 @@
 
   .coluna {
     gap: var(--space-5);
+  }
+
+  /* Na coluna estreita, volta a uma pessoa por linha */
+  .integrantes {
+    grid-template-columns: 1fr;
   }
 }

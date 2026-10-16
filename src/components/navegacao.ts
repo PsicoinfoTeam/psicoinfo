@@ -1,4 +1,10 @@
-import { House, Info, LayoutGrid, type LucideIcon } from 'lucide-react';
+import {
+  CircleHelp,
+  House,
+  Info,
+  LayoutGrid,
+  type LucideIcon,
+} from 'lucide-react';
 
 export interface LinkNavegacao {
   rotulo: string;
@@ -17,6 +23,7 @@ export const LINKS_PRINCIPAIS: LinkNavegacao[] = [
     ancora: 'categorias',
     icone: LayoutGrid,
   },
+  { rotulo: 'Dúvidas', caminho: '/duvidas', icone: CircleHelp },
   { rotulo: 'Sobre', caminho: '/sobre', icone: Info },
 ];
 

@@ -1,0 +1,186 @@
+.faixa {
+  background-color: var(--color-bg);
+}
+
+/* Mesma largura e margens do conteúdo; o botão fica à direita */
+.conteudo {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: var(--space-1) var(--gutter);
+}
+
+.botaoAcessibilidade {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
+}
+
+.botaoAcessibilidade svg {
+  flex-shrink: 0;
+}
+
+.botaoAcessibilidade:hover,
+.botaoAcessibilidade[aria-expanded='true'] {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Abre logo abaixo do botão, por cima do conteúdo */
+.menu {
+  position: absolute;
+  top: calc(100% - var(--space-1));
+  right: var(--gutter);
+  z-index: var(--z-menu);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  width: min(20rem, calc(100% - var(--gutter) * 2));
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  overflow-wrap: break-word;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-heading);
+  font-size: var(--text-base);
+}
+
+.cabecalho strong {
+  min-width: 0;
+}
+
+.botaoFechar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.botaoFechar:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.opcao {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rotulo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+}
+
+.rotulo svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.controlesFonte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.controlesFonte button {
+  flex: 1 0 auto;
+  min-height: var(--tap-target);
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+}
+
+.controlesFonte button:hover:not(:disabled) {
+  background-color: var(--color-surface-alt);
+}
+
+.controlesFonte button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.opcaoBotao {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-heading);
+  font-weight: var(--weight-bold);
+  text-align: left;
+}
+
+.opcaoBotao svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.opcaoBotao:hover {
+  background-color: var(--color-surface-alt);
+}
+
+.opcaoBotao[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-alt);
+}
+
+.observacao {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.observacao svg {
+  flex-shrink: 0;
+  margin-top: 0.15em;
+  color: var(--color-text-muted);
+}
