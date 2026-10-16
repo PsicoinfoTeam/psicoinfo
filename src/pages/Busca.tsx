@@ -8,7 +8,7 @@ import NearbyLink from '../components/NearbyLink';
 import SearchBar from '../components/SearchBar';
 import ServiceList from '../components/ServiceList';
 import SuggestionChips from '../components/SuggestionChips';
-import { buscar, normalizar } from '../data/busca';
+import { buscar } from '../data/busca';
 import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Busca.module.css';
@@ -20,13 +20,6 @@ function Busca() {
   const vazia = termo === '';
 
   useTituloPagina(termo ? `Busca: ${termo}` : 'Buscar serviços');
-
-  // Busca por CRAS: oferece o atalho para os CRAS mais perto
-  const mostrarPertoDeMim =
-    busca.status === 'ok' &&
-    busca.dados.tipo === 'resultados' &&
-    (normalizar(termo).split(' ').includes('cras') ||
-      busca.dados.servicos.some((s) => s.sigla === 'CRAS'));
 
   return (
     <div className={styles.pagina}>
@@ -52,11 +45,9 @@ function Busca() {
                 ? 'Encontramos 1 serviço.'
                 : `Encontramos ${busca.dados.servicos.length} serviços.`}
             </output>
-            {mostrarPertoDeMim && (
-              <div className={styles.pertoDeMim}>
-                <NearbyLink />
-              </div>
-            )}
+            <div className={styles.pertoDeMim}>
+              <NearbyLink />
+            </div>
             <ServiceList servicos={busca.dados.servicos} nivelTitulo="h2" />
           </section>
         )}

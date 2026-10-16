@@ -9,7 +9,7 @@
 import json from './servicos-petrolina.json';
 import territoriosJson from './territorios-cras.json';
 import { soDigitos } from './links';
-import { ordenarPorDistancia, type Ponto } from '../lib/geo';
+import { distanciaKm, type Ponto } from '../lib/geo';
 import type {
   BaseDeDados,
   Categoria,
@@ -120,10 +120,51 @@ export function agruparPorBairro(
 
 // ---------- Perto de mim ----------
 
-/** Tipos de serviço que a busca por proximidade aceita (futuro: 'ubs'). */
-export type TipoProximo = 'cras';
+/** Categorias aceitas na busca por proximidade. */
+export type TipoProximo =
+  | 'todos'
+  | 'urgencia'
+  | 'saude'
+  | 'saude-mental'
+  | 'assistencia-social'
+  | 'criancas'
+  | 'mulher'
+  | 'direitos'
+  | 'seguranca'
+  | 'educacao'
+  | 'comunidade'
+  | 'governo';
 
-const SIGLA_POR_TIPO: Record<TipoProximo, string> = { cras: 'CRAS' };
+export interface OpcaoFiltroProximo {
+  id: TipoProximo;
+  rotulo: string;
+  icone: string;
+}
+
+export const OPCOES_FILTRO_PROXIMO: readonly OpcaoFiltroProximo[] = [
+  { id: 'todos', rotulo: 'Todos', icone: 'layout-grid' },
+  ...dados.categorias.map((c) => ({
+    id: c.id as TipoProximo,
+    rotulo: c.nome,
+    icone: c.icone,
+  })),
+];
+
+const TIPOS_VALIDOS = new Set<string>(OPCOES_FILTRO_PROXIMO.map((o) => o.id));
+
+const TIPOS_LEGADOS: Record<string, TipoProximo> = {
+  cras: 'assistencia-social',
+  creas: 'assistencia-social',
+  ubs: 'saude',
+  caps: 'saude-mental',
+};
+
+export function validarTipoProximo(valor: string | null): TipoProximo {
+  if (!valor) return 'todos';
+  if (TIPOS_VALIDOS.has(valor)) return valor as TipoProximo;
+  if (valor in TIPOS_LEGADOS) return TIPOS_LEGADOS[valor];
+  return 'todos';
+}
 
 export interface ServicoProximo {
   servico: Servico;
@@ -131,28 +172,9 @@ export interface ServicoProximo {
   distanciaKm: number | null;
 }
 
-/**
- * Serviços de um tipo, do mais perto ao mais longe da origem.
- * Sem origem, vêm em ordem alfabética e sem distância.
- * Serviços sem coordenadas ficam no fim.
- */
-export async function listarProximos(
-  origem: Ponto | null,
-  filtro: TipoProximo,
-  limite = 5,
-): Promise<ServicoProximo[]> {
-  const doTipo = dados.servicos.filter(
-    (s) => s.sigla === SIGLA_POR_TIPO[filtro],
-  );
-  const ordenados: ServicoProximo[] = origem
-    ? ordenarPorDistancia(origem, doTipo).map(({ item, distanciaKm }) => ({
-        servico: item,
-        distanciaKm,
-      }))
-    : [...doTipo]
-        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
-        .map((servico) => ({ servico, distanciaKm: null }));
-  return ordenados.slice(0, limite);
+function filtrarPorTipo(filtro: TipoProximo): readonly Servico[] {
+  if (filtro === 'todos') return dados.servicos;
+  return dados.servicos.filter((s) => s.categorias.includes(filtro));
 }
 
 /** Sem acento, minúsculas, só letras e números separados por um espaço. */
@@ -190,12 +212,139 @@ const entradasTerritorio: EntradaTerritorio[] = territorios.territorios.flatMap(
     })),
 );
 
-const sinonimos = new Map(
-  Object.entries(territorios.sinonimos).map(([de, para]) => [
-    normalizarNome(de),
-    normalizarNome(para.replace(/\(.*?\)/g, '').split('/')[0]),
-  ]),
-);
+const sinonimos = new Map([
+  ...Object.entries(territorios.sinonimos).map(
+    ([de, para]) =>
+      [
+        normalizarNome(de),
+        normalizarNome(para.replace(/\(.*?\)/g, '').split('/')[0]),
+      ] as const,
+  ),
+  [normalizarNome('Núcleo C I'), normalizarNome('Projeto C1')],
+  [normalizarNome('Núcleo C III'), normalizarNome('Projeto C3')],
+  [normalizarNome('Vila KM 25'), normalizarNome('KM 25')],
+  [normalizarNome('Projeto Bebedouro'), normalizarNome('Bebedouro')],
+]);
+
+function acharEntradaTerritorio(
+  bairro: string | null | undefined,
+): EntradaTerritorio | null {
+  if (!bairro) return null;
+  const digitado = normalizarNome(bairro);
+  if (!digitado) return null;
+  const nome = sinonimos.get(digitado) ?? digitado;
+  return (
+    // 1º o nome exatamente como está na lista (ex.: "Vila Mocó (Jardim Paulo Afonso)")
+    entradasTerritorio.find((e) => e.completo === digitado) ??
+    entradasTerritorio.find((e) => e.principais.includes(nome)) ??
+    entradasTerritorio.find((e) => e.secundarios.includes(nome)) ??
+    null
+  );
+}
+
+function entradaTerritorioDoServico(
+  servico: Servico,
+): EntradaTerritorio | null {
+  const porBairro = acharEntradaTerritorio(servico.bairro);
+  if (porBairro) return porBairro;
+  const [antesDoTraco = ''] = servico.endereco.split(' - ');
+  const localidade = antesDoTraco
+    .replace(/^(Povoado de |Povoado |Distrito de )/i, '')
+    .trim();
+  const porEndereco = acharEntradaTerritorio(localidade);
+  if (porEndereco) return porEndereco;
+  if (normalizarNome(servico.endereco).includes('jose silvestre')) {
+    return acharEntradaTerritorio('Izacolândia');
+  }
+  return null;
+}
+
+/**
+ * Serviços de um tipo ou categoria, do mais perto ao mais longe da origem.
+ * Quando um bairro é informado, prioriza os serviços do mesmo bairro e do
+ * mesmo território de CRAS. Sem origem, vêm em ordem alfabética e sem distância.
+ * Serviços sem coordenadas nem território ficam no fim.
+ */
+export async function listarProximos(
+  origem: Ponto | null,
+  filtro: TipoProximo,
+  limite = 6,
+  bairro?: string | null,
+): Promise<ServicoProximo[]> {
+  const doTipo = filtrarPorTipo(filtro);
+  const entradaBairro = acharEntradaTerritorio(bairro);
+  const bairroNorm = bairro ? normalizarNome(bairro) : '';
+
+  const avaliados = doTipo.map((servico) => {
+    const entradaServico = entradaTerritorioDoServico(servico);
+    const crasDoServico = entradaServico
+      ? servicosPorId.get(entradaServico.crasId)
+      : undefined;
+    const servicoBairroNorm = servico.bairro
+      ? normalizarNome(servico.bairro)
+      : '';
+
+    const noMesmoBairro =
+      bairroNorm.length > 0 &&
+      (servicoBairroNorm === bairroNorm ||
+        (entradaBairro !== null &&
+          entradaServico !== null &&
+          entradaServico.completo === entradaBairro.completo) ||
+        (servico.bairro === ZONA_RURAL &&
+          normalizarNome(servico.endereco).includes(bairroNorm)));
+
+    const noMesmoTerritorio =
+      entradaBairro !== null &&
+      entradaServico !== null &&
+      entradaServico.crasId === entradaBairro.crasId;
+
+    const distanciaRealKm =
+      origem && servico.coordenadas
+        ? distanciaKm(origem, servico.coordenadas)
+        : null;
+
+    const pontoOrdenacao =
+      servico.coordenadas ?? crasDoServico?.coordenadas ?? null;
+    const distanciaOrdenacao =
+      origem && pontoOrdenacao ? distanciaKm(origem, pontoOrdenacao) : null;
+
+    return {
+      servico,
+      distanciaKm: distanciaRealKm,
+      noMesmoBairro,
+      noMesmoTerritorio,
+      temCoordenadaPropria: Boolean(servico.coordenadas),
+      distanciaOrdenacao,
+    };
+  });
+
+  avaliados.sort((a, b) => {
+    if (bairroNorm.length > 0) {
+      if (a.noMesmoBairro !== b.noMesmoBairro) {
+        return a.noMesmoBairro ? -1 : 1;
+      }
+      if (a.noMesmoTerritorio !== b.noMesmoTerritorio) {
+        return a.noMesmoTerritorio ? -1 : 1;
+      }
+    }
+    if (a.distanciaOrdenacao !== null && b.distanciaOrdenacao !== null) {
+      const diff = a.distanciaOrdenacao - b.distanciaOrdenacao;
+      if (Math.abs(diff) > 0.01) return diff;
+      if (a.temCoordenadaPropria !== b.temCoordenadaPropria) {
+        return a.temCoordenadaPropria ? -1 : 1;
+      }
+    } else if (a.distanciaOrdenacao !== null) {
+      return -1;
+    } else if (b.distanciaOrdenacao !== null) {
+      return 1;
+    }
+    return a.servico.nome.localeCompare(b.servico.nome, 'pt-BR');
+  });
+
+  return avaliados
+    .slice(0, limite)
+    .map(({ servico, distanciaKm }) => ({ servico, distanciaKm }));
+}
 
 /**
  * CRAS que atende o bairro (comparação sem acento e sem maiúsculas).
@@ -206,14 +355,7 @@ const sinonimos = new Map(
 export async function crasDeReferencia(
   bairro: string,
 ): Promise<Servico | null> {
-  const digitado = normalizarNome(bairro);
-  if (!digitado) return null;
-  const nome = sinonimos.get(digitado) ?? digitado;
-  const entrada =
-    // 1º o nome exatamente como está na lista (ex.: "Vila Mocó (Jardim Paulo Afonso)")
-    entradasTerritorio.find((e) => e.completo === digitado) ??
-    entradasTerritorio.find((e) => e.principais.includes(nome)) ??
-    entradasTerritorio.find((e) => e.secundarios.includes(nome));
+  const entrada = acharEntradaTerritorio(bairro);
   return entrada ? (servicosPorId.get(entrada.crasId) ?? null) : null;
 }
 

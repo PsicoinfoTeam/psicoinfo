@@ -224,15 +224,23 @@ async function main() {
     return;
   }
   const aplicar = process.argv.includes('--aplicar');
+  const todos = process.argv.includes('--todos');
   const dados = JSON.parse(fs.readFileSync(ARQ_DADOS, 'utf8'));
-  const crasLista = dados.servicos.filter((s) => s.sigla === 'CRAS');
+  const lista = todos
+    ? dados.servicos.filter(
+        (s) =>
+          s.bairro &&
+          s.bairro !== 'Zona rural' &&
+          s.coordenadas?.precisao !== 'verificada',
+      )
+    : dados.servicos.filter((s) => s.sigla === 'CRAS');
   console.log(
-    `Geocodificando ${crasLista.length} CRAS (1 requisição por segundo)...`,
+    `Geocodificando ${lista.length} serviços (1 requisição por segundo)...`,
   );
 
   const resultados = [];
-  for (const cras of crasLista) {
-    const r = await geocodificar(cras);
+  for (const servico of lista) {
+    const r = await geocodificar(servico);
     resultados.push(r);
     console.log(
       r.coordenadas
