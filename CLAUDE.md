@@ -45,7 +45,7 @@ src/
 | `/busca?q=termo` | Resultados em cards (ícone, nome, bairro, telefone principal). |
 | `/categoria/:id` | Lista dos serviços da categoria (usar `categorias`, não só `categoriaPrincipal`). |
 | `/servico/:id` | Página do serviço (ver abaixo). |
-| `/perto-de-mim?tipo=cras` | CRAS de referência do bairro e CRAS mais próximos (ver "Localização"). Entradas: card na Home, link nas páginas de CRAS e na busca por "cras". |
+| `/perto-de-mim?tipo=cras\|ubs` | CRAS de referência do bairro e CRAS ou postos de saúde (UBS) mais próximos (ver "Localização"). Entradas: card na Home, link nas páginas de CRAS e UBS e na busca por "cras" ou "ubs". |
 | `/sobre` | Sobre o PsicoInfo e a fonte dos dados (campo `sobre`: ACARI / Projeto Bem Me Quer). |
 | `*` | Página não encontrada, com a busca. |
 
@@ -78,7 +78,8 @@ Link do mapa: `https://www.google.com/maps/search/?api=1&query=` + `encodeURICom
 
 ## Localização ("Perto de mim")
 
-- **Só no navegador:** a distância é calculada no front-end (`src/lib/geo.ts`, Haversine) com as `coordenadas` do JSON. Sem backend e sem API de mapas.
+- **Serviços de bairro (CRAS e UBS):** vale para CRAS e UBS; só serviços de bairro entram (não serviços que atendem a cidade toda).
+- **Só no navegador:** a distância é calculada no front-end (`src/lib/geo.ts`, Haversine) usando apenas as `coordenadas` do próprio serviço no JSON. Sem backend e sem API de mapas.
 - **Pedir só no clique:** a localização só é pedida quando a pessoa toca em "Usar minha localização" (`useLocalizacao`). Nunca ao abrir a página.
 - **Nunca salvar nem enviar:** a posição fica só na memória do componente. Nada de localStorage, sessionStorage, cookies, URL ou requisição de rede. Resultados calculados a partir dela não entram no cache (`useDados` com `guardar: false`).
 - **Sempre oferecer o bairro:** "Ou escolha seu bairro" fica sempre visível. Se a pessoa recusar ou o GPS falhar, a tela continua útil. O CRAS de referência vem de `src/data/territorios-cras.json` (bairro → CRAS, com sinônimos).
@@ -122,4 +123,4 @@ Link do mapa: `https://www.google.com/maps/search/?api=1&query=` + `encodeURICom
 ## Fora do escopo agora (deixar a estrutura preparada)
 
 - Área administrativa para editar serviços: a camada `src/data/servicos.ts` existe exatamente para isso.
-- "Perto de mim" para outros tipos além do CRAS (ex.: UBS: `listarProximos` já recebe o tipo), mapa embutido e backend.
+- "Perto de mim" para outros tipos além de CRAS e UBS, mapa embutido e backend.
