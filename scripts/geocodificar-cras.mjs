@@ -197,7 +197,7 @@ function aplicarNoTexto(texto, resultado) {
     `$1\n      "coordenadas": ${valor},`,
   );
 
-  if (!resultado.coordenadas) {
+  if (!resultado.coordenadas && resultado.id.startsWith('cras-')) {
     const pendencia =
       'Coordenadas não encontradas no OpenStreetMap; marcar no mapa';
     bloco = bloco.replace(/"pendencias": \[(.*)\]/, (_, dentro) => {
@@ -224,14 +224,11 @@ async function main() {
     return;
   }
   const aplicar = process.argv.includes('--aplicar');
-  const todos = process.argv.includes('--todos');
+  const ubs = process.argv.includes('--ubs');
   const dados = JSON.parse(fs.readFileSync(ARQ_DADOS, 'utf8'));
-  const lista = todos
+  const lista = ubs
     ? dados.servicos.filter(
-        (s) =>
-          s.bairro &&
-          s.bairro !== 'Zona rural' &&
-          s.coordenadas?.precisao !== 'verificada',
+        (s) => s.sigla === 'UBS' && s.coordenadas?.precisao !== 'verificada',
       )
     : dados.servicos.filter((s) => s.sigla === 'CRAS');
   console.log(

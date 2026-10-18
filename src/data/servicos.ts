@@ -120,20 +120,13 @@ export function agruparPorBairro(
 
 // ---------- Perto de mim ----------
 
-/** Categorias aceitas na busca por proximidade. */
-export type TipoProximo =
-  | 'todos'
-  | 'urgencia'
-  | 'saude'
-  | 'saude-mental'
-  | 'assistencia-social'
-  | 'criancas'
-  | 'mulher'
-  | 'direitos'
-  | 'seguranca'
-  | 'educacao'
-  | 'comunidade'
-  | 'governo';
+/** Tipos de serviço de bairro aceitos na busca por proximidade. */
+export type TipoProximo = 'cras' | 'ubs';
+
+const SIGLA_POR_TIPO: Record<TipoProximo, string> = {
+  cras: 'CRAS',
+  ubs: 'UBS',
+};
 
 export interface OpcaoFiltroProximo {
   id: TipoProximo;
@@ -142,39 +135,19 @@ export interface OpcaoFiltroProximo {
 }
 
 export const OPCOES_FILTRO_PROXIMO: readonly OpcaoFiltroProximo[] = [
-  { id: 'todos', rotulo: 'Todos', icone: 'layout-grid' },
-  ...dados.categorias.map((c) => ({
-    id: c.id as TipoProximo,
-    rotulo: c.nome,
-    icone: c.icone,
-  })),
+  { id: 'cras', rotulo: 'CRAS (Assistência Social)', icone: 'users' },
+  { id: 'ubs', rotulo: 'Posto de saúde (UBS)', icone: 'stethoscope' },
 ];
 
-const TIPOS_VALIDOS = new Set<string>(OPCOES_FILTRO_PROXIMO.map((o) => o.id));
-
-const TIPOS_LEGADOS: Record<string, TipoProximo> = {
-  cras: 'assistencia-social',
-  creas: 'assistencia-social',
-  ubs: 'saude',
-  caps: 'saude-mental',
-};
-
 export function validarTipoProximo(valor: string | null): TipoProximo {
-  if (!valor) return 'todos';
-  if (TIPOS_VALIDOS.has(valor)) return valor as TipoProximo;
-  if (valor in TIPOS_LEGADOS) return TIPOS_LEGADOS[valor];
-  return 'todos';
+  if (valor === 'ubs') return 'ubs';
+  return 'cras';
 }
 
 export interface ServicoProximo {
   servico: Servico;
   /** Em linha reta; null quando não há origem ou o serviço não tem coordenadas */
   distanciaKm: number | null;
-}
-
-function filtrarPorTipo(filtro: TipoProximo): readonly Servico[] {
-  if (filtro === 'todos') return dados.servicos;
-  return dados.servicos.filter((s) => s.categorias.includes(filtro));
 }
 
 /** Sem acento, minúsculas, só letras e números separados por um espaço. */
@@ -271,7 +244,9 @@ export async function listarProximos(
   limite = 6,
   bairro?: string | null,
 ): Promise<ServicoProximo[]> {
-  const doTipo = filtrarPorTipo(filtro);
+  const doTipo = dados.servicos.filter(
+    (s) => s.sigla === SIGLA_POR_TIPO[filtro],
+  );
   const entradaBairro = acharEntradaTerritorio(bairro);
   const bairroNorm = bairro ? normalizarNome(bairro) : '';
 
