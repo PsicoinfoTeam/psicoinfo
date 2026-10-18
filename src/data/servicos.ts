@@ -9,7 +9,7 @@
 import json from './servicos-petrolina.json';
 import territoriosJson from './territorios-cras.json';
 import { soDigitos } from './links';
-import { distanciaKm, type Ponto } from '../lib/geo';
+import { ordenarPorDistancia, type Ponto } from '../lib/geo';
 import type {
   BaseDeDados,
   Categoria,
@@ -185,19 +185,12 @@ const entradasTerritorio: EntradaTerritorio[] = territorios.territorios.flatMap(
     })),
 );
 
-const sinonimos = new Map([
-  ...Object.entries(territorios.sinonimos).map(
-    ([de, para]) =>
-      [
-        normalizarNome(de),
-        normalizarNome(para.replace(/\(.*?\)/g, '').split('/')[0]),
-      ] as const,
-  ),
-  [normalizarNome('Núcleo C I'), normalizarNome('Projeto C1')],
-  [normalizarNome('Núcleo C III'), normalizarNome('Projeto C3')],
-  [normalizarNome('Vila KM 25'), normalizarNome('KM 25')],
-  [normalizarNome('Projeto Bebedouro'), normalizarNome('Bebedouro')],
-]);
+const sinonimos = new Map(
+  Object.entries(territorios.sinonimos).map(([de, para]) => [
+    normalizarNome(de),
+    normalizarNome(para.replace(/\(.*?\)/g, '').split('/')[0]),
+  ]),
+);
 
 function acharEntradaTerritorio(
   bairro: string | null | undefined,
@@ -215,110 +208,48 @@ function acharEntradaTerritorio(
   );
 }
 
-function entradaTerritorioDoServico(
-  servico: Servico,
-): EntradaTerritorio | null {
-  const porBairro = acharEntradaTerritorio(servico.bairro);
-  if (porBairro) return porBairro;
-  const [antesDoTraco = ''] = servico.endereco.split(' - ');
-  const localidade = antesDoTraco
-    .replace(/^(Povoado de |Povoado |Distrito de )/i, '')
-    .trim();
-  const porEndereco = acharEntradaTerritorio(localidade);
-  if (porEndereco) return porEndereco;
-  if (normalizarNome(servico.endereco).includes('jose silvestre')) {
-    return acharEntradaTerritorio('Izacolândia');
-  }
-  return null;
+function chaveBairro(bairro: string | null | undefined): string {
+  if (!bairro) return '';
+  const digitado = normalizarNome(bairro);
+  const principal = normalizarNome(
+    bairro.replace(/\(.*?\)/g, '').split('/')[0],
+  );
+  return sinonimos.get(digitado) ?? sinonimos.get(principal) ?? principal;
 }
 
 /**
- * Serviços de um tipo ou categoria, do mais perto ao mais longe da origem.
- * Quando um bairro é informado, prioriza os serviços do mesmo bairro e do
- * mesmo território de CRAS. Sem origem, vêm em ordem alfabética e sem distância.
- * Serviços sem coordenadas nem território ficam no fim.
+ * Serviços de um tipo, do mais perto ao mais longe da origem.
+ * Quando um bairro é informado, mostra primeiro os serviços do mesmo bairro.
+ * Sem origem, vêm em ordem alfabética e sem distância.
+ * Serviços sem coordenadas ficam no fim, sem distância.
  */
 export async function listarProximos(
   origem: Ponto | null,
   filtro: TipoProximo,
-  limite = 6,
+  limite = 5,
   bairro?: string | null,
 ): Promise<ServicoProximo[]> {
-  const doTipo = dados.servicos.filter(
-    (s) => s.sigla === SIGLA_POR_TIPO[filtro],
-  );
-  const entradaBairro = acharEntradaTerritorio(bairro);
-  const bairroNorm = bairro ? normalizarNome(bairro) : '';
+  const porNome = dados.servicos
+    .filter((s) => s.sigla === SIGLA_POR_TIPO[filtro])
+    .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
-  const avaliados = doTipo.map((servico) => {
-    const entradaServico = entradaTerritorioDoServico(servico);
-    const crasDoServico = entradaServico
-      ? servicosPorId.get(entradaServico.crasId)
-      : undefined;
-    const servicoBairroNorm = servico.bairro
-      ? normalizarNome(servico.bairro)
-      : '';
+  const alvo = chaveBairro(bairro);
+  const doBairro = alvo
+    ? porNome.filter((s) => chaveBairro(s.bairro) === alvo)
+    : [];
+  const demais = alvo
+    ? porNome.filter((s) => chaveBairro(s.bairro) !== alvo)
+    : porNome;
 
-    const noMesmoBairro =
-      bairroNorm.length > 0 &&
-      (servicoBairroNorm === bairroNorm ||
-        (entradaBairro !== null &&
-          entradaServico !== null &&
-          entradaServico.completo === entradaBairro.completo) ||
-        (servico.bairro === ZONA_RURAL &&
-          normalizarNome(servico.endereco).includes(bairroNorm)));
+  const ordenar = (lista: readonly Servico[]): ServicoProximo[] =>
+    origem
+      ? ordenarPorDistancia(origem, lista).map(({ item, distanciaKm }) => ({
+          servico: item,
+          distanciaKm,
+        }))
+      : lista.map((servico) => ({ servico, distanciaKm: null }));
 
-    const noMesmoTerritorio =
-      entradaBairro !== null &&
-      entradaServico !== null &&
-      entradaServico.crasId === entradaBairro.crasId;
-
-    const distanciaRealKm =
-      origem && servico.coordenadas
-        ? distanciaKm(origem, servico.coordenadas)
-        : null;
-
-    const pontoOrdenacao =
-      servico.coordenadas ?? crasDoServico?.coordenadas ?? null;
-    const distanciaOrdenacao =
-      origem && pontoOrdenacao ? distanciaKm(origem, pontoOrdenacao) : null;
-
-    return {
-      servico,
-      distanciaKm: distanciaRealKm,
-      noMesmoBairro,
-      noMesmoTerritorio,
-      temCoordenadaPropria: Boolean(servico.coordenadas),
-      distanciaOrdenacao,
-    };
-  });
-
-  avaliados.sort((a, b) => {
-    if (bairroNorm.length > 0) {
-      if (a.noMesmoBairro !== b.noMesmoBairro) {
-        return a.noMesmoBairro ? -1 : 1;
-      }
-      if (a.noMesmoTerritorio !== b.noMesmoTerritorio) {
-        return a.noMesmoTerritorio ? -1 : 1;
-      }
-    }
-    if (a.distanciaOrdenacao !== null && b.distanciaOrdenacao !== null) {
-      const diff = a.distanciaOrdenacao - b.distanciaOrdenacao;
-      if (Math.abs(diff) > 0.01) return diff;
-      if (a.temCoordenadaPropria !== b.temCoordenadaPropria) {
-        return a.temCoordenadaPropria ? -1 : 1;
-      }
-    } else if (a.distanciaOrdenacao !== null) {
-      return -1;
-    } else if (b.distanciaOrdenacao !== null) {
-      return 1;
-    }
-    return a.servico.nome.localeCompare(b.servico.nome, 'pt-BR');
-  });
-
-  return avaliados
-    .slice(0, limite)
-    .map(({ servico, distanciaKm }) => ({ servico, distanciaKm }));
+  return [...ordenar(doBairro), ...ordenar(demais)].slice(0, limite);
 }
 
 /**
