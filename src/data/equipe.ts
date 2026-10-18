@@ -37,6 +37,8 @@ const INTEGRANTES: Integrante[] = [
       altura: 163,
       enquadramento: { x: 0.5, y: 0.29, zoom: 1.4 },
     },
+    linkedin: 'https://www.linkedin.com/in/jvvasconcel0s/',
+    github: 'https://github.com/JvVasconcel0s',
   },
   {
     nome: 'Enzo Lima',
@@ -47,6 +49,8 @@ const INTEGRANTES: Integrante[] = [
       altura: 1024,
       enquadramento: { x: 0.51, y: 0.44, zoom: 1 },
     },
+    linkedin: 'https://www.linkedin.com/in/enzo-lima-2a51b021a/',
+    github: 'https://github.com/enzoudev',
   },
   {
     nome: 'Igor Macêdo',
@@ -57,6 +61,8 @@ const INTEGRANTES: Integrante[] = [
       altura: 1024,
       enquadramento: { x: 0.495, y: 0.33, zoom: 1 },
     },
+    linkedin: 'https://www.linkedin.com/in/macedoigorr/',
+    github: 'https://github.com/IgorMacdo',
   },
   {
     nome: 'Maria Clara Granja',
@@ -67,6 +73,7 @@ const INTEGRANTES: Integrante[] = [
       altura: 1024,
       enquadramento: { x: 0.484, y: 0.23, zoom: 1.9 },
     },
+    linkedin: 'https://www.linkedin.com/in/mariaclarafgranja/',
   },
   {
     nome: 'Maria Luísa Bompastor',
@@ -77,6 +84,7 @@ const INTEGRANTES: Integrante[] = [
       altura: 576,
       enquadramento: { x: 0.532, y: 0.434, zoom: 2 },
     },
+    linkedin: 'https://www.linkedin.com/in/maria-luisa-bompastor-69b840243/',
   },
   {
     nome: 'Lara Gonzalez',
@@ -97,6 +105,8 @@ const INTEGRANTES: Integrante[] = [
       altura: 726,
       enquadramento: { x: 0.511, y: 0.31, zoom: 1.15 },
     },
+    linkedin:
+      'https://www.linkedin.com/in/wa%C3%ACtusy-de-ara%C3%BAjo-9022b5117/',
   },
   {
     nome: 'Josilene Alves',
