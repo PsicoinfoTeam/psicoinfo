@@ -8,7 +8,8 @@ import NearbyLink from '../components/NearbyLink';
 import SearchBar from '../components/SearchBar';
 import ServiceList from '../components/ServiceList';
 import SuggestionChips from '../components/SuggestionChips';
-import { buscar } from '../data/busca';
+import { buscar, normalizar } from '../data/busca';
+import type { TipoProximo } from '../data/servicos';
 import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
 import styles from './Busca.module.css';
@@ -20,6 +21,20 @@ function Busca() {
   const vazia = termo === '';
 
   useTituloPagina(termo ? `Busca: ${termo}` : 'Buscar serviços');
+
+  const palavras = normalizar(termo).split(' ');
+  const tipoPertoDeMim: TipoProximo | null =
+    busca.status === 'ok' && busca.dados.tipo === 'resultados'
+      ? palavras.includes('cras') ||
+        busca.dados.servicos.some((s) => s.sigla === 'CRAS')
+        ? 'cras'
+        : palavras.includes('ubs') ||
+            palavras.includes('posto') ||
+            palavras.includes('saude') ||
+            busca.dados.servicos.some((s) => s.sigla === 'UBS')
+          ? 'ubs'
+          : null
+      : null;
 
   return (
     <div className={styles.pagina}>
@@ -45,9 +60,11 @@ function Busca() {
                 ? 'Encontramos 1 serviço.'
                 : `Encontramos ${busca.dados.servicos.length} serviços.`}
             </output>
-            <div className={styles.pertoDeMim}>
-              <NearbyLink />
-            </div>
+            {tipoPertoDeMim && (
+              <div className={styles.pertoDeMim}>
+                <NearbyLink tipo={tipoPertoDeMim} />
+              </div>
+            )}
             <ServiceList servicos={busca.dados.servicos} nivelTitulo="h2" />
           </section>
         )}

@@ -20,11 +20,7 @@ import NearbyLink from '../components/NearbyLink';
 import PendingPhone from '../components/PendingPhone';
 import ServiceActionBar from '../components/ServiceActionBar';
 import { normalizar } from '../data/busca';
-import {
-  buscarCategoria,
-  buscarServico,
-  validarTipoProximo,
-} from '../data/servicos';
+import { buscarCategoria, buscarServico } from '../data/servicos';
 import { nomePorExtenso } from '../data/siglas';
 import { useDados } from '../hooks/useDados';
 import { useTituloPagina } from '../hooks/useTituloPagina';
@@ -138,9 +134,8 @@ function PaginaServico({ servico, categorias }: PaginaServicoProps) {
                 </p>
               )}
               {servico.mapaQuery && <MapButton mapaQuery={servico.mapaQuery} />}
-              <NearbyLink
-                tipo={validarTipoProximo(servico.categoriaPrincipal)}
-              />
+              {servico.sigla === 'CRAS' && <NearbyLink tipo="cras" />}
+              {servico.sigla === 'UBS' && <NearbyLink tipo="ubs" />}
             </InfoSection>
 
             <InfoSection id="bloco-telefones" titulo="Telefones" icone={Phone}>

@@ -3,23 +3,21 @@ import { Link } from 'react-router-dom';
 import type { TipoProximo } from '../data/servicos';
 import styles from './NearbyLink.module.css';
 
+const ROTULO_POR_TIPO: Record<TipoProximo, string> = {
+  cras: 'Ver CRAS mais perto de mim',
+  ubs: 'Ver postos de saúde mais perto de mim',
+};
+
 interface NearbyLinkProps {
-  tipo?: TipoProximo;
-  rotulo?: string;
+  tipo: TipoProximo;
 }
 
 /** Atalho para a tela "Perto de mim". */
-function NearbyLink({
-  tipo = 'todos',
-  rotulo = 'Ver serviços mais perto de mim',
-}: NearbyLinkProps) {
-  const destino =
-    tipo === 'todos' ? '/perto-de-mim' : `/perto-de-mim?tipo=${tipo}`;
-
+function NearbyLink({ tipo }: NearbyLinkProps) {
   return (
-    <Link to={destino} className={styles.link}>
+    <Link to={`/perto-de-mim?tipo=${tipo}`} className={styles.link}>
       <LocateFixed aria-hidden="true" size={22} strokeWidth={2.25} />
-      <span>{rotulo}</span>
+      <span>{ROTULO_POR_TIPO[tipo]}</span>
     </Link>
   );
 }
