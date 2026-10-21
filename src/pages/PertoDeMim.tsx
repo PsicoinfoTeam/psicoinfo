@@ -1,9 +1,10 @@
-import { Info, RotateCw, TriangleAlert } from 'lucide-react';
+import { ArrowRight, Info, RotateCw, TriangleAlert } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import BairroSelect from '../components/BairroSelect';
+import { Link, useSearchParams } from 'react-router-dom';
 import BackButton from '../components/BackButton';
+import BairroSelect from '../components/BairroSelect';
 import Container from '../components/Container';
+import DataIcon from '../components/DataIcon';
 import LoadingState from '../components/LoadingState';
 import LocationButton from '../components/LocationButton';
 import NearbyList from '../components/NearbyList';
@@ -11,6 +12,8 @@ import {
   crasDeReferencia,
   listarBairrosComReferencia,
   listarProximos,
+  OPCOES_FILTRO_PROXIMO,
+  validarTipoProximo,
   type TipoProximo,
 } from '../data/servicos';
 import { useDados } from '../hooks/useDados';
@@ -21,14 +24,36 @@ import styles from './PertoDeMim.module.css';
 
 /** Acima disso, avisamos que a localização é aproximada */
 const PRECISAO_BAIXA_METROS = 2000;
-/** Quantos "outros CRAS" mostrar */
+/** Quantos itens mostrar na lista */
 const LIMITE_OUTROS = 5;
 
+function tituloDaLista(tipo: TipoProximo, temGps: boolean): string {
+  if (tipo === 'ubs') {
+    return temGps
+      ? 'Postos de saúde mais perto de você'
+      : 'Postos de saúde no seu bairro e região';
+  }
+  return temGps ? 'CRAS mais perto de você' : 'Outros CRAS';
+}
+
+function descricaoDaLista(
+  tipo: TipoProximo,
+  temGps: boolean,
+  temCrasReferencia: boolean,
+): string | undefined {
+  if (!temGps) {
+    return 'Para ver a distância até cada um, use sua localização.';
+  }
+  if (tipo === 'cras' && !temCrasReferencia) {
+    return 'Para saber qual CRAS atende a sua casa, escolha seu bairro acima.';
+  }
+  return undefined;
+}
+
 function PertoDeMim() {
-  useTituloPagina('CRAS perto de você');
+  useTituloPagina('Perto de você');
   const [params, setParams] = useSearchParams();
-  // Por enquanto só CRAS; o parâmetro já fica pronto para "ubs" no futuro
-  const tipo: TipoProximo = 'cras';
+  const tipo: TipoProximo = validarTipoProximo(params.get('tipo'));
   const bairro = params.get('bairro');
 
   const localizacao = useLocalizacao();
@@ -48,26 +73,34 @@ function PertoDeMim() {
   );
   const crasReferencia = referencia.status === 'ok' ? referencia.dados : null;
 
-  // Sem GPS, os outros CRAS são ordenados a partir do CRAS de referência
+  // Sem GPS, os serviços são ordenados a partir do bairro e do CRAS de referência
   // (sem mostrar distância, que só faz sentido a partir da pessoa)
   const origem: Ponto | null = origemGps ?? crasReferencia?.coordenadas ?? null;
+  const bairroFiltro = origemGps ? null : bairro;
   const chaveOrigem = origem
     ? `${origem.lat.toFixed(5)},${origem.lng.toFixed(5)}`
     : 'sem-origem';
   const temAlgoParaMostrar = origemGps !== null || bairro !== null;
+
+  const mostrarCrasReferencia = tipo === 'cras' && crasReferencia !== null;
+
   const proximos = useDados(
-    `proximos:${tipo}:${chaveOrigem}`,
+    `proximos:${tipo}:${chaveOrigem}:${bairroFiltro ?? ''}`,
     () =>
       temAlgoParaMostrar
-        ? listarProximos(origem, tipo, LIMITE_OUTROS + 1)
+        ? listarProximos(origem, tipo, LIMITE_OUTROS + 1, bairroFiltro)
         : Promise.resolve([]),
     // A lista feita a partir do GPS não fica guardada depois que a tela fecha
     { guardar: origemGps === null, manterAnterior: true },
   );
+
   const outros =
     proximos.status === 'ok'
       ? proximos.dados
-          .filter((p) => p.servico.id !== crasReferencia?.id)
+          .filter(
+            (p) =>
+              !mostrarCrasReferencia || p.servico.id !== crasReferencia?.id,
+          )
           .slice(0, LIMITE_OUTROS)
       : [];
 
@@ -85,6 +118,12 @@ function PertoDeMim() {
     setParams({ tipo, bairro: nome });
   }
 
+  function escolherTipo(novoTipo: TipoProximo) {
+    const proximo: Record<string, string> = { tipo: novoTipo };
+    if (bairro) proximo.bairro = bairro;
+    setParams(proximo, { replace: true });
+  }
+
   const bairroDesconhecido =
     bairro !== null && referencia.status === 'ok' && !crasReferencia;
 
@@ -93,15 +132,17 @@ function PertoDeMim() {
       <Container>
         <BackButton />
         <header className={styles.cabecalho}>
-          <h1 className={styles.titulo}>CRAS perto de você</h1>
+          <h1 className={styles.titulo}>Perto de você</h1>
           <p className={styles.intro}>
-            O CRAS (Centro de Referência de Assistência Social) ajuda com
-            benefícios, Cadastro Único e apoio à família. Veja qual atende o seu
-            bairro.
+            Encontre o CRAS (Centro de Referência de Assistência Social) ou o
+            posto de saúde (UBS – Unidade Básica de Saúde) mais perto de você.
           </p>
         </header>
 
-        <section className={styles.escolha} aria-label="Como encontrar o CRAS">
+        <section
+          className={styles.escolha}
+          aria-label="Como encontrar serviços perto de você"
+        >
           <LocationButton
             procurando={estado === 'pedindo'}
             onClick={solicitar}
@@ -155,6 +196,38 @@ function PertoDeMim() {
           )}
         </section>
 
+        <section
+          className={styles.secaoFiltros}
+          aria-labelledby="titulo-filtros"
+        >
+          <h2 id="titulo-filtros" className={styles.tituloFiltros}>
+            O que você procura?
+          </h2>
+          <ul className={styles.listaFiltros}>
+            {OPCOES_FILTRO_PROXIMO.map((opcao) => {
+              const ativo = opcao.id === tipo;
+              return (
+                <li key={opcao.id}>
+                  <button
+                    type="button"
+                    aria-pressed={ativo}
+                    className={`${styles.chipFiltro} ${ativo ? styles.chipFiltroAtivo : ''}`}
+                    onClick={() => escolherTipo(opcao.id)}
+                  >
+                    <DataIcon
+                      nome={opcao.icone}
+                      size={18}
+                      strokeWidth={2.25}
+                      aria-hidden="true"
+                    />
+                    <span>{opcao.rotulo}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
         <div className={styles.resultados} ref={refResultados}>
           {bairroDesconhecido && (
             <p className={styles.mensagem}>
@@ -166,7 +239,7 @@ function PertoDeMim() {
             </p>
           )}
 
-          {crasReferencia && (
+          {mostrarCrasReferencia && crasReferencia && (
             <NearbyList
               id="titulo-referencia"
               titulo="Seu CRAS de referência"
@@ -197,25 +270,35 @@ function PertoDeMim() {
             )}
 
           {temAlgoParaMostrar && outros.length > 0 && (
-            <NearbyList
-              id="titulo-outros"
-              titulo={
-                origemGps
-                  ? crasReferencia
-                    ? 'Outros CRAS perto de você'
-                    : 'CRAS mais perto de você'
-                  : 'Outros CRAS'
-              }
-              descricao={
-                origemGps
-                  ? crasReferencia
-                    ? undefined
-                    : 'Para saber qual CRAS atende a sua casa, escolha seu bairro acima.'
-                  : 'Para ver a distância até cada um, use sua localização.'
-              }
-              itens={outros}
-              mostrarDistancia={origemGps !== null}
-            />
+            <>
+              <NearbyList
+                id="titulo-outros"
+                titulo={tituloDaLista(tipo, origemGps !== null)}
+                descricao={descricaoDaLista(
+                  tipo,
+                  origemGps !== null,
+                  crasReferencia !== null,
+                )}
+                itens={outros}
+                mostrarDistancia={origemGps !== null}
+              />
+
+              <Link
+                to={
+                  tipo === 'ubs'
+                    ? '/categoria/saude'
+                    : '/categoria/assistencia-social'
+                }
+                className={styles.verTodos}
+              >
+                <span>
+                  {tipo === 'ubs'
+                    ? 'Ver todos os postos de saúde'
+                    : 'Ver todos os CRAS'}
+                </span>
+                <ArrowRight aria-hidden="true" size={20} strokeWidth={2.25} />
+              </Link>
+            </>
           )}
         </div>
       </Container>

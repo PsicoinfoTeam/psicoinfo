@@ -74,16 +74,16 @@ function Home() {
             </span>
             <div className={styles.textoPerto}>
               <h2 id="titulo-perto" className={styles.tituloPerto}>
-                Encontre o CRAS mais perto de você
+                Encontre o CRAS ou o posto de saúde mais perto de você
               </h2>
               <p>
-                CRAS é o Centro de Referência de Assistência Social. Use sua
-                localização ou escolha seu bairro.
+                CRAS (Centro de Referência de Assistência Social) e UBS (Unidade
+                Básica de Saúde). Use sua localização ou escolha seu bairro.
               </p>
             </div>
-            <Link to="/perto-de-mim?tipo=cras" className={styles.botaoPerto}>
+            <Link to="/perto-de-mim" className={styles.botaoPerto}>
               <LocateFixed aria-hidden="true" size={22} strokeWidth={2.25} />
-              <span>Ver CRAS perto de mim</span>
+              <span>Ver o que tem perto de mim</span>
             </Link>
           </div>
         </Container>

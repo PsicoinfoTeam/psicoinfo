@@ -197,7 +197,7 @@ function aplicarNoTexto(texto, resultado) {
     `$1\n      "coordenadas": ${valor},`,
   );
 
-  if (!resultado.coordenadas) {
+  if (!resultado.coordenadas && resultado.id.startsWith('cras-')) {
     const pendencia =
       'Coordenadas não encontradas no OpenStreetMap; marcar no mapa';
     bloco = bloco.replace(/"pendencias": \[(.*)\]/, (_, dentro) => {
@@ -224,15 +224,20 @@ async function main() {
     return;
   }
   const aplicar = process.argv.includes('--aplicar');
+  const ubs = process.argv.includes('--ubs');
   const dados = JSON.parse(fs.readFileSync(ARQ_DADOS, 'utf8'));
-  const crasLista = dados.servicos.filter((s) => s.sigla === 'CRAS');
+  const lista = ubs
+    ? dados.servicos.filter(
+        (s) => s.sigla === 'UBS' && s.coordenadas?.precisao !== 'verificada',
+      )
+    : dados.servicos.filter((s) => s.sigla === 'CRAS');
   console.log(
-    `Geocodificando ${crasLista.length} CRAS (1 requisição por segundo)...`,
+    `Geocodificando ${lista.length} serviços (1 requisição por segundo)...`,
   );
 
   const resultados = [];
-  for (const cras of crasLista) {
-    const r = await geocodificar(cras);
+  for (const servico of lista) {
+    const r = await geocodificar(servico);
     resultados.push(r);
     console.log(
       r.coordenadas
