@@ -286,7 +286,7 @@ function PertoDeMim() {
               <Link
                 to={
                   tipo === 'ubs'
-                    ? '/categoria/saude'
+                    ? '/categoria/saude#postos-de-saude'
                     : '/categoria/assistencia-social'
                 }
                 className={styles.verTodos}
@@ -294,7 +294,7 @@ function PertoDeMim() {
                 <span>
                   {tipo === 'ubs'
                     ? 'Ver todos os postos de saúde'
-                    : 'Ver todos os CRAS'}
+                    : 'Ver todos os serviços de assistência social'}
                 </span>
                 <ArrowRight aria-hidden="true" size={20} strokeWidth={2.25} />
               </Link>
