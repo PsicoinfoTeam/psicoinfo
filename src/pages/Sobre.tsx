@@ -105,6 +105,8 @@ function Sobre() {
                           nome={integrante.nome}
                           subtitulo={grupo.subtitulo}
                           foto={integrante.foto}
+                          linkedin={integrante.linkedin}
+                          github={integrante.github}
                         />
                       </li>
                     ))}
