@@ -30,7 +30,6 @@ function Busca() {
         ? 'cras'
         : palavras.includes('ubs') ||
             palavras.includes('posto') ||
-            palavras.includes('saude') ||
             busca.dados.servicos.some((s) => s.sigla === 'UBS')
           ? 'ubs'
           : null

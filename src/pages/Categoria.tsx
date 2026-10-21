@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import CollapsibleGroup from '../components/CollapsibleGroup';
 import Container from '../components/Container';
@@ -67,6 +68,16 @@ function PaginaCategoria({
 }: PaginaCategoriaProps) {
   useTituloPagina(categoria.nome);
 
+  // Link direto para uma seção (ex.: "#postos-de-saude", vindo do "Perto de
+  // mim"): rola até ela e leva o foco ao título (leitor de tela)
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!hash) return;
+    const alvo = document.getElementById(decodeURIComponent(hash.slice(1)));
+    alvo?.scrollIntoView();
+    alvo?.focus({ preventScroll: true });
+  }, [hash]);
+
   const principais = servicos.filter(
     (s) => s.categoriaPrincipal === categoria.id,
   );
@@ -119,8 +130,15 @@ function PaginaCategoria({
               <ServiceList servicos={outrosPrincipais} />
             </section>
             {ubsPorBairro.length > 0 && (
-              <section aria-labelledby="titulo-ubs" className={styles.grupo}>
-                <h2 id="titulo-ubs" className={styles.tituloGrupo}>
+              <section
+                aria-labelledby="postos-de-saude"
+                className={styles.grupo}
+              >
+                <h2
+                  id="postos-de-saude"
+                  className={styles.tituloGrupo}
+                  tabIndex={-1}
+                >
                   Postos de saúde (UBS) por bairro
                 </h2>
                 <p className={styles.dica}>
