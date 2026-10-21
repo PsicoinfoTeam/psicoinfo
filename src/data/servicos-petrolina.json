@@ -2277,7 +2277,7 @@
       "endereco": "N4",
       "referencia": null,
       "mapaQuery": "UBS N4 I, N4, Petrolina - PE",
-      "coordenadas": { "lat": -9.33783, "lng": -40.68179, "precisao": "aproximada" },
+      "coordenadas": null,
       "abrangencia": "bairro",
       "telefones": [],
       "email": null,
