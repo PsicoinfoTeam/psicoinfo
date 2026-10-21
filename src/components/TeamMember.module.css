@@ -61,8 +61,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  /* 48px: alvo de toque mínimo */
+  width: var(--tap-target);
+  height: var(--tap-target);
   border: 1.5px solid var(--color-blue-100);
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-alt);
