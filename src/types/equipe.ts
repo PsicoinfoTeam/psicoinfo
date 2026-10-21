@@ -24,6 +24,8 @@ export interface Integrante {
   curso: Curso;
   /** Sem foto, aparecem as iniciais no lugar */
   foto?: FotoIntegrante;
+  linkedin?: string;
+  github?: string;
 }
 
 export interface GrupoEquipe {

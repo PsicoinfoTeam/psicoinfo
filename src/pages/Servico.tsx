@@ -134,7 +134,8 @@ function PaginaServico({ servico, categorias }: PaginaServicoProps) {
                 </p>
               )}
               {servico.mapaQuery && <MapButton mapaQuery={servico.mapaQuery} />}
-              {servico.sigla === 'CRAS' && <NearbyLink />}
+              {servico.sigla === 'CRAS' && <NearbyLink tipo="cras" />}
+              {servico.sigla === 'UBS' && <NearbyLink tipo="ubs" />}
             </InfoSection>
 
             <InfoSection id="bloco-telefones" titulo="Telefones" icone={Phone}>

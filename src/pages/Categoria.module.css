@@ -53,6 +53,8 @@
 .tituloGrupo {
   margin-bottom: var(--space-4);
   font-size: var(--text-2xl);
+  /* Respiro acima do título quando a página abre direto nele (#postos-de-saude) */
+  scroll-margin-top: var(--space-5);
 }
 
 .dica {
